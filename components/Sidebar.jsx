@@ -1,22 +1,78 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { BsBarChart } from "react-icons/bs";
 import { GoPeople } from "react-icons/go";
 import { BiSolidReport } from "react-icons/bi";
 import { PiCoatHangerLight } from "react-icons/pi";
-import { FaLocationDot } from "react-icons/fa6";
+import { usePathname, useRouter } from "next/navigation";
+
 function Sidebar() {
+  const route = usePathname();
+  const router = useRouter();
+  const pathArray = route.split("/");
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    setPath(pathArray[2]);
+  }, []);
+
   const menu = [
     {
       title: "POS",
+      pathName: "pos",
       icon: (
-        <AiFillHome className="bg-white text-primary rounded-full text-3xl border-4" />
+        <AiFillHome
+          className={` text-primary rounded-full text-3xl border-4 ${
+            path == "pos" ? "bg-red-600 border-red-600" : "bg-white"
+          }`}
+        />
       ),
     },
-    { title: "POS", icon: <AiFillHome /> },
-    { title: "POS", icon: <AiFillHome /> },
-    { title: "POS", icon: <AiFillHome /> },
+    {
+      title: "Sales",
+      pathName: "sales",
+      icon: (
+        <BsBarChart
+          className={` text-primary rounded-full text-3xl border-4 ${
+            path == "sales" ? "bg-red-600 border-red-600" : "bg-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "Reports",
+      pathName: "reports",
+      icon: (
+        <GoPeople
+          className={` text-primary rounded-full text-3xl border-4 ${
+            path == "reports" ? "bg-red-600 border-red-600" : "bg-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "Members",
+      pathName: "members",
+      icon: (
+        <BiSolidReport
+          className={` text-primary rounded-full text-3xl border-4 ${
+            path == "members" ? "bg-red-600 border-red-600" : "bg-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "Inventory",
+      pathName: "inventory",
+      icon: (
+        <PiCoatHangerLight
+          className={` text-primary rounded-full text-3xl border-4 ${
+            path == "inventory" ? "bg-red-600 border-red-600" : "bg-white"
+          }`}
+        />
+      ),
+    },
   ];
   return (
     <div className="text-white">
@@ -25,9 +81,12 @@ function Sidebar() {
           return (
             <li
               key={index}
-              className="text-sm flex flex-col items-center gap-x-4 cursor-pointer p-2 mb-3 border-l-4 rounded-l-sm"
+              className={`text-sm flex flex-col items-center gap-x-4 cursor-pointer p-2 mb-3 rounded-l-sm hover:border-l-4 ${
+                path == item.pathName ? "border-l-4" : ""
+              }`}
+              onClick={() => router.push(`/dashboard/${item.pathName}`)}
             >
-              <span className="text-4xl block float-left"> {item.icon}</span>
+              <span className="text-4xl block float-left">{item.icon}</span>
               <span className="text-base flex-1 mt-2">{item.title}</span>
             </li>
           );
