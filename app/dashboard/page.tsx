@@ -8,7 +8,7 @@ function Dashboard() {
         <Header />
       </div>
       <div className="relative flex flex-grow">
-        <div className="bg-black">
+        <div className="bg-black w-32">
           <Sidebar />
         </div>
         <main className="bg-gray-100 flex-1 p-6">main content </main>

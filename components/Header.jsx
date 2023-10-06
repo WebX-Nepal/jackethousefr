@@ -6,8 +6,8 @@ import { MdOutlineNotifications } from "react-icons/md";
 function Header() {
   return (
     <div className="flex bg-slate-200 p-6 shadow-xl sticky top-0 z-40">
-      <div>
-        <Image src={"/logo.svg"} width={120} height={120} layout="fixed" />
+      <div className="hover:cursor-pointer">
+        <Image src={"/logo.svg"} width={130} height={130} layout="fixed" />
       </div>
       <div className="flex ml-8 items-center rounded-xl border border-gray-600 p-2 flex-grow justify-between w-1/4">
         <input
