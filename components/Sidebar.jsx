@@ -15,7 +15,7 @@ function Sidebar() {
 
   useEffect(() => {
     setPath(pathArray[2]);
-  }, []);
+  }, [route]);
 
   const menu = [
     {
