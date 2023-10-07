@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
 import { MdOutlineNotifications } from "react-icons/md";
 import { AiFillCaretDown } from "react-icons/ai";
+import { Link } from "react-router-dom";
 function Header() {
   return (
     <div className="flex bg-slate-200 p-6 shadow-xl sticky top-0 z-40">
@@ -21,7 +22,8 @@ function Header() {
       </div>
       <div className="flex items-center justify-center max-h-14 border-2 -mt-2 ml-8">
         <span>Barcode:</span>
-        <div className="text-5xl ml-4 bg-green-500 border-2 border-green-500 rounded-xl">
+        <div className="text-4xl ml-4 bg-green-500 border-2 border-green-500 rounded-xl flex">
+          <RiBarcodeFill />
           <RiBarcodeFill />
         </div>
         <div className="text-3xl ml-6">
