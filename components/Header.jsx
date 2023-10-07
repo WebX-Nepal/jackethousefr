@@ -5,8 +5,10 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
 import { MdOutlineNotifications } from "react-icons/md";
 import { AiFillCaretDown } from "react-icons/ai";
-import { Link } from "react-router-dom";
 function Header() {
+  const [isOpen, setOpen] = useState(false);
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
+
   return (
     <div className="flex bg-slate-200 p-6 shadow-xl sticky top-0 z-40">
       <div className="hover:cursor-pointer">
@@ -27,7 +29,12 @@ function Header() {
           <RiBarcodeFill />
         </div>
         <div className="text-3xl ml-6">
-          <MdOutlineNotifications />
+          <MdOutlineNotifications
+            className="hover:cursor-pointer"
+            onClick={() => {
+              setNotificationOpen(!isNotificationOpen);
+            }}
+          />
         </div>
         <div className="h-full flex items-center justify-between bg-red-200 rounded-3xl p-2 ml-6">
           <div className="mr-4">
@@ -38,13 +45,53 @@ function Header() {
               className="rounded-full"
             />
           </div>
-          <div className="mr-4">
+          <div className="mr-4 hover:cursor-pointer">
             <p className="leading-tight font-semibold">Samakhusi</p>
             <p className="text-gray-600 leading-tight text-14">Branch</p>
           </div>
-          <div className="ml-4">
-            <AiFillCaretDown className="text-3xl" />
+          <div className="ml-4 hover:cursor-pointer">
+            <AiFillCaretDown
+              className="text-3xl"
+              onClick={() => {
+                setOpen(!isOpen);
+              }}
+            />
           </div>
+          {isOpen && (
+            <div className="z-50 top-20 absolute right-8 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+              <div className="absolute -top-2 right-6 w-0 h-0 z-10">
+                <div className="border border-solid bg-white border-t-0 border-r-2 border-b-2 w-3 h-3 rotate-45 border-white"></div>
+              </div>
+              <div
+                className="py-1"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="options-menu"
+              >
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  role="menuitem"
+                >
+                  Option 1
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  role="menuitem"
+                >
+                  Option 2
+                </a>
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  role="menuitem"
+                >
+                  Option 3
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
