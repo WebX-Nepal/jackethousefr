@@ -227,8 +227,8 @@ function Pos() {
             onClick={() => setPaymentMethod("cash")}
             className={`${
               paymentMethod == "cash"
-                ? "bg-white text-black"
-                : "bg-black text-white"
+                ? "bg-black text-white"
+                : "bg-white text-black"
             }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
           >
             Cash
@@ -237,8 +237,8 @@ function Pos() {
             onClick={() => setPaymentMethod("card")}
             className={`${
               paymentMethod == "card"
-                ? "bg-white text-black"
-                : "bg-black text-white"
+                ? "bg-black text-white"
+                : "bg-white text-black"
             }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
           >
             Card
@@ -247,8 +247,8 @@ function Pos() {
             onClick={() => setPaymentMethod("online")}
             className={`${
               paymentMethod == "online"
-                ? "bg-white text-black"
-                : "bg-black text-white"
+                ? "bg-black text-white"
+                : "bg-white text-black"
             }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
           >
             Online
