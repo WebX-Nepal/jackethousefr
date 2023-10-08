@@ -24,7 +24,9 @@ function Sidebar() {
       icon: (
         <AiFillHome
           className={` text-primary rounded-full text-3xl border-4 ${
-            path == "pos" ? "bg-red-600 border-red-600" : "bg-white"
+            path == "pos"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
           }`}
         />
       ),
@@ -35,7 +37,9 @@ function Sidebar() {
       icon: (
         <BsBarChart
           className={` text-primary rounded-full text-3xl border-4 ${
-            path == "sales" ? "bg-red-600 border-red-600" : "bg-white"
+            path == "sales"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
           }`}
         />
       ),
@@ -46,7 +50,9 @@ function Sidebar() {
       icon: (
         <GoPeople
           className={` text-primary rounded-full text-3xl border-4 ${
-            path == "reports" ? "bg-red-600 border-red-600" : "bg-white"
+            path == "reports"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
           }`}
         />
       ),
@@ -57,7 +63,9 @@ function Sidebar() {
       icon: (
         <BiSolidReport
           className={` text-primary rounded-full text-3xl border-4 ${
-            path == "members" ? "bg-red-600 border-red-600" : "bg-white"
+            path == "members"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
           }`}
         />
       ),
@@ -68,7 +76,9 @@ function Sidebar() {
       icon: (
         <PiCoatHangerLight
           className={` text-primary rounded-full text-3xl border-4 ${
-            path == "inventory" ? "bg-red-600 border-red-600" : "bg-white"
+            path == "inventory"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
           }`}
         />
       ),

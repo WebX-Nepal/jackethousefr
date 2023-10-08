@@ -59,7 +59,7 @@ function Header() {
           </div>
           {isOpen && (
             <div className="z-50 top-20 absolute right-8 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-              <div className="absolute -top-2 right-6 w-0 h-0 z-10">
+              <div className="absolute -top-1 right-6 w-0 h-0 z-10">
                 <div className="border border-solid bg-white border-t-0 border-r-2 border-b-2 w-3 h-3 rotate-45 border-white"></div>
               </div>
               <div
