@@ -11,7 +11,7 @@ function Dashboard({ children }: { children: React.ReactNode }) {
         <div className="bg-black w-32 fixed h-full">
           <Sidebar />
         </div>
-        <main className="bg-gray-100 flex-1 p-6 ml-32 z-0">{children}</main>
+        <main className="bg-gray-100 flex-1 p-6 ml-32 z-0 ">{children}</main>
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ function Pos() {
       </div>
       <div className="flex w-full h-full mt-8">
         <div className="w-full h-full">
-          <ul className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+          <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
             {products.map((item, index) => {
               return (
                 <li
