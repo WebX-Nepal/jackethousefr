@@ -13,6 +13,9 @@ const config: Config = {
         secondary: "#000000",
         backgroundGray: "#CCCACA",
       },
+      blur: {
+        "5": "blur(5px)",
+      },
     },
   },
   plugins: [],

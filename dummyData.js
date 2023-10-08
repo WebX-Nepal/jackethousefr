@@ -1,0 +1,17 @@
+export const data = [
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+  { name: "jacket", items: 1, color: "red", price: 123123 },
+];

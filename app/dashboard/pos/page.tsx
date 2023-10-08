@@ -2,8 +2,20 @@
 import React, { useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
 import Image from "next/image";
+import Modal from "../../../components/Modal";
+import { data } from "../../../dummyData";
+import CustomScrollbar from "../../../components/ScrollBar";
 function Pos() {
   const [category, setCategory] = useState("All");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const menu = [
     { name: "All" },
     { name: "Men" },
@@ -36,10 +48,13 @@ function Pos() {
     { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
     { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
     { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
+    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
+    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
+    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
   ];
   return (
-    <div className="w-full overflow-auto">
-      <div className="w-full flex justify-between h-8 items-center">
+    <div className={`w-full`}>
+      <div className="w-full flex justify-between h-8 items-center ">
         <ul className="flex justify-between w-1/3">
           {menu.map((item, index) => {
             return (
@@ -64,7 +79,10 @@ function Pos() {
             <AiFillCreditCard className="border-gray-300 border-4 text-2xl bg-gray-300" />
           </div>
           <span>
-            <button className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl">
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl"
+              onClick={openModal}
+            >
               + Add Products
             </button>
           </span>
@@ -110,6 +128,67 @@ function Pos() {
           </ul>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} closeModal={closeModal}>
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Item Details</h2>
+        </div>
+        <div className="flex">
+          <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-4/5">
+            <input
+              className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
+              type="text"
+              placeholder="Search For Products..."
+            />
+          </div>
+          <button className="bg-black text-white ml-8 pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+            Add Items
+          </button>
+        </div>
+        <div className="mt-8 flex items-center justify-center">
+          <CustomScrollbar>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="">
+                <tr>
+                  <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
+                    SN
+                  </th>
+                  <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
+                    Color
+                  </th>
+                  <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
+                    Item
+                  </th>
+                  <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
+                    Price
+                  </th>
+                  {/* Add more table headers as needed */}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {data.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+
+                    <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.color}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.items}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.price}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CustomScrollbar>
+        </div>
+      </Modal>
     </div>
   );
 }
