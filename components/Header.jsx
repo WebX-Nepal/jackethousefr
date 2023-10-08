@@ -10,7 +10,7 @@ function Header() {
   const [isNotificationOpen, setNotificationOpen] = useState(false);
 
   return (
-    <div className="flex bg-slate-200 p-6 shadow-xl sticky top-0 z-40">
+    <div className="flex bg-primary p-6 shadow-xl sticky top-0 z-40">
       <div className="hover:cursor-pointer">
         <Image src={"/logo.svg"} width={130} height={130} />
       </div>
@@ -22,9 +22,9 @@ function Header() {
         />
         <BiSearchAlt2 className="text-gray-600" />
       </div>
-      <div className="flex items-center justify-center max-h-14 border-2 -mt-2 ml-8">
+      <div className="flex items-center justify-center max-h-14  -mt-2 ml-8">
         <span>Barcode:</span>
-        <div className="text-4xl ml-4 bg-green-500 border-2 border-green-500 rounded-xl flex">
+        <div className="text-4xl ml-4 bg-backgroundGray border-4 border-backgroundGray  rounded-xl flex">
           <RiBarcodeFill />
           <RiBarcodeFill />
         </div>
@@ -36,7 +36,7 @@ function Header() {
             }}
           />
         </div>
-        <div className="h-full flex items-center justify-between bg-red-200 rounded-3xl p-2 ml-6">
+        <div className="h-full flex items-center justify-between bg-white rounded-3xl p-2 ml-6">
           <div className="mr-4">
             <Image
               src="/pic2.jfif"

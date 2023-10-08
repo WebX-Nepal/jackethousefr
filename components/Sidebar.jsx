@@ -23,7 +23,7 @@ function Sidebar() {
       pathName: "pos",
       icon: (
         <AiFillHome
-          className={` text-primary rounded-full text-3xl border-4 ${
+          className={` text-secondary rounded-full text-3xl border-4 ${
             path == "pos"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
@@ -36,7 +36,7 @@ function Sidebar() {
       pathName: "sales",
       icon: (
         <BsBarChart
-          className={` text-primary rounded-full text-3xl border-4 ${
+          className={` text-secondary rounded-full text-3xl border-4 ${
             path == "sales"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
@@ -49,7 +49,7 @@ function Sidebar() {
       pathName: "reports",
       icon: (
         <GoPeople
-          className={` text-primary rounded-full text-3xl border-4 ${
+          className={` text-secondary rounded-full text-3xl border-4 ${
             path == "reports"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
@@ -62,7 +62,7 @@ function Sidebar() {
       pathName: "members",
       icon: (
         <BiSolidReport
-          className={` text-primary rounded-full text-3xl border-4 ${
+          className={` text-secondary rounded-full text-3xl border-4 ${
             path == "members"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
@@ -75,7 +75,7 @@ function Sidebar() {
       pathName: "inventory",
       icon: (
         <PiCoatHangerLight
-          className={` text-primary rounded-full text-3xl border-4 ${
+          className={` text-secondary rounded-full text-3xl border-4 ${
             path == "inventory"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
