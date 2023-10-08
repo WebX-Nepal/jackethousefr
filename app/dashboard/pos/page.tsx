@@ -188,6 +188,15 @@ function Pos() {
             </table>
           </CustomScrollbar>
         </div>
+        <div className="w-full flex mt-6 justify-between ">
+          <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+            Cancel
+          </button>
+
+          <button className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+            Proceed
+          </button>
+        </div>
       </Modal>
     </div>
   );
