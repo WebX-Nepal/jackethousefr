@@ -220,7 +220,7 @@ function Pos() {
           </div>
         </div>
         <div className="mt-2">
-          <h2>Please Select Payment Method:</h2>
+          <h2 className="font-semibold">Please Select Payment Method:</h2>
         </div>
         <div className="flex mt-4 justify-between w-1/2">
           <span
@@ -254,7 +254,24 @@ function Pos() {
             Online
           </span>
         </div>
-        <div></div>
+        <div className="flex items-center mt-6">
+          <h2 className="font-semibold">Number:</h2>
+          <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/4">
+            <input
+              className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
+              type="text"
+              placeholder="Phone Number"
+            />
+          </div>
+          <h2 className="font-semibold ml-8">Name:</h2>
+          <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/2">
+            <input
+              className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
+              type="text"
+              placeholder="Name"
+            />
+          </div>
+        </div>
         <div className="w-full flex mt-6 justify-between ">
           <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
             Cancel
