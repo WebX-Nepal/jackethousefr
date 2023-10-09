@@ -5,7 +5,7 @@ export interface CounterState {
   value: number;
 }
 
-const initialState: any = {
+const initialState: CounterState = {
   value: 7,
 };
 

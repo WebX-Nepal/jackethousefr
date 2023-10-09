@@ -1,16 +1,12 @@
 "use client";
+import { RootState } from "@/redux/store";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function Reports() {
-  const [data, setData] = useState("1");
-  useEffect(() => {
-    console.log("ASdasd");
-  }, []);
-  return (
-    <div>
-      reports {data} <button onClick={() => setData("2")}>asd</button>
-    </div>
-  );
+  const counterValue = useSelector((state: RootState) => state.counter.value);
+
+  return <div>reports{counterValue}</div>;
 }
 
 export default Reports;
