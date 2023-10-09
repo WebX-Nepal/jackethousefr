@@ -1,7 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux/";
+import TableTwo from "../../../components/Table";
 function Sales() {
-  return <>Sales</>;
+  return (
+    <>
+      <TableTwo />
+    </>
+  );
 }
 
 export default Sales;
