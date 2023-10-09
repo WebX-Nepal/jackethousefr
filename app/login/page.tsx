@@ -4,7 +4,7 @@ export default function Home() {
   function handleClick() {
     console.log("clicked");
     signIn("credentials", {
-      email: "branch1@branchkml1.com",
+      email: "branch1@branch1.com",
       password: "branch1@branch1.com",
     });
   }
