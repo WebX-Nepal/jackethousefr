@@ -1,19 +1,13 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function DashboardPage() {
   const router = useRouter();
-
-  useEffect(() => {
-    // Check if we are on the client side
-    if (typeof window !== "undefined") {
-      // Redirect to "/dashboard/pos" on the client side
-      router.push("/dashboard/pos");
-    }
-  }, [router]);
-
-  // You can render your component content here
+  const a = 10;
+  if (a > 10) {
+    router.push("/dashboard/pos");
+  }
   return <div>This is the Dashboard page content.</div>;
 }
 
