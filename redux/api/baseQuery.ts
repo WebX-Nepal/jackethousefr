@@ -11,11 +11,12 @@ type RootStateWithAuth = RootState & {
   };
 };
 const baseQuery = fetchBaseQuery({
-  baseUrl: `localhost?;nasdn/`,
+  baseUrl: process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootStateWithAuth).auth?.token;
+    console.log("token is", token);
     if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Authorization", `bearer ${token}`);
       headers.set("Access-Control-Allow-Headers", "*");
       headers.set("Access-Control-Allow-Credentials", "true");
     }

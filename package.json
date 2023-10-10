@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "filepond": "^4.30.4",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
     "next": "13.5.4",
     "next-auth": "^4.23.2",
     "react": "^18",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18",
+    "react-filepond": "^7.1.2",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
     "react-redux": "^8.1.3"

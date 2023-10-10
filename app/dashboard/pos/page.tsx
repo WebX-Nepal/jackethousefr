@@ -5,7 +5,9 @@ import Image from "next/image";
 import Modal from "../../../components/Modal";
 import { data } from "../../../dummyData";
 import CustomScrollbar from "../../../components/ScrollBar";
+import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
 function Pos() {
+  const { data: allData, refetch, isSuccess } = useGetAllProductsQuery();
   const [category, setCategory] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModal, setIsPaymentModal] = useState(false);
@@ -28,6 +30,7 @@ function Pos() {
     { name: "Women" },
     { name: "Sports Wear" },
   ];
+  console.log("all data is", allData);
 
   const products = [
     { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },

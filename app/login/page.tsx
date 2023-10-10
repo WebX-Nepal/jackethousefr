@@ -28,7 +28,6 @@ export default function Home() {
       redirect: false,
     });
   };
-  console.log("status is", status);
   useEffect(() => {
     if (status === "authenticated") {
       dispatch(setAuthState(session));
@@ -52,7 +51,7 @@ export default function Home() {
                 <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between w-full mb-5">
                   <input
                     type="text"
-                    className="w-full outline-none placeholder-gray-500 bg-transparent"
+                    className="w-full outline-none placeholder-gray-500"
                     {...register("email")}
                   />
                 </div>

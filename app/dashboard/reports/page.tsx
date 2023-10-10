@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function Reports() {
   const counterValue = useSelector((state: RootState) => state.auth.token);
-  return <div>reports{counterValue}</div>;
+  return <div>reports</div>;
 }
 
 export default Reports;
