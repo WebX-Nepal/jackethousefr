@@ -1,7 +1,19 @@
-import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./counterSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import counterSlice from "./slices/counterSlice";
+import authSlice from "./slices/authSlice";
+import { secureApi } from "./api/secureApi";
+import { publicApi } from "./api/publicApi";
+
+const rootReducer = combineReducers({
+  auth: authSlice,
+  counter: counterSlice,
+  [publicApi.reducerPath]: publicApi.reducer,
+  [secureApi.reducerPath]: secureApi.reducer,
+});
 export const store = configureStore({
-  reducer: { counter: counterSlice },
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(publicApi.middleware, secureApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

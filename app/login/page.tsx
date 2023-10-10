@@ -1,37 +1,48 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { setAuthState } from "@/redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 type Inputs = {
   email: string;
   password: string;
 };
 export default function Home() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { data: session, status } = useSession();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("data", data.email);
     signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: false,
     });
   };
-  const { data: session, status } = useSession();
-  const ISSERVER = typeof window === "undefined";
-  const logout = () => {
-    signOut();
-    if (!ISSERVER) {
-      localStorage.removeItem("token");
+  useEffect(() => {
+    if (status === "authenticated") {
+      dispatch(setAuthState(session));
+      router.push("/dashboard/reports");
     }
-  };
-  // if (status === "authenticated") {
-  //   return <>you are logged in </>;
-  // }
+  }, [status]);
+
+  // const ISSERVER = typeof window === "undefined";
+  // const logout = () => {
+  //   signOut();
+  //   if (!ISSERVER) {
+  //     localStorage.removeItem("token");
+  //   }
+  // };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,19 +56,38 @@ export default function Home() {
                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                   E-mail
                 </label>
-                <input
-                  type="text"
-                  className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                  {...register("email")}
-                />
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between w-full mb-5">
+                  <input
+                    type="text"
+                    className="w-full outline-none placeholder-gray-500 bg-transparent"
+                    {...register("email")}
+                  />
+                </div>
                 <label className="font-semibold text-sm text-gray-600 pb-1 block">
                   Password
                 </label>
-                <input
-                  type="text"
-                  className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                  {...register("password", { required: true })}
-                />
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between w-full mb-5">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-full outline-none placeholder-gray-500 bg-transparent"
+                    {...register("password", { required: true })}
+                  />
+                  {showPassword ? (
+                    <AiFillEye
+                      className="text-xl hover:cursor-pointer"
+                      onClick={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    />
+                  ) : (
+                    <AiFillEyeInvisible
+                      className="text-xl hover:cursor-pointer"
+                      onClick={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    />
+                  )}
+                </div>
                 <button
                   onClick={handleSubmit(onSubmit)}
                   type="button"
@@ -70,38 +100,10 @@ export default function Home() {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     className="w-4 h-4 inline-block"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
+                  ></svg>
                 </button>
               </div>
-              <div className="p-5">
-                <div className="grid grid-cols-3 gap-1">
-                  <button
-                    type="button"
-                    className="transition duration-200 border border-gray-200 text-gray-500 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-normal text-center inline-block"
-                  >
-                    MailUp
-                  </button>
-                  <button
-                    type="button"
-                    className="transition duration-200 border border-gray-200 text-gray-500 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-normal text-center inline-block"
-                  >
-                    Google
-                  </button>
-                  <button
-                    type="button"
-                    className="transition duration-200 border border-gray-200 text-gray-500 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-normal text-center inline-block"
-                  >
-                    Github
-                  </button>
-                </div>
-              </div>
+
               <div className="py-5">
                 <div className="grid grid-cols-2 gap-1">
                   <div className="text-center sm:text-left whitespace-nowrap">
@@ -112,14 +114,7 @@ export default function Home() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                         className="w-4 h-4 inline-block align-text-top"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                        />
-                      </svg>
+                      ></svg>
                       <span className="inline-block ml-1">Forgot Password</span>
                     </button>
                   </div>
@@ -131,14 +126,7 @@ export default function Home() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                         className="w-4 h-4 inline-block align-text-bottom	"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                        />
-                      </svg>
+                      ></svg>
                       <span className="inline-block ml-1">Help</span>
                     </button>
                   </div>

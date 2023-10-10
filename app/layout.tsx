@@ -2,7 +2,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import AuthProvider from "./authProvider";
-import { ReduxProvider } from "./reduxProvider";
+import { ReduxProvider } from "../redux/provider/reduxProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({

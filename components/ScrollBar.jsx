@@ -11,7 +11,6 @@ const CustomScrollbar = ({ children }) => {
           {...props}
           style={{
             ...style,
-
             backgroundColor: "#000000",
             borderRadius: "3px",
           }}
