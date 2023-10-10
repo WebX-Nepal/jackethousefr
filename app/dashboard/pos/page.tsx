@@ -13,14 +13,12 @@ function Pos() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
   const openPaymentModal = () => {
     setIsPaymentModal(true);
   };
-
   const closePaymentModal = () => {
     setIsPaymentModal(false);
   };

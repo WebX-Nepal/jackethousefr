@@ -1,18 +1,28 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { signOut } from "next-auth/react";
+
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../redux/slices/authSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
 import { MdOutlineNotifications } from "react-icons/md";
 import { AiFillCaretDown } from "react-icons/ai";
 function Header() {
+  const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
   const [isNotificationOpen, setNotificationOpen] = useState(false);
+
+  async function handleLogOut() {
+    dispatch(logOutUser());
+    await signOut({ callbackUrl: "/login" });
+  }
 
   return (
     <div className="flex bg-primary p-6 shadow-xl sticky top-0 z-40">
       <div className="hover:cursor-pointer">
-        <Image src={"/logo.svg"} width={130} height={130} />
+        <Image src={"/logo.svg"} width={130} height={130} alt="logo" />
       </div>
       <div className="flex ml-8 items-center rounded-xl border border-gray-600 p-2 justify-between h-11 flex-grow w-1/4">
         <input
@@ -43,6 +53,7 @@ function Header() {
               width={60}
               height={60}
               className="rounded-full"
+              alt="barcode logo"
             />
           </div>
           <div className="mr-4 hover:cursor-pointer">
@@ -57,41 +68,7 @@ function Header() {
               }}
             />
           </div>
-          {isOpen && (
-            <div className="z-50 top-20 absolute right-8 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-              <div className="absolute -top-1 right-6 w-0 h-0 z-10">
-                <div className="border border-solid bg-white border-t-0 border-r-2 border-b-2 w-3 h-3 rotate-45 border-white"></div>
-              </div>
-              <div
-                className="py-1"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="options-menu"
-              >
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  Option 1
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  Option 2
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  role="menuitem"
-                >
-                  Option 3
-                </a>
-              </div>
-            </div>
-          )}
+          {isOpen && <button onClick={handleLogOut}>logout</button>}
         </div>
       </div>
     </div>

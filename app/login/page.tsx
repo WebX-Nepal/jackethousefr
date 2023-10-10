@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
@@ -28,20 +28,13 @@ export default function Home() {
       redirect: false,
     });
   };
+  console.log("status is", status);
   useEffect(() => {
     if (status === "authenticated") {
       dispatch(setAuthState(session));
       router.push("/dashboard/reports");
     }
-  }, [status]);
-
-  // const ISSERVER = typeof window === "undefined";
-  // const logout = () => {
-  //   signOut();
-  //   if (!ISSERVER) {
-  //     localStorage.removeItem("token");
-  //   }
-  // };
+  }, [session]);
 
   return (
     <>
