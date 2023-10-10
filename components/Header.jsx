@@ -16,7 +16,7 @@ function Header() {
       </div>
       <div className="flex ml-8 items-center rounded-xl border border-gray-600 p-2 justify-between h-11 flex-grow w-1/4">
         <input
-          className="outline-none placeholder-gray-500 bg-transparent text-black"
+          className="outline-none placeholder-gray-500 bg-transparent text-black w-full"
           type="text"
           placeholder="Search For Products..."
         />
