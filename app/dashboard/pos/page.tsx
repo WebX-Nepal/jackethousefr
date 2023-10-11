@@ -1,14 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
 import Image from "next/image";
 import Modal from "../../../components/Modal";
-import { data } from "../../../dummyData";
 import CustomScrollbar from "../../../components/ScrollBar";
 import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
+import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addItems, removeItems } from "@/redux/slices/counterSlice";
 function Pos() {
-  const { data: allData, refetch, isSuccess } = useGetAllProductsQuery();
+  const dispatch = useDispatch();
+  const counterValue: any = useSelector(
+    (state: RootState) => state.counter.cartItem
+  );
+  console.log("counter value is", counterValue);
   const [category, setCategory] = useState("All");
+  const [products, setProducts] = useState<any>([]);
+  const [productName, setProductName] = useState("");
+  const {
+    data: allData,
+    refetch,
+    isSuccess,
+  } = useGetAllProductsQuery({ category, productName });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -24,34 +38,24 @@ function Pos() {
   const closePaymentModal = () => {
     setIsPaymentModal(false);
   };
+  useEffect(() => {
+    if (allData && isSuccess) {
+      setProducts(allData?.products);
+    }
+  }, [allData]);
+
   const menu = [
     { name: "All" },
-    { name: "Men" },
-    { name: "Women" },
-    { name: "Sports Wear" },
+    { name: "men" },
+    { name: "women" },
+    { name: "kids" },
   ];
-  console.log("all data is", allData);
 
-  const products = [
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-    { name: "All", title: "Leather Jacket", code: "XS12", price: 1900 },
-  ];
+  function handleItemAdd(item: any) {
+    dispatch(addItems(item));
+    console.log("item is", item);
+  }
+
   return (
     <div className={`w-full`}>
       <div className="w-full flex justify-between h-8 items-center ">
@@ -63,8 +67,8 @@ function Pos() {
                 onClick={() => setCategory(item.name)}
                 className={`${
                   category === item.name
-                    ? "bg-black text-white pl-2 pr-2 rounded-lg hover:cursor-pointer"
-                    : "hover:cursor-pointer"
+                    ? "bg-black text-white pl-2 pr-2 rounded-lg hover:cursor-pointer capitalize"
+                    : "hover:cursor-pointer capitalize"
                 }`}
               >
                 {item.name}
@@ -91,26 +95,33 @@ function Pos() {
       <div className="flex w-full h-full mt-8">
         <div className="w-full h-full">
           <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
-            {products.map((item, index) => {
+            {products?.map((item: any, index: number) => {
               return (
                 <li
                   key={index}
                   className="h-56 bg-gray-300 w-52 shadow-xl rounded-xl hover:cursor-pointer p-4 relative hover:shadow-gray-400"
                 >
                   <div className="absolute top-2 right-2 border-2 border-black rounded-full h-5 w-5 bg-black flex items-center justify-center pb-1">
-                    <p className="text-white text-xl">+</p>
+                    <p
+                      className="text-white text-xl"
+                      onClick={() => {
+                        handleItemAdd(item);
+                      }}
+                    >
+                      +
+                    </p>
                   </div>
                   <div className="mt-2 flex items-center justify-center">
                     <Image
-                      src="https://res.cloudinary.com/dgt9nvfjk/image/upload/v1696989329/cxng5ll9ck6hodv6frpn.png"
+                      src={item.image[0]}
                       height={100}
                       width={100}
-                      alt="asd"
+                      alt="Image Not Found"
                     />
                   </div>
                   <div className="w-full mt-2">
                     <div className="flex items-center justify-center">
-                      <span className="font-semibold">{item.title}</span>
+                      <span className="font-semibold">{item.name}</span>
                     </div>
                     <div className="flex justify-between mt-1">
                       <span className="text-sm text-gray-600">
@@ -118,7 +129,7 @@ function Pos() {
                         {item.code}
                       </span>
                       <span className="text-sm border-2  border-gray-600 text-white bg-gray-600 rounded-xl pl-2 pr-2">
-                        Rs {item.price}
+                        Rs {item.sellingPrice}
                       </span>
                     </div>
                   </div>
@@ -156,34 +167,33 @@ function Pos() {
                     Name
                   </th>
                   <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
-                    Color
+                    Category
                   </th>
-                  <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
-                    Item
-                  </th>
+
                   <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
                     Price
                   </th>
-                  {/* Add more table headers as needed */}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {data.map((item, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                {counterValue.length > 0 &&
+                  counterValue.map((item: any, index: number) => (
+                    <tr key={index}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {index + 1}
+                      </td>
 
-                    <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item.color}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item.items}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item.price}
-                    </td>
-                  </tr>
-                ))}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {item?.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {item?.category}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {item?.sellingPrice}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </CustomScrollbar>
