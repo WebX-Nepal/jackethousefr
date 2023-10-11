@@ -1,20 +1,21 @@
 "use client";
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-// Register the plugins
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useCreateProductsMutation } from "../../../redux/api/secureApi";
 function Inventory() {
+  const [sendData, { isSuccess, data, isLoading }] =
+    useCreateProductsMutation();
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
   );
 
-  const [files, setFiles] = useState<any>([]);
+  const [files, setFiles] = useState<any>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -22,6 +23,21 @@ function Inventory() {
   };
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    console.log("files is ", files[0].file);
+    formData.append("image", files[0].file);
+    sendData(formData);
   };
   return (
     <div>
@@ -39,14 +55,15 @@ function Inventory() {
           <h1 className="text-xl font-bold text-white capitalize dark:text-white">
             Add Products
           </h1>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
               <div>
                 <label className="text-white dark:text-gray-200">Name</label>
                 <input
-                  id="username"
+                  id="name"
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("name")}
                 />
               </div>
               <div>
@@ -54,9 +71,9 @@ function Inventory() {
                   Category
                 </label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("category")}
                 />
               </div>
               <div>
@@ -64,9 +81,9 @@ function Inventory() {
                   Cost Price
                 </label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("costPrice")}
                 />
               </div>
               <div>
@@ -74,9 +91,9 @@ function Inventory() {
                   Selling Price
                 </label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("sellingPrice")}
                 />
               </div>
               <div>
@@ -84,17 +101,17 @@ function Inventory() {
                   Total Items
                 </label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("totalItems")}
                 />
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">Color</label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("colors")}
                 />
               </div>
               <div>
@@ -102,17 +119,17 @@ function Inventory() {
                   Discount
                 </label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("discount")}
                 />
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">Size</label>
                 <input
-                  id="emailAddress"
-                  type="email"
+                  type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                  {...register("size")}
                 />
               </div>
 
@@ -120,7 +137,7 @@ function Inventory() {
                 <label className="text-white dark:text-gray-200">Image</label>
                 <FilePond
                   files={files}
-                  allowMultiple={true}
+                  allowMultiple={false}
                   allowRevert
                   allowDrop
                   onupdatefiles={setFiles}
@@ -130,7 +147,11 @@ function Inventory() {
               </div>
             </div>
             <div className="flex justify-end mt-6">
-              <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">
+              <button
+                className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
+                onClick={handleSubmit(onSubmit)}
+                type="button"
+              >
                 Save
               </button>
             </div>

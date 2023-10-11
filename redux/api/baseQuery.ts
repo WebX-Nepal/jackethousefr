@@ -13,8 +13,7 @@ type RootStateWithAuth = RootState & {
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootStateWithAuth).auth?.token;
-    console.log("token is", token);
+    const token = localStorage.getItem("token");
     if (token) {
       headers.set("Authorization", `bearer ${token}`);
       headers.set("Access-Control-Allow-Headers", "*");

@@ -102,7 +102,7 @@ function Pos() {
                   </div>
                   <div className="mt-2 flex items-center justify-center">
                     <Image
-                      src="/jacket1.png"
+                      src="https://res.cloudinary.com/dgt9nvfjk/image/upload/v1696989329/cxng5ll9ck6hodv6frpn.png"
                       height={100}
                       width={100}
                       alt="asd"

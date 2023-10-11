@@ -9,6 +9,13 @@ export const secureApi = createApi({
     getAllProducts: builder.query<any, void>({
       query: () => "/product/getProducts",
     }),
+    createProducts: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/product/registerProduct`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
-export const { useGetAllProductsQuery } = secureApi;
+export const { useGetAllProductsQuery, useCreateProductsMutation } = secureApi;

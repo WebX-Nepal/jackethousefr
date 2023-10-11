@@ -16,6 +16,7 @@ export const authSlice = createSlice({
     setAuthState: (state, action) => {
       state.userDetail = action.payload?.user.userDetails;
       state.token = action.payload?.user.token;
+      localStorage.setItem("token", state.token);
     },
     logOutUser: (state) => {
       state.userDetail = null;
