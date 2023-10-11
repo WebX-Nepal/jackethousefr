@@ -14,6 +14,11 @@ export const secureApi = createApi({
         }`,
       }),
     }),
+    getProductById: builder.query<any, any>({
+      query: (ID) => ({
+        url: `/product/${ID}`,
+      }),
+    }),
     createProducts: builder.mutation<any, any>({
       query: (data) => ({
         url: `/product/registerProduct`,
@@ -21,6 +26,16 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
+    getMemberByID: builder.query<any, any>({
+      query: (ID) => ({
+        url: `/member/searchMemberByNumber/${ID}`,
+      }),
+    }),
   }),
 });
-export const { useGetAllProductsQuery, useCreateProductsMutation } = secureApi;
+export const {
+  useGetAllProductsQuery,
+  useGetProductByIdQuery,
+  useCreateProductsMutation,
+  useGetMemberByIDQuery,
+} = secureApi;

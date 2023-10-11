@@ -4,15 +4,10 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/dist/query";
-import { RootState } from "../store";
-type RootStateWithAuth = RootState & {
-  auth: {
-    token: string;
-  };
-};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
     if (token) {
       headers.set("Authorization", `bearer ${token}`);

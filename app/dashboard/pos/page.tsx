@@ -4,16 +4,24 @@ import { AiFillCreditCard } from "react-icons/ai";
 import Image from "next/image";
 import Modal from "../../../components/Modal";
 import CustomScrollbar from "../../../components/ScrollBar";
-import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
+import {
+  useGetAllProductsQuery,
+  useGetProductByIdQuery,
+  useGetMemberByIDQuery,
+} from "../../../redux/api/secureApi";
 import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addItems, removeItems } from "@/redux/slices/counterSlice";
+
 function Pos() {
   const dispatch = useDispatch();
   const counterValue: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
-  console.log("counter value is", counterValue);
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [memberName, setMemberName] = useState();
+  const [productID, setproductID] = useState();
+  const [billPrice, setBillPrice] = useState();
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");
@@ -22,10 +30,14 @@ function Pos() {
     refetch,
     isSuccess,
   } = useGetAllProductsQuery({ category, productName });
-
+  const { data: productIdData, isSuccess: isProductIdSuccess } =
+    useGetProductByIdQuery(productID);
+  const { data: MemberData, isSuccess: MemberSearchSuccess } =
+    useGetMemberByIDQuery(phoneNumber);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -34,6 +46,13 @@ function Pos() {
   };
   const openPaymentModal = () => {
     setIsPaymentModal(true);
+    const totalPrice = counterValue.reduce(
+      (accumulator: number, currentObject: any) => {
+        return accumulator + currentObject.sellingPrice;
+      },
+      0
+    );
+    setBillPrice(totalPrice);
   };
   const closePaymentModal = () => {
     setIsPaymentModal(false);
@@ -44,6 +63,12 @@ function Pos() {
     }
   }, [allData]);
 
+  function handleItemAddCart() {
+    if (productIdData && isProductIdSuccess) {
+      dispatch(addItems(productIdData.products));
+    }
+  }
+
   const menu = [
     { name: "All" },
     { name: "men" },
@@ -53,8 +78,19 @@ function Pos() {
 
   function handleItemAdd(item: any) {
     dispatch(addItems(item));
-    console.log("item is", item);
   }
+  const handleChange = (e: any) => {
+    setproductID(e.target.value);
+  };
+  const handleNumberChange = (e: any) => {
+    setPhoneNumber(e.target.value);
+  };
+
+  useEffect(() => {
+    if (MemberData && MemberSearchSuccess) {
+      setMemberName(MemberData.member.name);
+    }
+  }, [MemberData]);
 
   return (
     <div className={`w-full`}>
@@ -92,7 +128,9 @@ function Pos() {
           </span>
         </div>
       </div>
-      <div className="flex w-full h-full mt-8">
+      <div
+        className={`flex w-full h-full mt-8 ${isModalOpen ? "opacity-25" : ""}`}
+      >
         <div className="w-full h-full">
           <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
             {products?.map((item: any, index: number) => {
@@ -148,10 +186,14 @@ function Pos() {
             <input
               className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
               type="text"
-              placeholder="Search For Products..."
+              placeholder="Enter Product ID"
+              onChange={handleChange}
             />
           </div>
-          <button className="bg-black text-white ml-8 pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+          <button
+            className="bg-black text-white ml-8 pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+            onClick={handleItemAddCart}
+          >
             Add Items
           </button>
         </div>
@@ -217,17 +259,9 @@ function Pos() {
         </div>
         <div className="flex items-center justify-between">
           <div className="">
-            <h2 className="text-xl font-semibold ">Total Amount : 26262</h2>
-          </div>
-          <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 justify-between bg-white w-1/4">
-            <input
-              className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
-              type="text"
-              placeholder="Rs."
-            />
-          </div>
-          <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 justify-between bg-white w-1/4">
-            Rs.
+            <h2 className="text-xl font-semibold ">
+              Total Amount : {billPrice}
+            </h2>
           </div>
         </div>
         <div className="mt-2">
@@ -272,6 +306,7 @@ function Pos() {
               className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
               type="text"
               placeholder="Phone Number"
+              onChange={handleNumberChange}
             />
           </div>
           <h2 className="font-semibold ml-8">Name:</h2>
@@ -280,6 +315,7 @@ function Pos() {
               className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
               type="text"
               placeholder="Name"
+              value={memberName}
             />
           </div>
         </div>
@@ -287,7 +323,6 @@ function Pos() {
           <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
             Cancel
           </button>
-
           <button className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl">
             Proceed
           </button>
