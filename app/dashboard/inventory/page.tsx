@@ -5,9 +5,20 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import validationSchema from "./validation";
 import { useCreateProductsMutation } from "../../../redux/api/secureApi";
 function Inventory() {
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema), // Use the imported schema
+  });
+
   const [sendData, { isSuccess, data, isLoading }] =
     useCreateProductsMutation();
   registerPlugin(
@@ -24,11 +35,6 @@ function Inventory() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<any>();
 
   const onSubmit: SubmitHandler<any> = (data) => {
     const formData = new FormData();
@@ -65,6 +71,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("name")}
                 />
+                <p className="text-red-600">{errors.name?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">
@@ -75,6 +82,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("category")}
                 />
+                <p className="text-red-600">{errors.category?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">
@@ -85,6 +93,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("costPrice")}
                 />
+                <p className="text-red-600">{errors.costPrice?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">
@@ -95,6 +104,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("sellingPrice")}
                 />
+                <p className="text-red-600">{errors.sellingPrice?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">
@@ -105,6 +115,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("totalItems")}
                 />
+                <p className="text-red-600">{errors.totalItems?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">Color</label>
@@ -113,6 +124,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("colors")}
                 />
+                <p className="text-red-600">{errors.colors?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">
@@ -123,6 +135,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("discount")}
                 />
+                <p className="text-red-600">{errors.discount?.message}</p>
               </div>
               <div>
                 <label className="text-white dark:text-gray-200">Size</label>
@@ -131,6 +144,7 @@ function Inventory() {
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
                   {...register("size")}
                 />
+                <p className="text-red-600">{errors.size?.message}</p>
               </div>
 
               <div className="w-full">
