@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
+import { TiTick } from "react-icons/ti";
 import Image from "next/image";
 import Modal from "../../../components/Modal";
 import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
@@ -14,7 +15,7 @@ function Pos() {
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");
-  const counterValue: any = useSelector(
+  const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
   const { data: allData, isSuccess } = useGetAllProductsQuery({
@@ -84,7 +85,7 @@ function Pos() {
         <div className="w-full h-full">
           <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
             {products?.map((item: any, index: number) => {
-              const isMatched = counterValue.some(
+              const isMatched = cartItems.some(
                 (matchedItem: any) => matchedItem._id === item._id
               );
               return (
@@ -94,14 +95,12 @@ function Pos() {
                 >
                   <div className="absolute top-2 right-2 border-2 border-black rounded-full h-5 w-5 bg-black flex items-center justify-center pb-1">
                     {isMatched ? (
-                      <p
+                      <TiTick
                         className="text-white text-xl"
                         onClick={() => {
                           handleItemRemove(item);
                         }}
-                      >
-                        -
-                      </p>
+                      />
                     ) : (
                       <p
                         className="text-white text-xl"

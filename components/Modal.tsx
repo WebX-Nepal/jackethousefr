@@ -15,14 +15,17 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [billPrice, setBillPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [memberName, setMemberName] = useState("");
-  const counterValue: any = useSelector(
+  const [isMember, setisMember] = useState(false);
+  const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
   const { data: productIdData, isSuccess: isProductIdSuccess } =
     useGetProductByIdQuery(productID);
-  const { data: MemberData, isSuccess: MemberSearchSuccess } =
-    useGetMemberByIDQuery(phoneNumber);
+  const {
+    data: MemberData,
+    isSuccess: MemberSearchSuccess,
+    isError,
+  } = useGetMemberByIDQuery(phoneNumber);
   const handleChange = (e: any) => {
     setProductID(e.target.value);
   };
@@ -36,7 +39,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   };
   const openPaymentModal = () => {
     setIsPaymentModal(true);
-    const totalPrice = counterValue.reduce(
+    const totalPrice = cartItems.reduce(
       (accumulator: number, currentObject: any) => {
         return accumulator + currentObject.sellingPrice;
       },
@@ -46,9 +49,13 @@ const Modal = ({ isOpen, closeModal }: any) => {
   };
   useEffect(() => {
     if (MemberData && MemberSearchSuccess) {
-      setMemberName(MemberData.member.name);
+      setisMember(true);
+    } else if (isError) {
+      setisMember(false);
+      console.log("not memeber");
+    } else {
     }
-  }, [MemberData]);
+  }, [MemberData, isError]);
 
   useEffect(() => {
     const handleClickOutside = (e: any) => {
@@ -127,15 +134,20 @@ const Modal = ({ isOpen, closeModal }: any) => {
                   onChange={handleNumberChange}
                 />
               </div>
-              <h2 className="font-semibold ml-8">Name:</h2>
-              <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/2">
-                <input
-                  className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
-                  type="text"
-                  placeholder="Name"
-                  value={memberName}
-                />
-              </div>
+              {isMember ? (
+                <></>
+              ) : (
+                <>
+                  <h2 className="font-semibold ml-8">Name:</h2>
+                  <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/2">
+                    <input
+                      className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
+                      type="text"
+                      placeholder="Name"
+                    />
+                  </div>
+                </>
+              )}
             </div>
             <div className="w-full flex mt-6 justify-between ">
               <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
@@ -188,8 +200,8 @@ const Modal = ({ isOpen, closeModal }: any) => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {counterValue.length > 0 &&
-                      counterValue.map((item: any, index: number) => (
+                    {cartItems.length > 0 &&
+                      cartItems.map((item: any, index: number) => (
                         <tr key={index}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {index + 1}
