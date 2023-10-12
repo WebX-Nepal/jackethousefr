@@ -68,7 +68,16 @@ function Header() {
               }}
             />
           </div>
-          {isOpen && <button onClick={handleLogOut}>logout</button>}
+          {isOpen && (
+            <div className="absolute mt-40 w-30 bg-slate-200 h-full w-56 rounded-2xl p-1 text-lg hover:cursor-pointer">
+              <div className="p-2 border-b-slate-50 hover:bg-slate-300">
+                Profile
+              </div>
+              <div className="p-2 hover:bg-slate-300">
+                <button onClick={handleLogOut}>logout</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
-import Image from "next/image";
 import Modal from "../../../components/Modal";
 import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
 import { useDispatch, useSelector } from "react-redux";
