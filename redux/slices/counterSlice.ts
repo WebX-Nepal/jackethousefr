@@ -31,7 +31,7 @@ export const counterSlice = createSlice({
     },
     removeItems: (state, action) => {
       const itemIndex = state.cartItem.findIndex(
-        (item) => item._id === action.payload
+        (item) => item._id === action.payload._id
       );
       if (itemIndex !== -1) {
         state.cartItem.splice(itemIndex, 1);

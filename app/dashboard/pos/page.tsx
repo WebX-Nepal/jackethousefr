@@ -4,14 +4,19 @@ import { AiFillCreditCard } from "react-icons/ai";
 import Image from "next/image";
 import Modal from "../../../components/Modal";
 import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
-import { useDispatch } from "react-redux";
-import { addItems } from "@/redux/slices/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addItems, removeItems } from "@/redux/slices/counterSlice";
 import { menu } from "../../../components/Constant";
+import { RootState } from "../../../redux/store";
+
 function Pos() {
   const dispatch = useDispatch();
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");
+  const counterValue: any = useSelector(
+    (state: RootState) => state.counter.cartItem
+  );
   const { data: allData, isSuccess } = useGetAllProductsQuery({
     category,
     productName,
@@ -31,6 +36,10 @@ function Pos() {
 
   function handleItemAdd(item: any) {
     dispatch(addItems(item));
+  }
+
+  function handleItemRemove(item: any) {
+    dispatch(removeItems(item));
   }
 
   return (
@@ -75,20 +84,34 @@ function Pos() {
         <div className="w-full h-full">
           <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
             {products?.map((item: any, index: number) => {
+              const isMatched = counterValue.some(
+                (matchedItem: any) => matchedItem._id === item._id
+              );
               return (
                 <li
                   key={index}
                   className="h-56 bg-gray-300 w-52 shadow-xl rounded-xl hover:cursor-pointer p-4 relative hover:shadow-gray-400"
                 >
                   <div className="absolute top-2 right-2 border-2 border-black rounded-full h-5 w-5 bg-black flex items-center justify-center pb-1">
-                    <p
-                      className="text-white text-xl"
-                      onClick={() => {
-                        handleItemAdd(item);
-                      }}
-                    >
-                      +
-                    </p>
+                    {isMatched ? (
+                      <p
+                        className="text-white text-xl"
+                        onClick={() => {
+                          handleItemRemove(item);
+                        }}
+                      >
+                        -
+                      </p>
+                    ) : (
+                      <p
+                        className="text-white text-xl"
+                        onClick={() => {
+                          handleItemAdd(item);
+                        }}
+                      >
+                        +
+                      </p>
+                    )}
                   </div>
                   <div className="mt-2 flex items-center justify-center">
                     <Image
