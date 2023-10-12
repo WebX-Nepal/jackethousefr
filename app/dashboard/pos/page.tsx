@@ -112,11 +112,10 @@ function Pos() {
                       </p>
                     )}
                   </div>
-                  <div className="mt-2 flex items-center justify-center">
-                    <Image
-                      src={item.image[0]}
-                      height={100}
-                      width={100}
+                  <div className="mt-2 flex items-center justify-center h-2/3 w-full">
+                    <img
+                      src={item.image[0] ? item.image[0] : "/logo.svg"}
+                      className=" w-full h-full object-cover"
                       alt="Image Not Found"
                     />
                   </div>
