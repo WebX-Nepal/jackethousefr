@@ -3,8 +3,9 @@ import CustomScrollbar from "./ScrollBar";
 import {
   useGetProductByIdQuery,
   useGetMemberByIDQuery,
+  useCreateSalesMutation,
 } from "../redux/api/secureApi";
-import { addItems } from "@/redux/slices/counterSlice";
+import { addItems, emptyCartItems } from "@/redux/slices/counterSlice";
 import { RootState } from "../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,6 +17,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isMember, setisMember] = useState(false);
+  const [newName, setNewName] = useState("");
   const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
@@ -26,6 +28,26 @@ const Modal = ({ isOpen, closeModal }: any) => {
     isSuccess: MemberSearchSuccess,
     isError,
   } = useGetMemberByIDQuery(phoneNumber);
+  const [sendData, { isSuccess, data, isLoading }] = useCreateSalesMutation();
+  const resetSalesProcess = () => {
+    setPaymentMethod("");
+    setNewName("");
+    setPhoneNumber("");
+    setBillPrice(0);
+    dispatch(emptyCartItems());
+    closeModal();
+  };
+  const handleCreateSales = async () => {
+    const salesData = {
+      paymentMethod,
+      products: cartItems,
+      newName,
+      phoneNumber,
+      totalAmount: billPrice,
+    };
+    await sendData(salesData);
+    resetSalesProcess();
+  };
   const handleChange = (e: any) => {
     setProductID(e.target.value);
   };
@@ -37,6 +59,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const handleNumberChange = (e: any) => {
     setPhoneNumber(e.target.value);
   };
+  const handleNameChange = (e: any) => {
+    setNewName(e.target.value);
+  };
   const openPaymentModal = () => {
     setIsPaymentModal(true);
     const totalPrice = cartItems.reduce(
@@ -46,6 +71,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
       0
     );
     setBillPrice(totalPrice);
+  };
+  const handleSalesCancel = () => {
+    resetSalesProcess();
   };
   useEffect(() => {
     if (MemberData && MemberSearchSuccess) {
@@ -124,7 +152,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 Online
               </span>
             </div>
-            <div className="flex items-center mt-6">
+            <div className="flex items-center mt-16 mb-32">
               <h2 className="font-semibold">Number:</h2>
               <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/4">
                 <input
@@ -144,16 +172,20 @@ const Modal = ({ isOpen, closeModal }: any) => {
                       className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
                       type="text"
                       placeholder="Name"
+                      onChange={handleNameChange}
                     />
                   </div>
                 </>
               )}
             </div>
-            <div className="w-full flex mt-6 justify-between ">
+            <div className="w-full flex justify-between">
               <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
                 Cancel
               </button>
-              <button className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+              <button
+                className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+                onClick={handleCreateSales}
+              >
                 Proceed
               </button>
             </div>
@@ -223,7 +255,10 @@ const Modal = ({ isOpen, closeModal }: any) => {
               </CustomScrollbar>
             </div>
             <div className="w-full flex mt-6 justify-between ">
-              <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+              <button
+                className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+                onClick={handleSalesCancel}
+              >
                 Cancel
               </button>
 

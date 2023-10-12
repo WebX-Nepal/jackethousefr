@@ -7,6 +7,13 @@ export const secureApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ["User"],
   endpoints: (builder) => ({
+    createProducts: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/product/registerProduct`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getAllProducts: builder.query<any, any>({
       query: ({ category, productName }) => ({
         url: `/product/getProducts?productName=${productName}&category=${
@@ -19,23 +26,24 @@ export const secureApi = createApi({
         url: `/product/${ID}`,
       }),
     }),
-    createProducts: builder.mutation<any, any>({
-      query: (data) => ({
-        url: `/product/registerProduct`,
-        method: "POST",
-        body: data,
-      }),
-    }),
     getMemberByID: builder.query<any, any>({
       query: (ID) => ({
         url: `/member/searchMemberByNumber/${ID}`,
       }),
     }),
+    createSales: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/sales/createSales`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 export const {
+  useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
-  useCreateProductsMutation,
   useGetMemberByIDQuery,
+  useCreateSalesMutation,
 } = secureApi;

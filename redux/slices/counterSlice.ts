@@ -37,8 +37,11 @@ export const counterSlice = createSlice({
         state.cartItem.splice(itemIndex, 1);
       }
     },
+    emptyCartItems: (state) => {
+      state.cartItem = [];
+    },
   },
 });
 
-export const { addItems, removeItems } = counterSlice.actions;
+export const { addItems, removeItems, emptyCartItems } = counterSlice.actions;
 export default counterSlice.reducer;
