@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Modal = ({ isOpen, closeModal }: any) => {
   const dispatch = useDispatch();
-  const [productID, setProductID] = useState("");
+  const [productID, setProductID] = useState("cash");
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [billPrice, setBillPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -179,7 +179,10 @@ const Modal = ({ isOpen, closeModal }: any) => {
               )}
             </div>
             <div className="w-full flex justify-between">
-              <button className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl">
+              <button
+                className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+                onClick={handleSalesCancel}
+              >
                 Cancel
               </button>
               <button
