@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
+import { useGetSalesDataQuery } from "../../../redux/api/secureApi";
 function Sales() {
   const [productData, setProducts] = useState([]);
-  const { data, isSuccess } = useGetSalesReportsProductsDataQuery({});
+  const { data, isSuccess } = useGetSalesDataQuery({});
   useEffect(() => {
     if (data && isSuccess) {
       setProducts(data.data);
@@ -15,50 +15,40 @@ function Sales() {
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
       </div>
-
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 mb-3 p-5">
         <div className="col-span-2 hidden items-center sm:flex">
           <p className="font-medium">Product</p>
         </div>
         <div className="col-span-2 hidden items-center sm:flex">
-          <p className="font-medium">Category</p>
+          <p className="font-medium">Payment Method</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Cost Price</p>
+          <p className="font-medium">Total Amount</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Selling Price</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Profit</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Items Sold</p>
+          <p className="font-medium">Date</p>
         </div>
       </div>
-
-      {productData?.map((product: any, key: number) => (
+      {productData.map((item: any) => (
         <div
           className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
-          key={key}
+          key={item.products[0]?.product._id}
         >
           <div className="col-span-2 hidden items-center sm:flex">
-            <p className="text-sm text-black ">{product.productName}</p>
+            <p className="text-sm text-black ">
+              {item.products[0]?.product.name}
+            </p>
           </div>
           <div className="col-span-2 hidden items-center sm:flex">
-            <p className="text-sm text-black ">{product.productCategory}</p>
+            <p className="text-sm text-black ">{item.paymentMethod}</p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">${product.cost}</p>
+            <p className="text-sm text-black ">$ {item.totalAmount}</p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{product.sellingPrice}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3">${product.profit}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{product.totalItemsSold}</p>
+            <p className="text-sm text-black ">
+              {new Date(item.soldAt).toLocaleString()}
+            </p>
           </div>
         </div>
       ))}

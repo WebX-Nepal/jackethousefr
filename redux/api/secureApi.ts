@@ -44,6 +44,11 @@ export const secureApi = createApi({
         url: `sales/getSalesReportsDataProducts`,
       }),
     }),
+    getSalesData: builder.query<any, any>({
+      query: () => ({
+        url: "/sales/getSales",
+      }),
+    }),
   }),
 });
 export const {
@@ -53,4 +58,5 @@ export const {
   useGetMemberByIDQuery,
   useCreateSalesMutation,
   useGetSalesReportsProductsDataQuery,
+  useGetSalesDataQuery,
 } = secureApi;
