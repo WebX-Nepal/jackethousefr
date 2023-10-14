@@ -1,17 +1,44 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
 function Reports() {
   const [productData, setProducts] = useState([]);
   const { data, isSuccess } = useGetSalesReportsProductsDataQuery({});
+
   useEffect(() => {
     if (data && isSuccess) {
       setProducts(data.data);
     } else {
     }
   }, [data]);
-  const handleDownloadReport = () => {
-    
+  const handleDownloadReport = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      console.log("token is", token);
+      try {
+        const axiosConfig = {
+          responseType: "arraybuffer" as "arraybuffer",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        axios
+          .get("http://localhost:5000/api/report/createPDFReport", axiosConfig)
+          .then((res: any) => {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "report.pdf");
+            document.body.appendChild(link);
+            link.click();
+          });
+      } catch (err) {
+        console.log("err ", err);
+      }
+    }
   };
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
