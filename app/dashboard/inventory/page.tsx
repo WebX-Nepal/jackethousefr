@@ -1,35 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FilePond, registerPlugin } from "react-filepond";
-import "filepond/dist/filepond.min.css";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import validationSchema from "./validation";
-import { useCreateProductsMutation } from "../../../redux/api/secureApi";
-import LoadingScreen from "../../../components/LoadingScreen";
+import {
+  useGetAllMembersQuery,
+} from "../../../redux/api/secureApi";
+import InventoryModal from "./Modal";
 function Inventory() {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(validationSchema), // Use the imported schema
-  });
-  const [isDataSending, setIsdataSending] = useState<boolean>(false);
-
-  const [sendData, { isSuccess, data, isLoading }] =
-    useCreateProductsMutation();
-  registerPlugin(
-    FilePondPluginImageExifOrientation,
-    FilePondPluginImagePreview
-  );
-
-  const [files, setFiles] = useState<any>();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,152 +12,74 @@ function Inventory() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  const onSubmit: SubmitHandler<any> = (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    console.log("files is ", files[0].file);
-    formData.append("image", files[0].file);
-    sendData(formData);
-  };
-
+  const [productData, setProducts] = useState([]);
+  const { data, isSuccess } = useGetAllMembersQuery({});
   useEffect(() => {
-    if (isLoading) {
-      setIsdataSending(true);
+    if (data && isSuccess) {
+      setProducts(data.member);
     } else {
-      setIsdataSending(false);
     }
-  }, [isLoading]);
+  }, [data]);
   return (
     <>
-      {isDataSending == true ? (
-        <>
-          <LoadingScreen />
-        </>
-      ) : (
-        <div>
-          <h1 className="mb-5">Inventory</h1>
-          <span>
-            <button
-              className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl float-left"
-              onClick={openModal}
-            >
-              + Add Inventory
-            </button>
-          </span>
-          {isModalOpen && (
-            <section className="w-2/3 p-6 mx-auto bg-indigo-600 rounded-md shadow-2xl dark:bg-gray-800 mt-20">
-              <h1 className="text-xl font-bold text-white capitalize dark:text-white">
-                Add Products
-              </h1>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-                  <div>
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="Please Enter Name"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("name")}
-                    />
-                    <p className="text-red-600">{errors.name?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Category"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("category")}
-                    />
-                    <p className="text-red-600">{errors.category?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Cost Price"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("costPrice")}
-                    />
-                    <p className="text-red-600">{errors.costPrice?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Selling Price"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("sellingPrice")}
-                    />
-                    <p className="text-red-600">
-                      {errors.sellingPrice?.message}
-                    </p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Total Items"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("totalItems")}
-                    />
-                    <p className="text-red-600">{errors.totalItems?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Color"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("colors")}
-                    />
-                    <p className="text-red-600">{errors.colors?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Discount"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("discount")}
-                    />
-                    <p className="text-red-600">{errors.discount?.message}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Please Enter Size"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
-                      {...register("size")}
-                    />
-                    <p className="text-red-600">{errors.size?.message}</p>
-                  </div>
-
-                  <div className="w-full">
-                    <label className="text-white dark:text-gray-200">
-                      Image
-                    </label>
-                    <FilePond
-                      files={files}
-                      allowMultiple={false}
-                      allowRevert
-                      allowDrop
-                      onupdatefiles={setFiles}
-                      styleButtonRemoveItemPosition="left"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end mt-6">
-                  <button
-                    className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
-                    onClick={handleSubmit(onSubmit)}
-                    type="button"
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </section>
-          )}
+      <div className={`w-full`}>
+        <div className="w-full flex justify-between h-8 items-center ">
+          <div className="w-1/3 flex justify-between items-center">
+            <span>
+              <button
+                className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl"
+                onClick={openModal}
+              >
+                + Add Products
+              </button>
+            </span>
+          </div>
         </div>
-      )}
+        <div
+          className={`flex w-full h-full mt-8 ${
+            isModalOpen ? "opacity-25" : ""
+          }`}
+        >
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark w-full">
+            <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
+              <h4 className="text-xl font-semibold text-black ">Members</h4>
+            </div>
+
+            <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 mb-3 p-5">
+              <div className="col-span-2 hidden items-center sm:flex">
+                <p className="font-medium">Name</p>
+              </div>
+              <div className="col-span-2 hidden items-center sm:flex">
+                <p className="font-medium">Phone Number</p>
+              </div>
+              <div className="col-span-1 flex items-center">
+                <p className="font-medium">Points</p>
+              </div>
+            </div>
+
+            {productData?.map((product: any, key: number) => (
+              <div
+                className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
+                key={key}
+              >
+                <div className="col-span-2 hidden items-center sm:flex">
+                  <p className="text-sm text-black ">{product.name}</p>
+                </div>
+                <div className="col-span-2 hidden items-center sm:flex">
+                  <p className="text-sm text-black ">{product.phone}</p>
+                </div>
+                <div className="col-span-1 flex items-center">
+                  <p className="text-sm text-black ">{product.points}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <InventoryModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+        ></InventoryModal>
+      </div>
     </>
   );
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import CustomScrollbar from "./ScrollBar";
+import CustomScrollbar from "../../../components/ScrollBar";
 import {
   useGetProductByIdQuery,
   useGetMemberByIDQuery,
   useCreateSalesMutation,
-} from "../redux/api/secureApi";
+} from "../../../redux/api/secureApi";
 import { addItems, emptyCartItems } from "@/redux/slices/counterSlice";
-import { RootState } from "../redux/store";
+import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
 const Modal = ({ isOpen, closeModal }: any) => {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
-import Modal from "../../../components/Modal";
+import Modal from "./Modal";
 import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addItems, removeItems } from "@/redux/slices/counterSlice";
@@ -73,7 +73,7 @@ function Pos() {
               className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl"
               onClick={openModal}
             >
-              + Add Products
+              Checkout
             </button>
           </span>
         </div>

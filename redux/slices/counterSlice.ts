@@ -14,14 +14,12 @@ export interface Item {
   updatedAt: string;
   __v: number;
 }
-
 export interface RootState {
   cartItem: Item[];
 }
 const initialState: RootState = {
   cartItem: [],
 };
-
 export const counterSlice = createSlice({
   name: "counter",
   initialState,

@@ -23,7 +23,6 @@ const authOptions = {
       },
       async authorize(credentials) {
         const { email, password }: any = credentials;
-        // Ensure that NEXT_PUBLIC_NEXTAUTH_LOGIN_URL is properly defined in your environment
         const loginUrl = process.env.NEXT_PUBLIC_NEXTAUTH_LOGIN_URL;
         if (!loginUrl) {
           throw new Error("NEXT_PUBLIC_NEXTAUTH_LOGIN_URL is not defined.");

@@ -1,6 +1,8 @@
 import React from "react";
-
-function LoadingScreen() {
+interface LoadingScreenProps {
+  message: string;
+}
+function LoadingScreen({ message }: LoadingScreenProps) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="flex items-center space-x-2">
@@ -83,7 +85,7 @@ function LoadingScreen() {
             ></line>
           </svg>
         </div>
-        <span className="text-xs font-medium text-slate-500">Loading...</span>
+        <span className="text-xs font-medium text-slate-500">{message}</span>
       </div>
     </div>
   );
