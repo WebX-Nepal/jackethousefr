@@ -48,7 +48,7 @@ function Pos() {
   function handleItemRemove(item: any) {
     dispatch(removeItems(item));
   }
-
+  console.log("Cart itme is ", cartItems);
   return (
     <div className={`w-full`}>
       <div className="w-full flex justify-between h-8 items-center ">
@@ -75,11 +75,11 @@ function Pos() {
 
             <AiFillCreditCard className="border-gray-300 border-4 text-2xl bg-gray-300" />
           </div>
-          <span>
-            <button
-              className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl"
-              onClick={openModal}
-            >
+          <span className="bg-black text-white pt-1 pb-1 pl-4 pr-4 rounded-xl flex">
+            <span className="pr-2 pl-1 text-green-500 font-medium">
+              {cartItems.length == 0 ? "" : cartItems.length}
+            </span>
+            <button onClick={openModal} className="pr-2">
               Checkout
             </button>
           </span>

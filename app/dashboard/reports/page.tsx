@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
+import LoadingScreen from "@/components/LoadingScreen";
 function Reports() {
+  const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
+  const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
   const { data, isSuccess } = useGetSalesReportsProductsDataQuery({});
 
@@ -13,9 +16,9 @@ function Reports() {
     }
   }, [data]);
   const handleDownloadReport = async () => {
+    setDownloading(true);
     const token = localStorage.getItem("token");
     if (token) {
-      console.log("token is", token);
       try {
         const axiosConfig = {
           responseType: "arraybuffer" as "arraybuffer",
@@ -24,34 +27,39 @@ function Reports() {
             Authorization: `Bearer ${token}`,
           },
         };
-
-        axios
-          .get("http://localhost:5000/api/report/createPDFReport", axiosConfig)
-          .then((res: any) => {
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", "report.pdf");
-            document.body.appendChild(link);
-            link.click();
-          });
+        axios.get(reportUrl, axiosConfig).then((res: any) => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "report.pdf");
+          document.body.appendChild(link);
+          link.click();
+        });
       } catch (err) {
         console.log("err ", err);
       }
+      setDownloading(false);
     }
   };
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
-        <button
-          className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl"
-          onClick={handleDownloadReport}
-        >
-          Download report
-        </button>
+        {downloading ? (
+          <>
+            <LoadingScreen message="Downloading" />
+          </>
+        ) : (
+          <>
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+              onClick={handleDownloadReport}
+            >
+              Download report
+            </button>
+          </>
+        )}
       </div>
-
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 mb-3 p-5">
         <div className="col-span-2 hidden items-center sm:flex">
           <p className="font-medium">Product</p>

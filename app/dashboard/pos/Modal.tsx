@@ -14,7 +14,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [productID, setProductID] = useState("cash");
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [billPrice, setBillPrice] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isMember, setisMember] = useState(false);
   const [newName, setNewName] = useState("");

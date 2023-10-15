@@ -14,7 +14,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <ReduxProvider> {children}</ReduxProvider>
+          <ReduxProvider>{children}</ReduxProvider>
         </AuthProvider>
       </body>
     </html>
