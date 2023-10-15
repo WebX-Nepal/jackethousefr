@@ -17,27 +17,34 @@ function Pos() {
   const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
+  const searchQuery: any = useSelector(
+    (state: RootState) => state.search.searchQuery
+  );
   const { data: allData, isSuccess } = useGetAllProductsQuery({
     category,
     productName,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     if (allData && isSuccess) {
       setProducts(allData?.products);
     }
   }, [allData]);
+  useEffect(() => {
+    setProductName(searchQuery);
+  }, [searchQuery]);
 
   function handleItemAdd(item: any) {
     dispatch(addItems(item));
   }
-
   function handleItemRemove(item: any) {
     dispatch(removeItems(item));
   }

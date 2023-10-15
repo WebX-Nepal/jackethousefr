@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../../redux/slices/authSlice";
+import { setSearchQuery } from "../../redux/slices/searchSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
@@ -23,7 +24,9 @@ function Header() {
   const handleClickLogo = () => {
     router.push("/dashboard/pos");
   };
-
+  const handleSearch = (e) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
   return (
     <div className="flex bg-primary p-6 shadow-xl sticky top-0 z-40">
       <div className="hover:cursor-pointer" onClick={handleClickLogo}>
@@ -34,6 +37,7 @@ function Header() {
           className="outline-none placeholder-gray-500 bg-transparent text-black w-full"
           type="text"
           placeholder="Search For Products..."
+          onChange={handleSearch}
         />
         <BiSearchAlt2 className="text-gray-600" />
       </div>
