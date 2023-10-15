@@ -75,6 +75,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const handleSalesCancel = () => {
     resetSalesProcess();
   };
+  const handleBackSales = () => {
+    setIsPaymentModal(false);
+  };
   useEffect(() => {
     if (MemberData && MemberSearchSuccess) {
       setisMember(true);
@@ -181,9 +184,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
             <div className="w-full flex justify-between">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
-                onClick={handleSalesCancel}
+                onClick={handleBackSales}
               >
-                Cancel
+                Back
               </button>
               <button
                 className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl"

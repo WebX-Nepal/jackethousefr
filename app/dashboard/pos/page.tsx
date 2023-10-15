@@ -48,7 +48,6 @@ function Pos() {
   function handleItemRemove(item: any) {
     dispatch(removeItems(item));
   }
-  console.log("Cart itme is ", cartItems);
   return (
     <div className={`w-full`}>
       <div className="w-full flex justify-between h-8 items-center ">
