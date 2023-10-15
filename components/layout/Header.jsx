@@ -8,8 +8,10 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
 import { MdOutlineNotifications } from "react-icons/md";
 import { AiFillCaretDown } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 function Header() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
   const [isNotificationOpen, setNotificationOpen] = useState(false);
@@ -18,10 +20,13 @@ function Header() {
     dispatch(logOutUser());
     await signOut({ callbackUrl: "/login" });
   }
+  const handleClickLogo = () => {
+    router.push("/dashboard/pos");
+  };
 
   return (
     <div className="flex bg-primary p-6 shadow-xl sticky top-0 z-40">
-      <div className="hover:cursor-pointer">
+      <div className="hover:cursor-pointer" onClick={handleClickLogo}>
         <Image src={"/logo.svg"} width={130} height={130} alt="logo" />
       </div>
       <div className="flex ml-8 items-center rounded-xl border border-gray-600 p-2 justify-between h-11 flex-grow w-1/4">

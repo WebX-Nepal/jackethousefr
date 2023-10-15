@@ -25,6 +25,9 @@ function Sales() {
         <div className="col-span-1 flex items-center">
           <p className="font-medium">Total Amount</p>
         </div>
+        <div className="col-span-2 flex items-center">
+          <p className="font-medium">Customer Name</p>
+        </div>
         <div className="col-span-1 flex items-center">
           <p className="font-medium">Date</p>
         </div>
@@ -44,6 +47,9 @@ function Sales() {
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black ">$ {item.totalAmount}</p>
+          </div>
+          <div className="col-span-2 flex items-center">
+            <p className="text-sm text-black ">{item.membersId.name}</p>
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black ">

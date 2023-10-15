@@ -62,7 +62,7 @@ function Pos() {
             );
           })}
         </ul>
-        <div className="w-1/3 flex justify-between items-center">
+        <div className="w-1/3 flex justify-between items-center ">
           <div className="flex items-center">
             <p className="mr-4">Card Details</p>
 
