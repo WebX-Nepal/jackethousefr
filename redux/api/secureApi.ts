@@ -26,6 +26,11 @@ export const secureApi = createApi({
         url: `/product/${ID}`,
       }),
     }),
+    getLatestProduct: builder.query<any, any>({
+      query: () => ({
+        url: `/product/getLatestproducts/`,
+      }),
+    }),
     getMemberByID: builder.query<any, any>({
       query: (ID) => ({
         url: `/member/searchMemberByNumber/${ID}`,
@@ -38,7 +43,6 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
-
     getSalesReportsProductsData: builder.query<any, any>({
       query: () => ({
         url: `sales/getSalesReportsDataProducts`,
@@ -66,6 +70,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useGetLatestProductQuery,
   useGetMemberByIDQuery,
   useCreateSalesMutation,
   useGetSalesReportsProductsDataQuery,
