@@ -9,15 +9,27 @@ import { addItems, emptyCartItems } from "@/redux/slices/counterSlice";
 import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import validationSchema from "./validation";
 const Modal = ({ isOpen, closeModal }: any) => {
   const dispatch = useDispatch();
   const [productID, setProductID] = useState();
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [billPrice, setBillPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [isMember, setisMember] = useState(false);
   const [newName, setNewName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
   const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
@@ -37,12 +49,13 @@ const Modal = ({ isOpen, closeModal }: any) => {
     dispatch(emptyCartItems());
     closeModal();
   };
-  const handleCreateSales = async () => {
+  const handleCreateSales: SubmitHandler<any> = async (data) => {
+    setPhoneNumber(data.phoneNumber);
     const salesData = {
       paymentMethod,
       products: cartItems,
-      newName,
-      phoneNumber,
+      newName: data.newName,
+      phoneNumber: data.phoneNumber,
       totalAmount: billPrice,
     };
     await sendData(salesData);
@@ -60,12 +73,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
       toast.error("Item Not Found");
     }
   };
-  const handleNumberChange = (e: any) => {
-    setPhoneNumber(e.target.value);
-  };
-  const handleNameChange = (e: any) => {
-    setNewName(e.target.value);
-  };
+
   const openPaymentModal = () => {
     setIsPaymentModal(true);
     const totalPrice = cartItems.reduce(
@@ -114,90 +122,60 @@ const Modal = ({ isOpen, closeModal }: any) => {
       <div className="bg-modalBackground p-6 w-2/3 h-2/3 sm:w-1/2 rounded-3xl shadow-2xl mt-5">
         {isPaymentModal ? (
           <>
-            <div>
-              <h2 className="text-xl font-semibold mb-4">Payment</h2>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="">
-                <h2 className="text-xl font-semibold ">
-                  Total Amount : {billPrice}
-                </h2>
+            <div className="w-full h-full ">
+              <div className="h-8 ">
+                <h2>Payment</h2>
               </div>
-            </div>
-            <div className="mt-2">
-              <h2 className="font-semibold">Please Select Payment Method:</h2>
-            </div>
-            <div className="flex mt-4 justify-between w-1/2">
-              <span
-                onClick={() => setPaymentMethod("cash")}
-                className={`${
-                  paymentMethod == "cash"
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
-              >
-                Cash
-              </span>
-              <span
-                onClick={() => setPaymentMethod("card")}
-                className={`${
-                  paymentMethod == "card"
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
-              >
-                Card
-              </span>
-              <span
-                onClick={() => setPaymentMethod("online")}
-                className={`${
-                  paymentMethod == "online"
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }  pl-4 pr-4 pt-3 pb-3 rounded-2xl hover:cursor-pointer`}
-              >
-                Online
-              </span>
-            </div>
-            <div className="flex items-center pt-5">
-              <h2 className="font-semibold">Number:</h2>
-              <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/4">
-                <input
-                  className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
-                  type="text"
-                  placeholder="Phone Number"
-                  onChange={handleNumberChange}
-                />
-              </div>
-              {isMember ? (
-                <></>
-              ) : (
-                <>
-                  <h2 className="font-semibold ml-8">Name:</h2>
-                  <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/2">
-                    <input
-                      className="outline-none placeholder-gray-500 bg-transparent text-black ml-6"
-                      type="text"
-                      placeholder="Name"
-                      onChange={handleNameChange}
-                    />
+              <div className="md:flex block w-full justify-between h-1/2 ">
+                <div className=" w-1/2 flex items-center justify-center">
+                  process
+                </div>
+                <div className="md:w-1/2 w-full max-w-full relative">
+                  <div className="pl-1 pr-1">
+                    <h3 className="pb-2">Phone Number</h3>
+                    <div className="items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-full relative">
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                        type="text"
+                        placeholder="Enter Product ID"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <ul
+                      className="absolute bg-white  rounded-xl p-2 z-40"
+                      style={{ width: "98%" }}
+                    >
+                      <li className="hover:cursor-pointer hover:bg-slate-100">
+                        asdasdasd
+                      </li>
+                      <li className="hover:cursor-pointer hover:bg-slate-100">
+                        asdasdasd
+                      </li>
+                      <li className="hover:cursor-pointer hover:bg-slate-100">
+                        asdasdasd
+                      </li>{" "}
+                      <li className="hover:cursor-pointer hover:bg-slate-100">
+                        asdasdasd
+                      </li>
+                      <li className="hover:cursor-pointer hover:bg-slate-100">
+                        asdasdasd
+                      </li>
+                    </ul>
                   </div>
-                </>
-              )}
-            </div>
-            <div className="w-full flex justify-between mt-36">
-              <button
-                className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
-                onClick={handleBackSales}
-              >
-                Back
-              </button>
-              <button
-                className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl"
-                onClick={handleCreateSales}
-              >
-                Proceed
-              </button>
+                  <div className="pl-1 pr-1 pt-2">
+                    <h3 className="pb-2">Name</h3>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-full">
+                      <input
+                        className="outline-none placeholder-gray-500 text-black bg-transparent"
+                        type="text"
+                        placeholder="Name"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>paymentMethod</div>
+              <div>buttons</div>
             </div>
           </>
         ) : (
