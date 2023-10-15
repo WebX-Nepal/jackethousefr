@@ -12,6 +12,7 @@ const config: Config = {
         primary: "#eee",
         secondary: "#000000",
         backgroundGray: "#CCCACA",
+        modalBackground: "#D9D9D9",
       },
       blur: {
         "5": "blur(5px)",

@@ -3,7 +3,10 @@ import { useRouter } from "next/navigation";
 
 function DashboardPage() {
   const router = useRouter();
-  router.push("/dashboard/pos");
+  const a = 10;
+  if (a > 10) {
+    router.push("/dashboard/pos");
+  }
   return;
 }
 

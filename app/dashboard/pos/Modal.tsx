@@ -8,10 +8,10 @@ import {
 import { addItems, emptyCartItems } from "@/redux/slices/counterSlice";
 import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-
+import { toast } from "react-toastify";
 const Modal = ({ isOpen, closeModal }: any) => {
   const dispatch = useDispatch();
-  const [productID, setProductID] = useState("cash");
+  const [productID, setProductID] = useState();
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [billPrice, setBillPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -52,8 +52,12 @@ const Modal = ({ isOpen, closeModal }: any) => {
     setProductID(e.target.value);
   };
   const addItemToCart = () => {
-    if (productIdData && isProductIdSuccess) {
+    if (!productID) {
+      toast.error("Please Enter Item Code");
+    } else if (productIdData && isProductIdSuccess) {
       dispatch(addItems(productIdData.products));
+    } else {
+      toast.error("Item Not Found");
     }
   };
   const handleNumberChange = (e: any) => {
@@ -103,11 +107,11 @@ const Modal = ({ isOpen, closeModal }: any) => {
   if (!isOpen) return null;
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
+      className={`fixed inset-0 top-12 flex items-center justify-center z-50 modal-container ${
         isOpen ? "" : "hidden"
       }`}
     >
-      <div className="bg-slate-500 p-6 w-2/3 h-2/3 sm:w-1/2 rounded-3xl">
+      <div className="bg-modalBackground p-6 w-2/3 h-2/3 sm:w-1/2 rounded-3xl shadow-2xl mt-5">
         {isPaymentModal ? (
           <>
             <div>
@@ -155,7 +159,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 Online
               </span>
             </div>
-            <div className="flex items-center mt-16 mb-32">
+            <div className="flex items-center pt-5">
               <h2 className="font-semibold">Number:</h2>
               <div className="ml-4 flex items-center rounded-xl border border-gray-600 p-1 bg-white w-1/4">
                 <input
@@ -181,7 +185,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 </>
               )}
             </div>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between mt-36">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
                 onClick={handleBackSales}
@@ -217,7 +221,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 Add Items
               </button>
             </div>
-            <div className="mt-8 flex items-center justify-center">
+            <div className="flex items-center justify-center ">
               <CustomScrollbar>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="">
@@ -260,7 +264,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 </table>
               </CustomScrollbar>
             </div>
-            <div className="w-full flex mt-6 justify-between ">
+            <div className="w-full flex justify-between mt-4">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
                 onClick={handleSalesCancel}
