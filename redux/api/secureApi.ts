@@ -33,7 +33,7 @@ export const secureApi = createApi({
     }),
     getMemberByID: builder.query<any, any>({
       query: (ID) => ({
-        url: `/member/searchMemberByNumber/${ID}`,
+        url: `/member/searchMemberByNumber/?phone=${ID}`,
       }),
     }),
     createSales: builder.mutation<any, any>({

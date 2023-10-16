@@ -18,7 +18,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [isPaymentModal, setIsPaymentModal] = useState(false);
   const [billPrice, setBillPrice] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
-  const [isMember, setisMember] = useState(false);
+  const [memberData, setMemberData] = useState<any>([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const {
@@ -50,7 +50,6 @@ const Modal = ({ isOpen, closeModal }: any) => {
     closeModal();
   };
   const handleCreateSales: SubmitHandler<any> = async (data) => {
-    setPhoneNumber(data.phoneNumber);
     const salesData = {
       paymentMethod,
       products: cartItems,
@@ -63,6 +62,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
   };
   const handleChange = (e: any) => {
     setProductID(e.target.value);
+  };
+  const handleNumberChange = (e: any) => {
+    setPhoneNumber(e.target.value);
   };
   const addItemToCart = () => {
     if (!productID) {
@@ -92,14 +94,17 @@ const Modal = ({ isOpen, closeModal }: any) => {
   };
   useEffect(() => {
     if (MemberData && MemberSearchSuccess) {
-      setisMember(true);
+      setMemberData(MemberData.member);
     } else if (isError) {
-      setisMember(false);
-      console.log("not memeber");
+      setMemberData([]);
     } else {
     }
   }, [MemberData, isError]);
-
+  useEffect(() => {
+    if (phoneNumber == "") {
+      setMemberData([]);
+    }
+  }, [phoneNumber]);
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -137,30 +142,23 @@ const Modal = ({ isOpen, closeModal }: any) => {
                       <input
                         className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
                         type="text"
-                        placeholder="Enter Product ID"
-                        onChange={handleChange}
+                        placeholder="Enter Phone Number"
+                        onChange={handleNumberChange}
                       />
                     </div>
-                    <ul
-                      className="absolute bg-white  rounded-xl p-2 z-40"
-                      style={{ width: "98%" }}
-                    >
-                      <li className="hover:cursor-pointer hover:bg-slate-100">
-                        asdasdasd
-                      </li>
-                      <li className="hover:cursor-pointer hover:bg-slate-100">
-                        asdasdasd
-                      </li>
-                      <li className="hover:cursor-pointer hover:bg-slate-100">
-                        asdasdasd
-                      </li>{" "}
-                      <li className="hover:cursor-pointer hover:bg-slate-100">
-                        asdasdasd
-                      </li>
-                      <li className="hover:cursor-pointer hover:bg-slate-100">
-                        asdasdasd
-                      </li>
-                    </ul>
+                    {memberData &&
+                      memberData.map((item: any) => {
+                        return (
+                          <ul
+                            className="absolute bg-white  rounded-xl p-2 z-40"
+                            style={{ width: "98%" }}
+                          >
+                            <li className="hover:cursor-pointer hover:bg-slate-100">
+                              {item?.phone}
+                            </li>
+                          </ul>
+                        );
+                      })}
                   </div>
                   <div className="pl-1 pr-1 pt-2">
                     <h3 className="pb-2">Name</h3>
