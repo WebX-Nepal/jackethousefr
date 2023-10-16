@@ -22,6 +22,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [memberData, setMemberData] = useState<any>([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [receivedMemberData, setReceivedMemberData] = useState<any>();
   const {
     control,
     register,
@@ -67,6 +68,14 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const handleNumberChange = (e: any) => {
     setPhoneNumber(e.target.value);
   };
+  const handleValueChanges = (item: any) => {
+    setPhoneNumber(item?.phone);
+    setNewName(item?.name);
+    setMemberData([]);
+  };
+  const handleNameChange = (e: any) => {
+    setNewName(e.target.value);
+  };
   const addItemToCart = () => {
     if (!productID) {
       toast.error("Please Enter Item Code");
@@ -110,6 +119,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
         closeModal();
+        setMemberData("");
         setIsPaymentModal(false);
       }
     };
@@ -140,7 +150,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         <p className="pr-1">Discount </p>(
                         <p className="text-green-600 ">12%</p>)
                       </p>
-                      <p>Rs 10000</p>
+                      <p>Rs {billPrice}</p>
                     </div>
                     <div className="w-full border-t-2 border-white"></div>
                     <div className="pb-2 flex justify-between pt-1 font-semibold">
@@ -148,12 +158,12 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         <p className="pr-1">Sub Total </p>(
                         <p className="text-green-600 ">Inclusive Tax</p>)
                       </p>
-                      <p>Rs 10000</p>
+                      <p>Rs {billPrice}</p>
                     </div>
                     <div className="w-full border-t-2 border-white"></div>
                     <div className="pb-2 flex justify-between pt-1 font-bold">
                       <p>Grand Total</p>
-                      <p>Rs 10000</p>
+                      <p>Rs {billPrice}</p>
                     </div>
                   </div>
                 </div>
@@ -166,17 +176,23 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         type="text"
                         placeholder="Enter Phone Number"
                         onChange={handleNumberChange}
+                        value={phoneNumber}
                       />
                     </div>
                     {memberData &&
-                      memberData.map((item: any) => {
+                      memberData.map((item: any, index: number) => {
                         return (
                           <ul
                             className="absolute bg-white  rounded-xl p-2 z-40"
                             style={{ width: "98%" }}
                           >
-                            <li className="hover:cursor-pointer hover:bg-slate-100">
-                              {item?.phone}
+                            <li
+                              className="hover:cursor-pointer hover:bg-slate-100"
+                              key={index}
+                            >
+                              <button onClick={() => handleValueChanges(item)}>
+                                {item?.phone}
+                              </button>
                             </li>
                           </ul>
                         );
@@ -189,6 +205,8 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         className="outline-none placeholder-gray-500 text-black bg-transparent"
                         type="text"
                         placeholder="Name"
+                        value={newName}
+                        onChange={handleNameChange}
                       />
                     </div>
                   </div>
@@ -197,13 +215,40 @@ const Modal = ({ isOpen, closeModal }: any) => {
               <div className="w-full items-center justify-center h-1/4 md:h-1/5 sm:h-1/5">
                 <p className="p-2 font-semibold">Payment Methods</p>
                 <div className="flex items-center justify-around ">
-                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                  <div
+                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
+                      paymentMethod == "cash"
+                        ? "bg-black text-white"
+                        : "bg-white"
+                    } " `}
+                    onClick={() => {
+                      setPaymentMethod("cash");
+                    }}
+                  >
                     <AiOutlineDollarCircle className="text-green-600 text-3xl" />
                   </div>
-                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                  <div
+                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl  ${
+                      paymentMethod == "online"
+                        ? "bg-black text-white"
+                        : "bg-white"
+                    } " `}
+                    onClick={() => {
+                      setPaymentMethod("online");
+                    }}
+                  >
                     <AiOutlineDollarCircle className="text-green-600 text-3xl" />
                   </div>
-                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                  <div
+                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
+                      paymentMethod == "wallet"
+                        ? "bg-black text-white"
+                        : "bg-white"
+                    } " `}
+                    onClick={() => {
+                      setPaymentMethod("wallet");
+                    }}
+                  >
                     <AiOutlineDollarCircle className="text-green-600 text-3xl" />
                   </div>
                 </div>
@@ -211,13 +256,13 @@ const Modal = ({ isOpen, closeModal }: any) => {
               <div className="flex mt-6 w-full justify-between p-4">
                 <button
                   className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
-                  onClick={handleSalesCancel}
+                  onClick={handleBackSales}
                 >
                   Back
                 </button>
                 <button
                   className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl"
-                  onClick={openPaymentModal}
+                  onClick={handleCreateSales}
                 >
                   Place Order
                 </button>
@@ -288,7 +333,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 </table>
               </CustomScrollbar>
             </div>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between ">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
                 onClick={handleSalesCancel}
