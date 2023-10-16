@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 const Modal = ({ isOpen, closeModal }: any) => {
   const dispatch = useDispatch();
   const [productID, setProductID] = useState();
@@ -124,18 +125,39 @@ const Modal = ({ isOpen, closeModal }: any) => {
         isOpen ? "" : "hidden"
       }`}
     >
-      <div className="bg-modalBackground p-6 w-2/3 h-2/3 sm:w-1/2 rounded-3xl shadow-2xl mt-5">
+      <div className="bg-modalBackground p-6 w-2/3 h-2/3 sm:w-1/2 rounded-3xl shadow-2xl mt-5 sm:h-[75vh]">
         {isPaymentModal ? (
           <>
             <div className="w-full h-full ">
               <div className="h-8 ">
                 <h2>Payment</h2>
               </div>
-              <div className="md:flex block w-full justify-between h-1/2 ">
-                <div className=" w-1/2 flex items-center justify-center">
-                  process
+              <div className="lg:flex block w-full justify-between md:h-1/2 sm:h-1/2 ">
+                <div className="lg:w-1/2 w-full max-w-full items-center justify-center pr-8 pt-4">
+                  <div className="pr-1">
+                    <div className="pb-2 flex justify-between pt-1 font-semibold">
+                      <p className="flex">
+                        <p className="pr-1">Discount </p>(
+                        <p className="text-green-600 ">12%</p>)
+                      </p>
+                      <p>Rs 10000</p>
+                    </div>
+                    <div className="w-full border-t-2 border-white"></div>
+                    <div className="pb-2 flex justify-between pt-1 font-semibold">
+                      <p className="flex">
+                        <p className="pr-1">Sub Total </p>(
+                        <p className="text-green-600 ">Inclusive Tax</p>)
+                      </p>
+                      <p>Rs 10000</p>
+                    </div>
+                    <div className="w-full border-t-2 border-white"></div>
+                    <div className="pb-2 flex justify-between pt-1 font-bold">
+                      <p>Grand Total</p>
+                      <p>Rs 10000</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="md:w-1/2 w-full max-w-full relative">
+                <div className="lg:w-1/2 w-full max-w-full relative">
                   <div className="pl-1 pr-1">
                     <h3 className="pb-2">Phone Number</h3>
                     <div className="items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-full relative">
@@ -172,8 +194,34 @@ const Modal = ({ isOpen, closeModal }: any) => {
                   </div>
                 </div>
               </div>
-              <div>paymentMethod</div>
-              <div>buttons</div>
+              <div className="w-full items-center justify-center h-1/4 md:h-1/5 sm:h-1/5">
+                <p className="p-2 font-semibold">Payment Methods</p>
+                <div className="flex items-center justify-around ">
+                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  </div>
+                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  </div>
+                  <div className="border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer bg-white rounded-lg shadow-xl ">
+                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex mt-6 w-full justify-between p-4">
+                <button
+                  className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+                  onClick={handleSalesCancel}
+                >
+                  Back
+                </button>
+                <button
+                  className="bg-black text-white pl-4 pr-4 pt-3 pb-3 rounded-2xl"
+                  onClick={openPaymentModal}
+                >
+                  Place Order
+                </button>
+              </div>
             </div>
           </>
         ) : (
@@ -240,7 +288,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 </table>
               </CustomScrollbar>
             </div>
-            <div className="w-full flex justify-between mt-4">
+            <div className="w-full flex justify-between">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
                 onClick={handleSalesCancel}
