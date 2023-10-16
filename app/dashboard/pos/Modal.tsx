@@ -22,7 +22,6 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [memberData, setMemberData] = useState<any>([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [receivedMemberData, setReceivedMemberData] = useState<any>();
   const {
     control,
     register,
@@ -86,7 +85,6 @@ const Modal = ({ isOpen, closeModal }: any) => {
       toast.error("Item Not Found");
     }
   };
-
   const openPaymentModal = () => {
     setIsPaymentModal(true);
     const totalPrice = cartItems.reduce(
@@ -291,7 +289,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 Add Items
               </button>
             </div>
-            <div className="flex items-center justify-center ">
+            <div className="flex items-center justify-center h-2/3">
               <CustomScrollbar>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="">
@@ -334,7 +332,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
                 </table>
               </CustomScrollbar>
             </div>
-            <div className="w-full flex justify-between ">
+            <div className="w-full flex justify-between px-4 ">
               <button
                 className="bg-white text-black pl-4 pr-4 pt-3 pb-3 rounded-2xl"
                 onClick={handleSalesCancel}
