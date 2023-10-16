@@ -55,10 +55,11 @@ const Modal = ({ isOpen, closeModal }: any) => {
     const salesData = {
       paymentMethod,
       products: cartItems,
-      newName: data.newName,
-      phoneNumber: data.phoneNumber,
+      newName,
+      phoneNumber,
       totalAmount: billPrice,
     };
+    console.log("Sales data is", salesData);
     await sendData(salesData);
     resetSalesProcess();
   };
@@ -118,9 +119,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
-        closeModal();
         setMemberData("");
         setIsPaymentModal(false);
+        closeModal();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
