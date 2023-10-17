@@ -34,18 +34,29 @@ function Members() {
     {
       name: "Points",
       selector: (row: any) => row.points,
+      width: "100px",
     },
     {
       name: "Actions",
       cell: (row: any) => (
-        <button
-          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
-          onClick={() => {
-            alert(row);
-          }}
-        >
-          View
-        </button>
+        <>
+          <button
+            className="bg-blue-500 px-4 py-2 rounded-lg text-white mr-1"
+            onClick={() => {
+              alert(row);
+            }}
+          >
+            View
+          </button>
+          <button
+            className="bg-red-500 px-4 py-2 rounded-lg text-white ml-1"
+            onClick={() => {
+              alert(row);
+            }}
+          >
+            Delete
+          </button>
+        </>
       ),
     },
   ];

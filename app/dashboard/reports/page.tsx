@@ -26,16 +26,27 @@ function Reports() {
     },
     {
       name: "Image",
-      selector: (row: any) => (
-        <img
-          src={row.image}
-          style={{
-            width: "60px",
-            height: "40px",
-            objectFit: "cover",
-          }}
-        />
-      ),
+      selector: (row: any) => {
+        return row.image ? (
+          <img
+            src={row.image}
+            style={{
+              width: "60px",
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+        ) : (
+          <img
+            src="/logo.svg"
+            style={{
+              width: "60px",
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+        );
+      },
     },
     {
       name: "Name",
@@ -104,7 +115,7 @@ function Reports() {
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-        <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
+        <h4 className="text-xl font-semibold text-black ">Reports</h4>
         {downloading ? (
           <>
             <LoadingScreen message="Downloading" />

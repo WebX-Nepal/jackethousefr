@@ -27,16 +27,27 @@ function Inventory() {
     },
     {
       name: "Image",
-      selector: (row: any) => (
-        <img
-          src={row.image[0]}
-          style={{
-            width: "60px",
-            height: "40px",
-            objectFit: "cover",
-          }}
-        />
-      ),
+      selector: (row: any) => {
+        return row.image[0] ? (
+          <img
+            src={row.image[0]}
+            style={{
+              width: "60px",
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+        ) : (
+          <img
+            src="/logo.svg"
+            style={{
+              width: "60px",
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+        );
+      },
     },
     {
       name: "Name",

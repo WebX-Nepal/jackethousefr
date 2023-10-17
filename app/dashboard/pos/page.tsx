@@ -14,6 +14,8 @@ function Pos() {
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
@@ -24,15 +26,12 @@ function Pos() {
     category,
     productName,
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   useEffect(() => {
     if (allData && isSuccess) {
       setProducts(allData?.products);
