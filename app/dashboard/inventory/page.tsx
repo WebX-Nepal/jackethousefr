@@ -43,43 +43,80 @@ function Inventory() {
               <h4 className="text-xl font-semibold text-black ">Inventory</h4>
             </div>
 
-            <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-5.5 mb-3 p-2">
-              <div className="col-span-1 hidden items-center sm:flex">
+            <div className="grid grid-cols-9 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-5.5 mb-3 p-2">
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
                 <p className="font-medium">SN</p>
               </div>
-              <div className="col-span-2 hidden items-center sm:flex">
+
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
+                <p className="font-medium">Image</p>
+              </div>
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
                 <p className="font-medium">Name</p>
               </div>
-              <div className="col-span-2 hidden items-center sm:flex">
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
                 <p className="font-medium">Category</p>
               </div>
-              <div className="col-span-1 hidden items-center sm:flex">
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
+                <p className="font-medium">Total Items</p>
+              </div>
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
+                <p className="font-medium">Stock</p>
+              </div>
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
                 <p className="font-medium">Selling Price</p>
               </div>
-              <div className="col-span-1 hidden items-center sm:flex">
-                <p className="font-medium">Stock</p>
+              <div className="col-span-1 hidden items-center sm:flex w-1/4">
+                <p className="font-medium">Cost Price</p>
               </div>
             </div>
 
             {productData?.map((product: any, key: number) => (
               <div
-                className="grid grid-cols-6 border-t border-stroke py-4.5 px-2 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
+                className="grid grid-cols-9 border-t border-stroke py-4.5 px-2 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
                 key={key}
               >
-                <div className="col-span-1 hidden items-center sm:flex">
+                <div className="col-span-1 hidden items-center sm:flex w-1/4">
                   <p className="text-sm text-black ">{key + 1}</p>
                 </div>
-                <div className="col-span-2 hidden items-center sm:flex">
+                <div className="col-span-1 hidden items-center sm:flex w-1/4">
+                  {product.image[0] ? (
+                    <img
+                      src={product.image[0]}
+                      style={{
+                        width: "60px",
+                        height: "40px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src="/logo.svg"
+                      style={{
+                        width: "60px",
+                        height: "40px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="col-span-1 hidden items-center sm:flex w-1/4">
                   <p className="text-sm text-black ">{product.name}</p>
                 </div>
-                <div className="col-span-2 hidden items-center sm:flex">
+                <div className="col-span-1 hidden items-center sm:flex  w-1/4">
                   <p className="text-sm text-black ">{product.category}</p>
                 </div>
-                <div className="col-span-1 flex items-center">
+                <div className="col-span-1 hidden items-center sm:flex  w-1/4">
+                  <p className="text-sm text-black ">{product.totalItems}</p>
+                </div>
+                <div className="col-span-1 flex items-center  w-1/4">
+                  <p className="text-sm text-black ">{product.stock}</p>
+                </div>
+                <div className="col-span-1 flex items-center  w-1/4">
                   <p className="text-sm text-black ">{product.sellingPrice}</p>
                 </div>
-                <div className="col-span-1 flex items-center">
-                  <p className="text-sm text-black ">{product.stock}</p>
+                <div className="col-span-1 flex items-center  w-1/4">
+                  <p className="text-sm text-black ">{product.costPrice}</p>
                 </div>
               </div>
             ))}

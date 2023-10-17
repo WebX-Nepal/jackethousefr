@@ -21,7 +21,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [memberData, setMemberData] = useState<any>([]);
   const [newName, setNewName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState<any>("");
   const {
     control,
     register,
@@ -58,7 +58,6 @@ const Modal = ({ isOpen, closeModal }: any) => {
       phoneNumber,
       totalAmount: billPrice,
     };
-    console.log("Sales data is", salesData);
     await sendData(salesData);
     resetSalesProcess();
   };
@@ -86,14 +85,18 @@ const Modal = ({ isOpen, closeModal }: any) => {
     }
   };
   const openPaymentModal = () => {
-    setIsPaymentModal(true);
-    const totalPrice = cartItems.reduce(
-      (accumulator: number, currentObject: any) => {
-        return accumulator + currentObject.sellingPrice;
-      },
-      0
-    );
-    setBillPrice(totalPrice);
+    if (cartItems.length > 0) {
+      setIsPaymentModal(true);
+      const totalPrice = cartItems.reduce(
+        (accumulator: number, currentObject: any) => {
+          return accumulator + currentObject.sellingPrice;
+        },
+        0
+      );
+      setBillPrice(totalPrice);
+    } else {
+      toast.error("Please select at least one item");
+    }
   };
   const handleSalesCancel = () => {
     resetSalesProcess();
@@ -211,44 +214,54 @@ const Modal = ({ isOpen, closeModal }: any) => {
                   </div>
                 </div>
               </div>
+
               <div className="w-full items-center justify-center h-1/4 md:h-1/5 sm:h-1/5">
                 <p className="p-2 font-semibold">Payment Methods</p>
                 <div className="flex items-center justify-around ">
-                  <div
-                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
-                      paymentMethod == "cash"
-                        ? "bg-black text-white"
-                        : "bg-white"
-                    } " `}
-                    onClick={() => {
-                      setPaymentMethod("cash");
-                    }}
-                  >
-                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  <div className="text-center">
+                    <div
+                      className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
+                        paymentMethod == "cash"
+                          ? "bg-black text-white"
+                          : "bg-white"
+                      } " `}
+                      onClick={() => {
+                        setPaymentMethod("cash");
+                      }}
+                    >
+                      <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                    </div>
+                    <p>Cash</p>
                   </div>
-                  <div
-                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl  ${
-                      paymentMethod == "online"
-                        ? "bg-black text-white"
-                        : "bg-white"
-                    } " `}
-                    onClick={() => {
-                      setPaymentMethod("online");
-                    }}
-                  >
-                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  <div className="text-center">
+                    <div
+                      className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl  ${
+                        paymentMethod == "online"
+                          ? "bg-black text-white"
+                          : "bg-white"
+                      } " `}
+                      onClick={() => {
+                        setPaymentMethod("online");
+                      }}
+                    >
+                      <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                    </div>
+                    <p>Debit</p>
                   </div>
-                  <div
-                    className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
-                      paymentMethod == "wallet"
-                        ? "bg-black text-white"
-                        : "bg-white"
-                    } " `}
-                    onClick={() => {
-                      setPaymentMethod("wallet");
-                    }}
-                  >
-                    <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                  <div className="text-center">
+                    <div
+                      className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
+                        paymentMethod == "wallet"
+                          ? "bg-black text-white"
+                          : "bg-white"
+                      } " `}
+                      onClick={() => {
+                        setPaymentMethod("wallet");
+                      }}
+                    >
+                      <AiOutlineDollarCircle className="text-green-600 text-3xl" />
+                    </div>
+                    <p>E-Wallet</p>
                   </div>
                 </div>
               </div>
@@ -307,6 +320,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
                       <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
                         Price
                       </th>
+                      <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
+                        Discount
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -316,7 +332,6 @@ const Modal = ({ isOpen, closeModal }: any) => {
                           <td className="px-6 py-4 whitespace-nowrap">
                             {index + 1}
                           </td>
-
                           <td className="px-6 py-4 whitespace-nowrap">
                             {item?.name}
                           </td>
@@ -325,6 +340,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {item?.sellingPrice}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {item?.discount}
                           </td>
                         </tr>
                       ))}

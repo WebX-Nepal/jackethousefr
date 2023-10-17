@@ -61,10 +61,13 @@ function Reports() {
         )}
       </div>
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 mb-3 p-5">
-        <div className="col-span-2 hidden items-center sm:flex">
+        <div className="col-span-1 hidden items-center sm:flex">
+          <p className="font-medium">SN</p>
+        </div>
+        <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-medium">Product</p>
         </div>
-        <div className="col-span-2 hidden items-center sm:flex">
+        <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-medium">Category</p>
         </div>
         <div className="col-span-1 flex items-center">
@@ -86,10 +89,13 @@ function Reports() {
           className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
           key={key}
         >
-          <div className="col-span-2 hidden items-center sm:flex">
+          <div className="col-span-1 flex items-center">
+            <p className="text-sm text-black ">{key + 1}</p>
+          </div>
+          <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black ">{product.productName}</p>
           </div>
-          <div className="col-span-2 hidden items-center sm:flex">
+          <div className="col-span-1 hidden items-center sm:flex">
             <p className="text-sm text-black ">{product.productCategory}</p>
           </div>
           <div className="col-span-1 flex items-center">
