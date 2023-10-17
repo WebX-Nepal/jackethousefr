@@ -44,7 +44,7 @@ function Sales() {
     },
     {
       name: "Date",
-      selector: (row: any) => new Date(row.soldAt).toLocaleString(),
+      selector: (row: any) => new Date(row.soldAt).toLocaleDateString(),
       width: "190px",
     },
     {
