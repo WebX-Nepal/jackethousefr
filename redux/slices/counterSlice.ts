@@ -10,6 +10,7 @@ export interface Item {
   name: string;
   sellingPrice: number;
   stock: number;
+  discount: number;
   totalItems: number;
   updatedAt: string;
   __v: number;

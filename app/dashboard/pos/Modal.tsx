@@ -22,6 +22,9 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [memberData, setMemberData] = useState<any>([]);
   const [newName, setNewName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
   const {
     control,
     register,
@@ -56,7 +59,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
       products: cartItems,
       newName,
       phoneNumber,
-      totalAmount: billPrice,
+      totalAmount: grandTotal,
     };
     await sendData(salesData);
     resetSalesProcess();
@@ -87,13 +90,29 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const openPaymentModal = () => {
     if (cartItems.length > 0) {
       setIsPaymentModal(true);
+      let totalDiscount = 0;
+      const itemsWithDiscount = cartItems.map((item: any) => {
+        const sellingPrice = item.sellingPrice;
+        const discountPercentage = item.discount;
+        const discountAmount = (discountPercentage / 100) * sellingPrice;
+        totalDiscount += discountAmount;
+        return {
+          ...item,
+          discountAmount: discountAmount,
+        };
+      });
       const totalPrice = cartItems.reduce(
         (accumulator: number, currentObject: any) => {
           return accumulator + currentObject.sellingPrice;
         },
         0
       );
+      const totalDiscountPercent = (totalDiscount / totalPrice) * 100;
+      const grandTotalAmount = totalPrice - totalDiscount;
+      setDiscountPercent(totalDiscountPercent);
+      setDiscountAmount(totalDiscount);
       setBillPrice(totalPrice);
+      setGrandTotal(grandTotalAmount);
     } else {
       toast.error("Please select at least one item");
     }
@@ -150,9 +169,12 @@ const Modal = ({ isOpen, closeModal }: any) => {
                     <div className="pb-2 flex justify-between pt-1 font-semibold">
                       <p className="flex">
                         <p className="pr-1">Discount </p>(
-                        <p className="text-green-600 ">12%</p>)
+                        <p className="text-green-600 ">
+                          {discountPercent.toFixed(2)}%
+                        </p>
+                        )
                       </p>
-                      <p>Rs {billPrice}</p>
+                      <p>Rs {discountAmount.toFixed(2)}</p>
                     </div>
                     <div className="w-full border-t-2 border-white"></div>
                     <div className="pb-2 flex justify-between pt-1 font-semibold">
@@ -160,12 +182,12 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         <p className="pr-1">Sub Total </p>(
                         <p className="text-green-600 ">Inclusive Tax</p>)
                       </p>
-                      <p>Rs {billPrice}</p>
+                      <p>Rs {billPrice.toFixed(2)}</p>
                     </div>
                     <div className="w-full border-t-2 border-white"></div>
                     <div className="pb-2 flex justify-between pt-1 font-bold">
                       <p>Grand Total</p>
-                      <p>Rs {billPrice}</p>
+                      <p>Rs {grandTotal.toFixed(2)}</p>
                     </div>
                   </div>
                 </div>
@@ -316,12 +338,11 @@ const Modal = ({ isOpen, closeModal }: any) => {
                       <th className="px-6 py-3 text-left text-md font-semibold text-black  tracking-wider">
                         Category
                       </th>
-
                       <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
                         Price
                       </th>
                       <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
-                        Discount
+                        Discount(%)
                       </th>
                     </tr>
                   </thead>
