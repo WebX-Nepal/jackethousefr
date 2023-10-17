@@ -89,22 +89,18 @@ function Inventory() {
   ];
   return (
     <>
-      <div className={`w-full`}>
-        <div className="w-full flex justify-between h-8 items-center">
-          <div className="w-1/3 flex justify-between items-center">
-            <span>
-              <button
-                className="bg-black text-white pt-1 pb-1 pl-2 pr-2 rounded-xl"
-                onClick={openModal}
-              >
-                + Add Products
-              </button>
-            </span>
-          </div>
+      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
+          <h4 className="text-xl font-semibold text-black ">Reports</h4>
+
+          <button
+            className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+            onClick={openModal}
+          >
+            Add Products
+          </button>
         </div>
-        <div
-          className={`w-full h-full mt-8 ${isModalOpen ? "opacity-25" : ""}`}
-        >
+        <div className={`${isModalOpen ? "blur-xl" : ""}`}>
           <DataTable
             title="Inventory"
             columns={columns}
