@@ -137,6 +137,11 @@ const Modal = ({ isOpen, closeModal }: any) => {
     }
   }, [phoneNumber]);
   useEffect(() => {
+    if (isSuccess) {
+      toast.success("Successfully Created Sale");
+    }
+  }, [isSuccess]);
+  useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
         setMemberData("");

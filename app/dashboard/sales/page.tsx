@@ -1,69 +1,79 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetSalesDataQuery } from "../../../redux/api/secureApi";
+import DataTable from "react-data-table-component";
+
 function Sales() {
   const [productData, setProducts] = useState([]);
-  const { data, isSuccess } = useGetSalesDataQuery({});
+  const { data: salesData, isSuccess } = useGetSalesDataQuery({});
   useEffect(() => {
-    if (data && isSuccess) {
-      setProducts(data.data);
+    if (salesData && isSuccess) {
+      setProducts(salesData.data);
     } else {
     }
-  }, [data]);
+  }, [salesData]);
+  const columns = [
+    {
+      name: "SN",
+      cell: (row: any, index: number) => index + 1,
+      width: "90px",
+    },
+    {
+      name: "Product",
+      selector: (row: any) => {
+        return row.products[0]?.product.category || "-";
+      },
+    },
+    {
+      name: "Category",
+      selector: (row: any) => {
+        return row.products[0]?.product.category || "-";
+      },
+    },
+    {
+      name: "Payment Method",
+      selector: (row: any) => row.paymentMethod,
+    },
+    {
+      name: "Total Amount",
+      selector: (row: any) => row.totalAmount,
+    },
+    {
+      name: "Customer Name",
+      selector: (row: any) => row.membersId.name,
+    },
+    {
+      name: "Date",
+      selector: (row: any) => new Date(row.soldAt).toLocaleString(),
+      width: "190px",
+    },
+    {
+      name: "Actions",
+      cell: (row: any) => (
+        <button
+          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
+          onClick={() => {
+            alert(row);
+          }}
+        >
+          View
+        </button>
+      ),
+    },
+  ];
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-8 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:px-6 2xl:px-7.5 mb-3 p-5">
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">SN</p>
-        </div>
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-medium">Product</p>
-        </div>
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-medium">Payment Method</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Total Amount</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Customer Name</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Date</p>
-        </div>
-      </div>
-      {productData.map((item: any, key: number) => (
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-8 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:px-6 2xl:px-7.5 p-5"
-          key={item.products[0]?.product._id}
-        >
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{key + 1}</p>
-          </div>
-          <div className="col-span-1 hidden items-center sm:flex">
-            <p className="text-sm text-black ">
-              {item.products[0]?.product.name}
-            </p>
-          </div>
-          <div className="col-span-1 hidden items-center sm:flex">
-            <p className="text-sm text-black ">{item.paymentMethod}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black">$ {item.totalAmount}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{item.membersId.name}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">
-              {new Date(item.soldAt).toLocaleString()}
-            </p>
-          </div>
-        </div>
-      ))}
+      <DataTable
+        columns={columns}
+        data={productData}
+        pagination
+        fixedHeader
+        highlightOnHover
+        responsive
+      />
     </div>
   );
 }
