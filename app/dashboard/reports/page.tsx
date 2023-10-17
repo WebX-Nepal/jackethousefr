@@ -3,18 +3,78 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
+import DataTable from "react-data-table-component";
+
 function Reports() {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
-  const { data, isSuccess } = useGetSalesReportsProductsDataQuery({});
-
+  const { data: reportData, isSuccess } = useGetSalesReportsProductsDataQuery(
+    {}
+  );
   useEffect(() => {
-    if (data && isSuccess) {
-      setProducts(data.data);
+    if (reportData && isSuccess) {
+      setProducts(reportData.data);
     } else {
     }
-  }, [data]);
+  }, [reportData]);
+  const columns = [
+    {
+      name: "SN",
+      cell: (row: any, index: number) => index + 1,
+      width: "90px",
+    },
+    {
+      name: "Image",
+      selector: (row: any) => (
+        <img
+          src={row.image}
+          style={{
+            width: "60px",
+            height: "40px",
+            objectFit: "cover",
+          }}
+        />
+      ),
+    },
+    {
+      name: "Name",
+      selector: (row: any) => row.productName,
+    },
+    {
+      name: "Category",
+      selector: (row: any) => row.productCategory,
+    },
+    {
+      name: "Cost Price",
+      selector: (row: any) => row.cost,
+    },
+    {
+      name: "Selling Price",
+      selector: (row: any) => row.sellingPrice,
+    },
+    {
+      name: "Items Sold",
+      selector: (row: any) => row.totalItemsSold,
+    },
+    {
+      name: "Profit",
+      selector: (row: any) => <p>Rs {row.profit}</p>,
+    },
+    {
+      name: "Actions",
+      cell: (row: any) => (
+        <button
+          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
+          onClick={() => {
+            alert(row);
+          }}
+        >
+          View
+        </button>
+      ),
+    },
+  ];
   const handleDownloadReport = async () => {
     setDownloading(true);
     const token = localStorage.getItem("token");
@@ -60,58 +120,14 @@ function Reports() {
           </>
         )}
       </div>
-      <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 mb-3 p-5">
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-medium">SN</p>
-        </div>
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-medium">Product</p>
-        </div>
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-medium">Category</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Cost Price</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Selling Price</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Profit</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Items Sold</p>
-        </div>
-      </div>
-
-      {productData?.map((product: any, key: number) => (
-        <div
-          className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5 p-5"
-          key={key}
-        >
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{key + 1}</p>
-          </div>
-          <div className="col-span-1 hidden items-center sm:flex">
-            <p className="text-sm text-black ">{product.productName}</p>
-          </div>
-          <div className="col-span-1 hidden items-center sm:flex">
-            <p className="text-sm text-black ">{product.productCategory}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">${product.cost}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{product.sellingPrice}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3">${product.profit}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black ">{product.totalItemsSold}</p>
-          </div>
-        </div>
-      ))}
+      <DataTable
+        columns={columns}
+        data={productData}
+        pagination
+        fixedHeader
+        highlightOnHover
+        responsive
+      />
     </div>
   );
 }
