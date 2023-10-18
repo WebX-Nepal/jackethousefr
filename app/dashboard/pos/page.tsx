@@ -57,7 +57,7 @@ function Pos() {
   return (
     <div className={`w-full`}>
       <div className="w-full flex justify-between h-8 items-center ">
-        {/* <ul className="flex justify-between w-1/3">
+        <ul className="md:flex hidden justify-between w-1/3">
           {menu.map((item, index) => {
             return (
               <li
@@ -74,8 +74,8 @@ function Pos() {
             );
           })}
         </ul>
-        <div className="w-1/3 flex justify-between items-center ">
-          <div className="flex items-center">
+        <div className=" flex justify-between items-center w-1/3 ">
+          <div className="lg:flex hidden items-center pl-8">
             <p className="mr-4">Card Details</p>
 
             <AiFillCreditCard className="border-gray-300 border-4 text-2xl bg-gray-300" />
@@ -88,7 +88,7 @@ function Pos() {
               Checkout
             </button>
           </span>
-        </div> */}
+        </div>
       </div>
       <div
         className={`flex w-full h-full mt-8 ${isModalOpen ? "blur-xl" : ""}`}
