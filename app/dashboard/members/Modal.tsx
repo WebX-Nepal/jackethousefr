@@ -25,7 +25,6 @@ const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  console.log("product data is", productData);
 
   return (
     <div

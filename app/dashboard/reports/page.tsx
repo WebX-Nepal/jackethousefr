@@ -19,7 +19,6 @@ function Reports() {
   });
 
   const handleValueChange = (newValue: any) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
 
@@ -105,7 +104,6 @@ function Reports() {
           link.click();
         });
       } catch (err) {
-        console.log("err ", err);
       }
       setDownloading(false);
     }

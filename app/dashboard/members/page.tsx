@@ -31,7 +31,6 @@ function Members() {
     }
   }, [memberData]);
   const handleViewMember = (row: any) => {
-    console.log("row is ", row);
     openModal();
     setMemberId(row._id);
   };
