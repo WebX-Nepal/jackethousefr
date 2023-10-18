@@ -88,84 +88,101 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Name"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("name")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Name"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("name")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.name?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Category"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("category")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Category"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("category")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.category?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Cost Price"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("costPrice")}
-                  />
+                <div>
+                  {" "}
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Cost Price"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("costPrice")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.costPrice?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Selling Price"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("sellingPrice")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Selling Price"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("sellingPrice")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.sellingPrice?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Total Items"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("totalItems")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Total Items"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("totalItems")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.totalItems?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Colors"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("colors")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Colors"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("colors")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.colors?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Discount (%)"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("discount")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Discount (%)"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("discount")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.discount?.message}</p>
                 </div>
-                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Please Enter Size"
-                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
-                    {...register("size")}
-                  />
+                <div>
+                  <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Please Enter Size"
+                      className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                      {...register("size")}
+                    />
+                  </div>
                   <p className="text-red-600">{errors.size?.message}</p>
                 </div>
 

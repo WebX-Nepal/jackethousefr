@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetMemberSalesHistoryQuery } from "../../../redux/api/secureApi";
-import { SkipToken, skipToken } from "@reduxjs/toolkit/query";
+import { skipToken } from "@reduxjs/toolkit/query";
+import CustomScrollbar from "./ScrollBar";
+
 const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
   const [productData, setProductData] = useState([]);
   const { data: salesHistoryData, isSuccess: salesHistoryDataSuccess } =
@@ -24,6 +26,7 @@ const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
   console.log("product data is", productData);
+
   return (
     <div
       className={`fixed inset-0 top-12 flex items-center justify-center z-50 modal-container ${
@@ -34,11 +37,76 @@ const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
         <>
           <div className="w-full h-full ">
             <div className="h-8">
-              <h1>Purchase History</h1>
+              <h1 className="font-semibold">Purchase History</h1>
+            </div>
+
+            <div className="flex flex-col">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <CustomScrollbar>
+                      <table className="min-w-full text-left text-sm font-light">
+                        <thead className="border-b font-medium dark:border-neutral-500">
+                          <tr>
+                            <th scope="col" className="px-6 py-4">
+                              SN
+                            </th>
+                            <th scope="col" className="px-6 py-4">
+                              Payment
+                            </th>
+                            <th scope="col" className="px-6 py-4">
+                              Products
+                            </th>
+                            <th scope="col" className="px-6 py-4">
+                              Total Price
+                            </th>
+                            <th scope="col" className="px-6 py-4">
+                              Date
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productData.map((item: any, key) => {
+                            return (
+                              <tr className="border-b transition duration-300 ease-in-out hover:bg-primary font-normal">
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  {key + 1}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  {item.paymentMethod}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  {/* Render products within this cell */}
+                                  <ul>
+                                    {item.products.map(
+                                      (product: any, index: number) => (
+                                        <li key={index}>
+                                          {product.productName}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  {item.totalAmount}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  {new Date(
+                                    item.createdAt
+                                  ).toLocaleDateString()}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </CustomScrollbar>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </>
-        
       </div>
     </div>
   );
