@@ -2,10 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useGetSalesDataQuery } from "../../../redux/api/secureApi";
 import DataTable from "react-data-table-component";
-
+import ViewModal from "../members/Modal";
 function Sales() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [productData, setProducts] = useState([]);
   const { data: salesData, isSuccess } = useGetSalesDataQuery({});
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     if (salesData && isSuccess) {
       setProducts(salesData.data);
@@ -47,33 +54,23 @@ function Sales() {
       selector: (row: any) => new Date(row.soldAt).toLocaleDateString(),
       width: "190px",
     },
-    {
-      name: "Actions",
-      cell: (row: any) => (
-        <button
-          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
-          onClick={() => {
-            alert(row);
-          }}
-        >
-          View
-        </button>
-      ),
-    },
   ];
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
       </div>
-      <DataTable
-        columns={columns}
-        data={productData}
-        pagination
-        fixedHeader
-        highlightOnHover
-        responsive
-      />
+      <div className={`${isModalOpen ? "blur-xl" : ""}`}>
+        <DataTable
+          columns={columns}
+          data={productData}
+          pagination
+          fixedHeader
+          highlightOnHover
+          responsive
+        />
+      </div>
+      <ViewModal isOpen={isModalOpen} closeModal={closeModal} />
     </div>
   );
 }

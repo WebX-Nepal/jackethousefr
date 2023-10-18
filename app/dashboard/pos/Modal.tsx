@@ -133,6 +133,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   }, [MemberData, isError]);
   useEffect(() => {
     if (phoneNumber == "") {
+      setNewName("");
       setMemberData([]);
     }
   }, [phoneNumber]);

@@ -12,7 +12,11 @@ function Inventory() {
     setIsModalOpen(false);
   };
   const [productData, setProducts] = useState([]);
-  const { data: inventoryData, isSuccess } = useGetLatestProductQuery({});
+  const {
+    data: inventoryData,
+    refetch,
+    isSuccess,
+  } = useGetLatestProductQuery({});
   useEffect(() => {
     if (inventoryData && isSuccess) {
       setProducts(inventoryData.products);
@@ -73,25 +77,12 @@ function Inventory() {
       name: "Cost Price",
       selector: (row: any) => row.costPrice,
     },
-    {
-      name: "Actions",
-      cell: (row: any) => (
-        <button
-          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
-          onClick={() => {
-            alert(row);
-          }}
-        >
-          View
-        </button>
-      ),
-    },
   ];
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-          <h4 className="text-xl font-semibold text-black ">Reports</h4>
+          <h4 className="text-xl font-semibold text-black ">Inventory</h4>
 
           <button
             className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
@@ -102,7 +93,6 @@ function Inventory() {
         </div>
         <div className={`${isModalOpen ? "blur-xl" : ""}`}>
           <DataTable
-            title="Inventory"
             columns={columns}
             data={productData}
             pagination
@@ -114,6 +104,7 @@ function Inventory() {
         <InventoryModal
           isOpen={isModalOpen}
           closeModal={closeModal}
+          refetch={refetch}
         ></InventoryModal>
       </div>
     </>

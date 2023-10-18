@@ -4,6 +4,7 @@ import axios from "axios";
 import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
 import DataTable from "react-data-table-component";
+import Datepicker from "react-tailwindcss-datepicker";
 
 function Reports() {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
@@ -12,6 +13,16 @@ function Reports() {
   const { data: reportData, isSuccess } = useGetSalesReportsProductsDataQuery(
     {}
   );
+  const [value, setValue] = useState<any>({
+    startDate: new Date(),
+    endDate: new Date().setMonth(11),
+  });
+
+  const handleValueChange = (newValue: any) => {
+    console.log("newValue:", newValue);
+    setValue(newValue);
+  };
+
   useEffect(() => {
     if (reportData && isSuccess) {
       setProducts(reportData.data);
@@ -72,19 +83,6 @@ function Reports() {
       name: "Profit",
       selector: (row: any) => <p>Rs {row.profit}</p>,
     },
-    {
-      name: "Actions",
-      cell: (row: any) => (
-        <button
-          className="bg-blue-500 px-4 py-2 rounded-lg text-white"
-          onClick={() => {
-            alert(row);
-          }}
-        >
-          View
-        </button>
-      ),
-    },
   ];
   const handleDownloadReport = async () => {
     setDownloading(true);
@@ -116,20 +114,29 @@ function Reports() {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <h4 className="text-xl font-semibold text-black ">Reports</h4>
-        {downloading ? (
-          <>
-            <LoadingScreen message="Downloading" />
-          </>
-        ) : (
-          <>
-            <button
-              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
-              onClick={handleDownloadReport}
-            >
-              Download report
-            </button>
-          </>
-        )}
+        <div className="flex w-1/3 justify-between">
+          <div className="bg-red-200">
+            <Datepicker
+              primaryColor={"red"}
+              value={value}
+              onChange={handleValueChange}
+            />
+          </div>
+          {downloading ? (
+            <>
+              <LoadingScreen message="Downloading" />
+            </>
+          ) : (
+            <>
+              <button
+                className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+                onClick={handleDownloadReport}
+              >
+                Download report
+              </button>
+            </>
+          )}
+        </div>
       </div>
       <DataTable
         columns={columns}

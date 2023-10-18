@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
@@ -10,7 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
 import { useCreateProductsMutation } from "../../../redux/api/secureApi";
 import LoadingScreen from "../../../components/LoadingScreen";
-const InventoryModal = ({ isOpen, closeModal }: any) => {
+import { toast } from "react-toastify";
+const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
@@ -39,10 +40,13 @@ const InventoryModal = ({ isOpen, closeModal }: any) => {
     await sendData(formData);
     reset();
   };
+
   useEffect(() => {
     if (isSendDataSuccess) {
       closeModal();
       setFiles(null);
+      toast.success("Successfully Created Sale");
+      refetch();
     } else {
     }
   }, [isSendDataSuccess]);
@@ -78,88 +82,94 @@ const InventoryModal = ({ isOpen, closeModal }: any) => {
         </>
       ) : (
         <>
-          <section className="w-1/2 p-6 mx-autorounded-md shadow-2xl dark:bg-gray-800 mt-20 z-50">
-            <h1 className="text-xl font-bold text-white capitalize dark:text-white">
+          <section className="w-1/2 p-6 mx-autorounded-md shadow-2xl bg-modalBackground  mt-20 z-50">
+            <h1 className="text-xl font-bold text-Black capitalize">
               Add Products
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
                     id="name"
                     type="text"
                     placeholder="Please Enter Name"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("name")}
                   />
                   <p className="text-red-600">{errors.name?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
                     placeholder="Please Enter Category"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("category")}
                   />
                   <p className="text-red-600">{errors.category?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
                     placeholder="Please Enter Cost Price"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("costPrice")}
                   />
                   <p className="text-red-600">{errors.costPrice?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
                     placeholder="Please Enter Selling Price"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("sellingPrice")}
                   />
                   <p className="text-red-600">{errors.sellingPrice?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
                     placeholder="Please Enter Total Items"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("totalItems")}
                   />
                   <p className="text-red-600">{errors.totalItems?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
-                    placeholder="Please Enter Color"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    placeholder="Please Enter Colors"
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("colors")}
                   />
                   <p className="text-red-600">{errors.colors?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
-                    placeholder="Please Enter Discount"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    placeholder="Please Enter Discount (%)"
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("discount")}
                   />
                   <p className="text-red-600">{errors.discount?.message}</p>
                 </div>
-                <div>
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                   <input
+                    id="name"
                     type="text"
                     placeholder="Please Enter Size"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600  "
+                    className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
                     {...register("size")}
                   />
                   <p className="text-red-600">{errors.size?.message}</p>
                 </div>
 
                 <div className="w-full">
-                  <label className="text-white dark:text-gray-200">Image</label>
                   <FilePond
                     files={files}
                     allowMultiple={false}
