@@ -35,7 +35,7 @@ const DropdownUser = () => {
   });
 
   return (
-    <div className="relative bg-blue-500 px-2 py-2 rounded-3xl">
+    <div className="relative bg-white px-2 py-2 rounded-3xl">
       <Link
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -61,10 +61,10 @@ const DropdownUser = () => {
         </div>
 
         <span className="hidden lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree:
+          <span className="block text-sm font-medium text-black ">
+            Satdobato first
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">Branch</span>
         </span>
 
         <svg
@@ -87,7 +87,7 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute  right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+        className={`absolute  right-0 mt-4 flex w-62.5 flex-col rounded-2xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
           dropdownOpen === true ? "block" : "hidden"
         }`}
       >

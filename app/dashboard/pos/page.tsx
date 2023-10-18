@@ -57,7 +57,7 @@ function Pos() {
   return (
     <div className={`w-full`}>
       <div className="w-full flex justify-between h-8 items-center ">
-        <ul className="flex justify-between w-1/3">
+        {/* <ul className="flex justify-between w-1/3">
           {menu.map((item, index) => {
             return (
               <li
@@ -88,7 +88,7 @@ function Pos() {
               Checkout
             </button>
           </span>
-        </div>
+        </div> */}
       </div>
       <div
         className={`flex w-full h-full mt-8 ${isModalOpen ? "blur-xl" : ""}`}
