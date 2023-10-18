@@ -25,6 +25,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [showMemberData, setShowMemberData] = useState(false);
   const {
     control,
     register,
@@ -68,12 +69,14 @@ const Modal = ({ isOpen, closeModal }: any) => {
     setProductID(e.target.value);
   };
   const handleNumberChange = (e: any) => {
+    setShowMemberData(true);
     setPhoneNumber(e.target.value);
   };
   const handleValueChanges = (item: any) => {
+    setShowMemberData(false);
+    setMemberData(null);
     setPhoneNumber(item?.phone);
     setNewName(item?.name);
-    setMemberData([]);
   };
   const handleNameChange = (e: any) => {
     setNewName(e.target.value);
@@ -124,11 +127,13 @@ const Modal = ({ isOpen, closeModal }: any) => {
     setIsPaymentModal(false);
   };
   useEffect(() => {
-    if (MemberData && MemberSearchSuccess) {
-      setMemberData(MemberData.member);
-    } else if (isError) {
-      setMemberData([]);
-    } else {
+    if (phoneNumber.length > 1 && phoneNumber !== "") {
+      if (MemberData && MemberSearchSuccess) {
+        setMemberData(MemberData.member);
+      } else if (isError) {
+        setMemberData([]);
+      } else {
+      }
     }
   }, [MemberData, isError]);
   useEffect(() => {
@@ -209,7 +214,8 @@ const Modal = ({ isOpen, closeModal }: any) => {
                         value={phoneNumber}
                       />
                     </div>
-                    {memberData &&
+                    {showMemberData &&
+                      memberData &&
                       memberData.map((item: any, index: number) => {
                         return (
                           <ul

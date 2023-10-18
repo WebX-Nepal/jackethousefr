@@ -22,7 +22,11 @@ function Pos() {
   const searchQuery: any = useSelector(
     (state: RootState) => state.search.searchQuery
   );
-  const { data: allData, isSuccess } = useGetAllProductsQuery({
+  const {
+    data: allData,
+    isSuccess,
+    refetch,
+  } = useGetAllProductsQuery({
     category,
     productName,
   });
@@ -32,6 +36,9 @@ function Pos() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    refetch();
+  }, []);
   useEffect(() => {
     if (allData && isSuccess) {
       setProducts(allData?.products);

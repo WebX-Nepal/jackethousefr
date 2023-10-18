@@ -23,6 +23,9 @@ function Inventory() {
     } else {
     }
   }, [inventoryData]);
+  useEffect(() => {
+    refetch();
+  }, []);
   const columns = [
     {
       name: "SN",
