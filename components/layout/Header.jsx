@@ -10,7 +10,7 @@ import { RiBarcodeFill } from "react-icons/ri";
 import { MdOutlineNotifications } from "react-icons/md";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useRouter } from "next/navigation";
-
+import DropdownUser from "./DropDown";
 function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ function Header() {
             }}
           />
         </div>
-        <div className="h-full flex items-center justify-between bg-white rounded-3xl p-2 ml-6">
+        {/* <div className="h-full flex items-center justify-between bg-white rounded-3xl p-2 ml-6">
           <div className="mr-4">
             <Image
               src="/pic2.jfif"
@@ -87,7 +87,8 @@ function Header() {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
+        <DropdownUser />
       </div>
     </div>
   );
