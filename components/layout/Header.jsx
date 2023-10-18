@@ -40,7 +40,7 @@ function Header() {
           />
           <BiSearchAlt2 className="text-gray-600 md:block hidden" />
         </div>
-        <div className="sm:flex hidden items-center  gap-8 2xsm:gap-7 px-2 ml-4 ">
+        <div className="sm:flex hidden items-center  gap-8 2xsm:gap-7 ml-4 -mr-4">
           <div className="flex items-center justify-center m-2">
             <p>Barcode:</p>
             <div className="text-4xl ml-4 bg-backgroundGray border-4 border-backgroundGray rounded-xl flex">
