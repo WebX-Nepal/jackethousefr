@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { signOut } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { logOutUser } from "../../redux/slices/authSlice";
@@ -7,19 +7,13 @@ import { setSearchQuery } from "../../redux/slices/searchSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
-import { MdOutlineNotifications } from "react-icons/md";
-import { AiFillCaretDown } from "react-icons/ai";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/navigation";
-//import DropdownUser from "./DropDown";
-import Link from "next/link";
 import DropdownNotification from "./components/DropdownNotification";
 import DropdownUser from "./components/DropdownUser";
 function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isOpen, setOpen] = useState(false);
-  const [isNotificationOpen, setNotificationOpen] = useState(false);
-
   async function handleLogOut() {
     dispatch(logOutUser());
     await signOut({ callbackUrl: "/login" });
@@ -57,7 +51,9 @@ function Header() {
           <DropdownNotification />
           <DropdownUser />
         </div>
-        <div className="sm:hidden flex">hamb</div>
+        <div className="sm:hidden flex">
+          <GiHamburgerMenu className="text-2xl" />
+        </div>
       </div>
     </div>
   );
