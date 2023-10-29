@@ -42,7 +42,16 @@ function Header() {
             </div>
           </>
         )}
-        <div className="ml-4 flex flex-grow   px-4 rounded-xl border border-gray-600 py-2 justify-between">
+        {/* <div className="ml-4 flex flex-grow px-4 rounded-xl border border-gray-600 py-2 justify-between">
+          <input
+            className="outline-none placeholder-gray-500 bg-transparent text-black w-full"
+            type="text"
+            placeholder="Search For Products..."
+            onChange={handleSearch}
+          />
+          <BiSearchAlt2 className="text-gray-600" />
+        </div> */}
+        <div className="ml-4 flex flex-grow px-4 rounded-xl border border-gray-600 py-2 items-center justify-between">
           <input
             className="outline-none placeholder-gray-500 bg-transparent text-black w-full"
             type="text"
@@ -51,6 +60,7 @@ function Header() {
           />
           <BiSearchAlt2 className="text-gray-600" />
         </div>
+
         <div className="md:flex hidden items-center  gap-8 2xsm:gap-7 ml-4 -mr-4">
           <div className="flex items-center justify-center m-2">
             <p>Barcode:</p>
