@@ -52,6 +52,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
     setPhoneNumber("");
     setBillPrice(0);
     dispatch(emptyCartItems());
+    setIsPaymentModal(false);
     closeModal();
   };
   const handleCreateSales: SubmitHandler<any> = async (data) => {
