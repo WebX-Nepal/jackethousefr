@@ -16,6 +16,7 @@ const config: Config = {
         secondary: "#000000",
         backgroundGray: "#CCCACA",
         modalBackground: "#D9D9D9",
+        buttonShadow: "#00000040",
       },
       blur: {
         "5": "blur(5px)",

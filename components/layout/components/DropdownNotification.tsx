@@ -68,6 +68,22 @@ const DropdownNotification = () => {
               <p>this is content lorem</p>
             </Link>
           </li>
+          <li>
+            <Link
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              href="#"
+            >
+              <p>this is content lorem</p>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              href="#"
+            >
+              <p>this is content lorem</p>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

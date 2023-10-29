@@ -83,20 +83,20 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
         </>
       ) : (
         <>
-          <section className="w-1/2 p-6  mx-autorounded-md shadow-2xl bg-modalBackground  mt-20 z-50">
-            <h1 className="text-xl font-bold text-Black capitalize">
+          <section className="w-1/2 h-2/3 p-6 mx-autorounded-md shadow-2xl bg-modalBackground  mt-20 z-50 rounded-xl">
+            <h1 className="text-xl font-bold text-Black capitalize pb-6">
               Add Products
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomScrollbar>
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 pr-8">
                   <div>
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                    <div className="border rounded-xl border-gray-600  flex items-center justify-center">
                       <input
                         id="name"
                         type="text"
                         placeholder="Please Enter Name"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("name")}
                       />
                     </div>
@@ -108,7 +108,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Category"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("category")}
                       />
                     </div>
@@ -121,7 +121,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Cost Price"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("costPrice")}
                       />
                     </div>
@@ -133,7 +133,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Selling Price"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("sellingPrice")}
                       />
                     </div>
@@ -147,7 +147,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Total Items"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("totalItems")}
                       />
                     </div>
@@ -159,7 +159,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Colors"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("colors")}
                       />
                     </div>
@@ -171,7 +171,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Discount (%)"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("discount")}
                       />
                     </div>
@@ -183,7 +183,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                         id="name"
                         type="text"
                         placeholder="Please Enter Size"
-                        className=" w-full h-full p-2 outline-none placeholder-gray-500 bg-transparent text-black"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
                         {...register("size")}
                       />
                     </div>
@@ -198,13 +198,15 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                       allowDrop
                       onupdatefiles={setFiles}
                       styleButtonRemoveItemPosition="left"
+                      labelIdle={`
+                      Drag & Drop your <span class="filepond--label-action">Image</span> Files     `}
                     />
                   </div>
                 </div>
               </CustomScrollbar>
               <div className="flex justify-end mt-6">
                 <button
-                  className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
+                  className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
                   onClick={handleSubmit(onSubmit)}
                   type="button"
                 >
