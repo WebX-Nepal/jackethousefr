@@ -5,7 +5,7 @@ import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureAp
 import LoadingScreen from "@/components/LoadingScreen";
 import DataTable from "react-data-table-component";
 import Datepicker from "react-tailwindcss-datepicker";
-
+import { tableCustomStyles } from "../../../components/Constant";
 function Reports() {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
@@ -108,11 +108,11 @@ function Reports() {
     }
   };
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
+    <div className=" border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
+      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between ">
         <h4 className="text-xl font-semibold text-black ">Reports</h4>
         <div className="flex w-1/3 justify-between">
-          <div className="hover:cursor-pointer">
+          <div className="hover:cursor-pointer ">
             <Datepicker
               primaryColor={"red"}
               value={value}
@@ -135,7 +135,9 @@ function Reports() {
           )}
         </div>
       </div>
+
       <DataTable
+        customStyles={tableCustomStyles}
         columns={columns}
         data={productData}
         pagination

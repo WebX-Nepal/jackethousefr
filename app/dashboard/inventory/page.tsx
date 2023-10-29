@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
 import InventoryModal from "./Modal";
 import DataTable from "react-data-table-component";
+import { tableCustomStyles } from "../../../components/Constant";
 function Inventory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -94,8 +95,9 @@ function Inventory() {
             Add Products
           </button>
         </div>
-        <div className={`${isModalOpen ? "blur-xl" : ""}`}>
+        <div className={`${isModalOpen ? "blur-xl" : "px-4 rounded-lg "}`}>
           <DataTable
+            customStyles={tableCustomStyles}
             columns={columns}
             data={productData}
             pagination

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useGetSalesDataQuery } from "../../../redux/api/secureApi";
 import DataTable from "react-data-table-component";
 import ViewModal from "../members/Modal";
+import { tableCustomStyles } from "../../../components/Constant";
 function Sales() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productData, setProducts] = useState([]);
@@ -60,8 +61,9 @@ function Sales() {
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
       </div>
-      <div className={`${isModalOpen ? "blur-xl" : ""}`}>
+      <div className={`${isModalOpen ? "blur-xl" : "px-4 rounded-lg"}`}>
         <DataTable
+          customStyles={tableCustomStyles}
           columns={columns}
           data={productData}
           pagination
