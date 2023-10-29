@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import ViewModal from "./Modal";
 import RewardsModal from "./RewardsModal";
 import Image from "next/image";
+import { tableCustomStyles } from "../../../components/Constant";
 function Members() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRewardsModalOpen, setIsRewardsModalOpen] = useState(false);
@@ -104,11 +105,12 @@ function Members() {
         <h4 className="text-xl font-semibold text-black ">Members</h4>
       </div>
       <div
-        className={`${isModalOpen ? "blur-xl" : ""} ${
+        className={`${isModalOpen ? "blur-xl" : "px-4 rounded-lg "} ${
           isRewardsModalOpen ? "blur-xl" : ""
         }`}
       >
         <DataTable
+          customStyles={tableCustomStyles}
           columns={columns}
           data={productData}
           pagination

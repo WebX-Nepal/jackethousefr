@@ -4,3 +4,11 @@ export const menu = [
   { name: "women" },
   { name: "kids" },
 ];
+export const tableCustomStyles = {
+  headCells: {
+    style: {
+      backgroundColor: "#C8C8C8",
+      height: "52px",
+    },
+  },
+};
