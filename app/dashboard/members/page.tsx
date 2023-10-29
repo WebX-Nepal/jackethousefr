@@ -37,9 +37,7 @@ function Members() {
   };
   const ActionButton = ({ text, onClick, color }: any) => (
     <button
-      className={`bg-${color}-500 px-4 py-2 rounded-lg text-white ${
-        color === "cyan" ? "mr-2" : "ml-2"
-      }`}
+      className={`bg-${color}-500 px-4 py-2 rounded-lg text-white`}
       onClick={onClick}
     >
       {text}
@@ -80,20 +78,23 @@ function Members() {
     {
       name: "Actions",
       cell: (row: any) => (
-        <>
+        <div className="w-4/5 flex justify-between">
+          <div>
+            {row.points === 10 && (
+              <ActionButton
+                text="Give Rewards"
+                onClick={() => openRewardsModal()}
+                color="yellow"
+              />
+            )}
+          </div>
+
           <ActionButton
             text="View"
             onClick={() => handleViewMember(row)}
             color="cyan"
           />
-          {row.points === 10 && (
-            <ActionButton
-              text="Give Rewards"
-              onClick={() => openRewardsModal()}
-              color="yellow"
-            />
-          )}
-        </>
+        </div>
       ),
     },
   ];
