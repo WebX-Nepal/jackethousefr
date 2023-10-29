@@ -8,9 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItems, removeItems } from "@/redux/slices/counterSlice";
 import { menu } from "../../../components/Constant";
 import { RootState } from "../../../redux/store";
+import useScreenWidth from "@/components/screenHook";
 
 function Pos() {
   const dispatch = useDispatch();
+  const screenWidth = useScreenWidth();
+
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");
@@ -94,7 +97,7 @@ function Pos() {
         className={`flex w-full h-full mt-8 ${isModalOpen ? "blur-xl" : ""}`}
       >
         <div className="w-full h-full">
-          <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
+          <ul className="grid gap-2 grid-cols-1  sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-y-8 md:gap-x-4 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
             {products?.map((item: any, index: number) => {
               const isMatched = cartItems.some(
                 (matchedItem: any) => matchedItem._id === item._id
@@ -102,9 +105,11 @@ function Pos() {
               return (
                 <li
                   key={index}
-                  className="h-56 bg-gray-300 w-52 shadow-xl rounded-xl hover:cursor-pointer p-4 relative hover:shadow-gray-400"
+                  className={`h-56 bg-gray-300 ${
+                    screenWidth <= 640 ? "w-full mb-4" : "w-52"
+                  } shadow-xl rounded-xl hover:cursor-pointer p-4 relative hover:shadow-gray-400`}
                 >
-                  <div className="absolute top-2 right-2 border-2 border-black rounded-full h-5 w-5 bg-black flex items-center justify-center pb-1">
+                  <div className="absolute top-1.5 right-1.5 border-2 border-black rounded-full h-5 w-5 bg-black flex items-center justify-center pb-1">
                     {isMatched ? (
                       <TiTick
                         className="text-white text-xl"
@@ -126,7 +131,7 @@ function Pos() {
                   <div className="mt-2 flex items-center justify-center h-2/3 w-full">
                     <img
                       src={item.image[0] ? item.image[0] : "/logo.svg"}
-                      className=" w-full h-full object-cover"
+                      className=" w-full h-full object-cover rounded-xl"
                       alt="Image Not Found"
                     />
                   </div>
