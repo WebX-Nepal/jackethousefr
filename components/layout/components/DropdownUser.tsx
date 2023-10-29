@@ -55,7 +55,6 @@ const DropdownUser = () => {
             borderRadius: "50%",
             maxHeight: "38px",
             maxWidth: "38px",
-            backgroundColor: "red",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

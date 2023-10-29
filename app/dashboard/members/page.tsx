@@ -4,6 +4,7 @@ import { useGetAllMembersQuery } from "../../../redux/api/secureApi";
 import DataTable from "react-data-table-component";
 import ViewModal from "./Modal";
 import RewardsModal from "./RewardsModal";
+import Image from "next/image";
 function Members() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRewardsModalOpen, setIsRewardsModalOpen] = useState(false);
@@ -67,9 +68,11 @@ function Members() {
       name: "Points",
       selector: (row: any) => {
         return row.points === 10 ? (
-          <div className="p-1 bg-green-500 rounded-full">{row.points}</div>
+          <div className="flex items-center justify-center w-full">
+            <Image src={"/rewardpoint.png"} alt="logo" width={30} height={30} />
+          </div>
         ) : (
-          <div className="p-1">{row.points}</div>
+          <div className="pl-2.5">{row.points}</div>
         );
       },
       width: "100px",
