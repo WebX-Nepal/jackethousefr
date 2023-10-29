@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AiFillCaretDown } from "react-icons/ai";
+import { signOut } from "next-auth/react";
+import { logOutUser } from "../../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const DropdownUser = () => {
+  const dispatch = useDispatch();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -33,7 +38,10 @@ const DropdownUser = () => {
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
-
+  async function handleLogOut() {
+    dispatch(logOutUser());
+    await signOut({ callbackUrl: "/login" });
+  }
   return (
     <div className="relative bg-white px-2 py-2 rounded-3xl">
       <Link
@@ -150,7 +158,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button
+          className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          onClick={handleLogOut}
+        >
           <svg
             className="fill-current"
             width="22"

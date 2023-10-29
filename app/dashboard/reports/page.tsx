@@ -103,8 +103,7 @@ function Reports() {
           document.body.appendChild(link);
           link.click();
         });
-      } catch (err) {
-      }
+      } catch (err) {}
       setDownloading(false);
     }
   };
@@ -113,7 +112,7 @@ function Reports() {
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <h4 className="text-xl font-semibold text-black ">Reports</h4>
         <div className="flex w-1/3 justify-between">
-          <div className="bg-red-200">
+          <div className="hover:cursor-pointer">
             <Datepicker
               primaryColor={"red"}
               value={value}

@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
-import { signOut } from "next-auth/react";
-import { useDispatch } from "react-redux";
-import { logOutUser } from "../../redux/slices/authSlice";
+
 import { setSearchQuery } from "../../redux/slices/searchSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
@@ -13,11 +11,7 @@ import DropdownNotification from "./components/DropdownNotification";
 import DropdownUser from "./components/DropdownUser";
 function Header() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  async function handleLogOut() {
-    dispatch(logOutUser());
-    await signOut({ callbackUrl: "/login" });
-  }
+
   const handleClickLogo = () => {
     router.push("/dashboard/pos");
   };
