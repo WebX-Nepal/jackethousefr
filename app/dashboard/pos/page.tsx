@@ -96,7 +96,7 @@ function Pos() {
         className={`flex w-full h-full mt-8 ${isModalOpen ? "blur-xl" : ""}`}
       >
         <div className="w-full h-full">
-          <ul className="grid  grid-cols-1 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-y-8 md:gap-x-4 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-4 xl:gap-x-0.5">
+          <ul className="grid  grid-cols-1 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-y-8 md:gap-x-4 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-4 xl:gap-x-0.5 2xl:grid-cols-6">
             {products?.map((item: any, index: number) => {
               const isMatched = cartItems.some(
                 (matchedItem: any) => matchedItem._id === item._id
