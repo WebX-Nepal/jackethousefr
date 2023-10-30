@@ -13,7 +13,6 @@ import useScreenWidth from "@/components/screenHook";
 function Pos() {
   const dispatch = useDispatch();
   const screenWidth = useScreenWidth();
-
   const [category, setCategory] = useState("All");
   const [products, setProducts] = useState<any>([]);
   const [productName, setProductName] = useState("");

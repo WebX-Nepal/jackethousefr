@@ -11,4 +11,11 @@ export const tableCustomStyles = {
       height: "52px",
     },
   },
+  rows: {
+    style: {
+      color: "#000000",
+      backgroundColor: "#e3e1e1",
+    },
+  },
+  background: "#e3e1e1",
 };

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetSalesDataQuery } from "../../../redux/api/secureApi";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import ViewModal from "../members/Modal";
 import { tableCustomStyles } from "../../../components/Constant";
 function Sales() {
@@ -56,8 +56,16 @@ function Sales() {
       width: "190px",
     },
   ];
+  createTheme("solarized", {
+    background: {
+      default: "#e3e1e1",
+    },
+    divider: {
+      default: "#FFFFFF",
+    },
+  });
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5">
         <h4 className="text-xl font-semibold text-black ">Recent Sales</h4>
       </div>
@@ -70,6 +78,7 @@ function Sales() {
           fixedHeader
           highlightOnHover
           responsive
+          theme="solarized"
         />
       </div>
       <ViewModal isOpen={isModalOpen} closeModal={closeModal} />

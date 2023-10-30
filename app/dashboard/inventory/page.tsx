@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
 import InventoryModal from "./Modal";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 function Inventory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,9 +82,17 @@ function Inventory() {
       selector: (row: any) => row.costPrice,
     },
   ];
+  createTheme("solarized", {
+    background: {
+      default: "#e3e1e1",
+    },
+    divider: {
+      default: "#FFFFFF",
+    },
+  });
   return (
     <>
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">Inventory</h4>
 
@@ -104,6 +112,7 @@ function Inventory() {
             fixedHeader
             highlightOnHover
             responsive
+            theme="solarized"
           />
         </div>
         <InventoryModal

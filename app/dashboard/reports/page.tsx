@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useGetSalesReportsProductsDataQuery } from "../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import Datepicker from "react-tailwindcss-datepicker";
 import { tableCustomStyles } from "../../../components/Constant";
+import { toast } from "react-toastify";
+
 function Reports() {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
@@ -84,6 +86,7 @@ function Reports() {
     },
   ];
   const handleDownloadReport = async () => {
+    toast.success("Please Wait");
     setDownloading(true);
     const token = localStorage.getItem("token");
     if (token) {
@@ -107,8 +110,16 @@ function Reports() {
       setDownloading(false);
     }
   };
+  createTheme("solarized", {
+    background: {
+      default: "#e3e1e1",
+    },
+    divider: {
+      default: "#FFFFFF",
+    },
+  });
   return (
-    <div className=" border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
+    <div className=" border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between ">
         <h4 className="text-xl font-semibold text-black ">Reports</h4>
         <div className="flex w-1/3 justify-between">
@@ -144,6 +155,7 @@ function Reports() {
         fixedHeader
         highlightOnHover
         responsive
+        theme="solarized"
       />
     </div>
   );
