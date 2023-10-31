@@ -43,7 +43,6 @@ function Inventory() {
     <button
       className={`bg-${color}-500 px-4 py-2 rounded-lg text-white`}
       onClick={() => {
-        console.log("row is", row);
         onClick(row);
       }}
     >
@@ -165,6 +164,7 @@ function Inventory() {
           isOpen={isEditModalOpen}
           closeModal={closeEditModal}
           selectedRowData={selectedRowData}
+          refetch={refetch}
         />
       </div>
     </>

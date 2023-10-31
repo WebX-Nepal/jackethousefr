@@ -26,6 +26,14 @@ export const secureApi = createApi({
         url: `/product/${ID}`,
       }),
     }),
+    updateProductById: builder.mutation<any, any>({
+      query: ([formData, ID]) => ({
+        url: `/product/${ID}`,
+        method: "PATCH",
+        body: formData,
+      }),
+    }),
+
     getLatestProduct: builder.query<any, any>({
       query: () => ({
         url: `/product/getLatestproducts/`,
@@ -77,6 +85,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useUpdateProductByIdMutation,
   useGetLatestProductQuery,
   useGetMemberSalesHistoryQuery,
   useGetMemberByIDQuery,

@@ -8,19 +8,30 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
-import { useCreateProductsMutation } from "../../../redux/api/secureApi";
+import { useUpdateProductByIdMutation } from "../../../redux/api/secureApi";
 import LoadingScreen from "../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "./ScrollBar";
-import SelectSearch from "../../../components/Select";
-const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
-  console.log("row data selected is", selectedRowData);
+import CustomSelect from "../../../components/Select";
+import Image from "next/image";
+
+const InventoryEditModal = ({
+  isOpen,
+  closeModal,
+  selectedRowData,
+  refetch,
+}: any) => {
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
   );
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
-  const [files, setFiles] = useState<any>();
+  const [files, setFiles] = useState<any>([]);
+  const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [ID, setID] = useState();
+  const handleSelectChange = (selectedOption: any) => {
+    setSelectedOption(selectedOption);
+  };
   const {
     register,
     handleSubmit,
@@ -50,25 +61,30 @@ const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
     setValue("colors", selectedRowData?.colors);
     setValue("discount", selectedRowData?.discount);
     setValue("size", selectedRowData?.size);
+    setID(selectedRowData?._id);
   }, [selectedRowData]);
   const [
     sendEditedData,
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
-  ] = useCreateProductsMutation();
+  ] = useUpdateProductByIdMutation();
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log("Data is", data);
-    // const formData = new FormData();
-    // for (const key in data) {
-    //   formData.append(key, data[key]);
-    // }
-    // formData.append("image", files[0]?.file);
-    // await sendData(formData);
+    data.colors = selectedOption?.map((obj: any) => obj.value);
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    if (files?.length > 0) {
+      formData.append("image", files[0]?.file);
+    }
+    await sendEditedData([formData, ID]);
     reset();
   };
 
   useEffect(() => {
     if (isSendDataSuccess) {
       closeModal();
+      refetch();
+      setSelectedOption(null);
       setFiles(null);
       toast.success("Successfully Edited Product");
     } else {
@@ -84,6 +100,8 @@ const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
+        setSelectedOption(null);
+        setFiles(null);
         closeModal();
       }
     };
@@ -93,7 +111,6 @@ const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
@@ -202,18 +219,13 @@ const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
                   </div>
                   <div>
                     Colors:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center"></div>
-                    <Controller
-                      name="colors"
-                      control={control}
-                      render={({ field }) => (
-                        <input
-                          type="text"
-                          className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                          {...field}
-                        />
-                      )}
-                    />
+                    <div className="border border-gray-600 rounded-xl flex items-center justify-center bg-white">
+                      <CustomSelect
+                        value={selectedOption}
+                        onChange={handleSelectChange}
+                        placeholder="Select an option"
+                      />
+                    </div>
                     <p className="text-red-600">{errors.colors?.message}</p>
                   </div>
                   <div>
@@ -250,18 +262,32 @@ const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
                     </div>
                     <p className="text-red-600">{errors.size?.message}</p>
                   </div>
-                  <div className="w-full">
-                    <FilePond
-                      files={files}
-                      allowMultiple={false}
-                      allowRevert
-                      allowDrop
-                      onupdatefiles={setFiles}
-                      styleButtonRemoveItemPosition="left"
-                      labelIdle={`
-                      Drag & Drop your <span class="filepond--label-action">Image</span> Files     `}
-                    />
-                  </div>
+                </div>
+                <div className="flex w-full items-center justify-center p-2">
+                  {files?.length > 0 ? (
+                    <></>
+                  ) : (
+                    <>
+                      <Image
+                        src={selectedRowData.image[0]}
+                        width={250}
+                        height={250}
+                        alt="product image"
+                      ></Image>
+                    </>
+                  )}
+                </div>
+                <div className="px-4 py-4">
+                  <FilePond
+                    files={files}
+                    allowMultiple={false}
+                    allowRevert
+                    allowDrop
+                    onupdatefiles={setFiles}
+                    styleButtonRemoveItemPosition="left"
+                    labelIdle={`
+                      Edit <span class="filepond--label-action">Image</span> Files     `}
+                  />
                 </div>
               </CustomScrollbar>
               <div className="flex justify-end mt-6">
