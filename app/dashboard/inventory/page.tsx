@@ -2,17 +2,29 @@
 import React, { useEffect, useState } from "react";
 import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
 import InventoryModal from "./Modal";
+import InventoryEditModal from "./editModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 function Inventory() {
+  const [productData, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState();
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
   const openModal = () => {
+    closeEditModal();
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const [productData, setProducts] = useState([]);
+  const openEditModal = (row: any) => {
+    setSelectedRowData(row);
+    closeModal();
+    setIsEditModalOpen(true);
+  };
   const {
     data: inventoryData,
     refetch,
@@ -27,6 +39,17 @@ function Inventory() {
   useEffect(() => {
     refetch();
   }, []);
+  const ActionButton = ({ text, onClick, color, row }: any) => (
+    <button
+      className={`bg-${color}-500 px-4 py-2 rounded-lg text-white`}
+      onClick={() => {
+        console.log("row is", row);
+        onClick(row);
+      }}
+    >
+      {text}
+    </button>
+  );
   const columns = [
     {
       name: "SN",
@@ -81,6 +104,24 @@ function Inventory() {
       name: "Cost Price",
       selector: (row: any) => row.costPrice,
     },
+    {
+      name: "Actions",
+      cell: (row: any) => (
+        <div className="w-full flex justify-between ">
+          <div>
+            <ActionButton
+              text="Edit"
+              color="yellow"
+              row={row}
+              onClick={openEditModal}
+            />
+          </div>
+
+          <ActionButton text="View" color="cyan" />
+        </div>
+      ),
+      width: "150px",
+    },
   ];
   createTheme("solarized", {
     background: {
@@ -120,6 +161,11 @@ function Inventory() {
           closeModal={closeModal}
           refetch={refetch}
         ></InventoryModal>
+        <InventoryEditModal
+          isOpen={isEditModalOpen}
+          closeModal={closeEditModal}
+          selectedRowData={selectedRowData}
+        />
       </div>
     </>
   );

@@ -17,7 +17,7 @@ function Dashboard({ children }: { children: React.ReactNode }) {
           <Sidebar />
         </div>
         <main
-          className={`flex-1 p-6 ml-32 z-0 justify-center ${
+          className={`flex-1 ml-32 z-0 justify-center ${
             screenWidth >= 1700 ? "flex flex-grow" : ""
           }`}
         >

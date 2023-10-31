@@ -8,7 +8,7 @@ const validationSchema = yup.object().shape({
   totalItems: yup.number().required("Please Enter Total Items"),
   discount: yup.number(),
   size: yup.string(),
-  colors: yup.string(),
+  colors: yup.array().of(yup.string()),
 });
 
 export default validationSchema;

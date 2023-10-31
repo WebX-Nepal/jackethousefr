@@ -43,7 +43,7 @@ function Header() {
           </>
         )}
 
-        <div className="ml-4 flex flex-grow px-4 rounded-xl border border-gray-600 py-2 items-center justify-between">
+        <div className="ml-4 flex flex-grow px-4 rounded-xl border border-gray-600 py-2 items-center justify-between max-w-5xl">
           <input
             className="outline-none placeholder-gray-500 bg-transparent text-black w-full"
             type="text"

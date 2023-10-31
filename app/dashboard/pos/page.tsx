@@ -57,7 +57,7 @@ function Pos() {
     dispatch(removeItems(item));
   }
   return (
-    <div className={`w-full`}>
+    <div className={`w-full p-6`}>
       <div className="w-full flex justify-between h-8 items-center ">
         <ul className="md:flex hidden justify-between w-1/3">
           {menu.map((item, index) => {

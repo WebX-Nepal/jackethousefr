@@ -5,14 +5,16 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
 import { useCreateProductsMutation } from "../../../redux/api/secureApi";
 import LoadingScreen from "../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "./ScrollBar";
-const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
+import SelectSearch from "../../../components/Select";
+const InventoryEditModal = ({ isOpen, closeModal, selectedRowData }: any) => {
+  console.log("row data selected is", selectedRowData);
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
@@ -20,25 +22,47 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
   const [files, setFiles] = useState<any>();
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
+    setValue,
   } = useForm({
+    defaultValues: {
+      name: "",
+      category: "",
+      costPrice: 0,
+      sellingPrice: 0,
+      totalItems: 0,
+      colors: [""],
+      discount: 0,
+      size: "",
+    },
     resolver: yupResolver(validationSchema),
   });
+  useEffect(() => {
+    setValue("name", selectedRowData?.name);
+    setValue("category", selectedRowData?.category);
+    setValue("costPrice", selectedRowData?.costPrice);
+    setValue("sellingPrice", selectedRowData?.sellingPrice);
+    setValue("totalItems", selectedRowData?.totalItems);
+    setValue("colors", selectedRowData?.colors);
+    setValue("discount", selectedRowData?.discount);
+    setValue("size", selectedRowData?.size);
+  }, [selectedRowData]);
   const [
-    sendData,
+    sendEditedData,
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
   ] = useCreateProductsMutation();
   const onSubmit: SubmitHandler<any> = async (data) => {
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    formData.append("image", files[0]?.file);
-    await sendData(formData);
+    console.log("Data is", data);
+    // const formData = new FormData();
+    // for (const key in data) {
+    //   formData.append(key, data[key]);
+    // }
+    // formData.append("image", files[0]?.file);
+    // await sendData(formData);
     reset();
   };
 
@@ -46,8 +70,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
     if (isSendDataSuccess) {
       closeModal();
       setFiles(null);
-      toast.success("Successfully Created Sale");
-      refetch();
+      toast.success("Successfully Edited Product");
     } else {
     }
   }, [isSendDataSuccess]);
@@ -85,7 +108,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
         <>
           <section className="w-1/2 h-2/3 p-6 mx-autorounded-md shadow-2xl bg-modalBackground  mt-20 z-50 rounded-xl">
             <h1 className="text-xl font-bold text-Black capitalize pb-4">
-              Add Products
+              Edit Products
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               <CustomScrollbar>
@@ -93,12 +116,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Name:
                     <div className="border rounded-xl border-gray-600  flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Name"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("name")}
+                      <Controller
+                        name="name"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.name?.message}</p>
@@ -106,12 +133,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Category:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Category"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("category")}
+                      <Controller
+                        name="category"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.category?.message}</p>
@@ -119,12 +150,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Cost Price:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Cost Price"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("costPrice")}
+                      <Controller
+                        name="costPrice"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.costPrice?.message}</p>
@@ -132,12 +167,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Selling Price:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Selling Price"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("sellingPrice")}
+                      <Controller
+                        name="sellingPrice"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">
@@ -147,38 +186,49 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Total Items:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Total Items"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("totalItems")}
+                      <Controller
+                        name="totalItems"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.totalItems?.message}</p>
                   </div>
                   <div>
                     Colors:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Colors"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("colors")}
-                      />
-                    </div>
+                    <div className="border border-gray-600 rounded-xl flex items-center justify-center"></div>
+                    <Controller
+                      name="colors"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          type="text"
+                          className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                          {...field}
+                        />
+                      )}
+                    />
                     <p className="text-red-600">{errors.colors?.message}</p>
                   </div>
                   <div>
                     Discount (%):
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Discount (%)"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("discount")}
+                      <Controller
+                        name="discount"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.discount?.message}</p>
@@ -186,12 +236,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                   <div>
                     Size:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Size"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("size")}
+                      <Controller
+                        name="size"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                     <p className="text-red-600">{errors.size?.message}</p>
@@ -227,4 +281,4 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
   );
 };
 
-export default InventoryModal;
+export default InventoryEditModal;
