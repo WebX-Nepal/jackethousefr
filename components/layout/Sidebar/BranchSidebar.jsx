@@ -94,7 +94,7 @@ function Sidebar() {
               className={`text-sm flex flex-col items-center gap-x-4 cursor-pointer p-2 mb-3 rounded-l-sm hover:border-l-4 ${
                 path == item.pathName ? "border-l-4" : ""
               }`}
-              onClick={() => router.push(`/dashboard/${item.pathName}`)}
+              onClick={() => router.push(`/branch/${item.pathName}`)}
             >
               <span className="text-4xl block float-left">{item.icon}</span>
               <span className="text-base flex-1 mt-2">{item.title}</span>

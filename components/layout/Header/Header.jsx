@@ -15,7 +15,7 @@ function Header() {
   const screenWidth = useScreenWidth();
   const router = useRouter();
   const handleClickLogo = () => {
-    router.push("/dashboard/pos");
+    router.push("/branch/pos");
   };
   const handleSearch = (e) => {
     dispatch(setSearchQuery(e.target.value));

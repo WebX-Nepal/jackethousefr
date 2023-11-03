@@ -7,7 +7,7 @@ const Home = () => {
   if (authState?.userDetail?.role == "super") {
     router.push("/admin");
   } else {
-    router.push("/dashboard/pos");
+    router.push("/branch/pos");
   }
   return;
 };

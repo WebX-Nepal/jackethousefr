@@ -31,7 +31,7 @@ export default function Home() {
   useEffect(() => {
     if (status === "authenticated") {
       dispatch(setAuthState(session));
-      router.push("/dashboard/pos");
+      router.push("/branch/pos");
     }
   }, [session]);
 

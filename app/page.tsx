@@ -7,7 +7,7 @@ export default function Home() {
   const { data, status } = useSession();
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/dashboard/pos");
+      router.push("/branch/pos");
     } else {
       router.push("/login");
     }

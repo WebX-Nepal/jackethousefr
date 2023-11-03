@@ -5,7 +5,7 @@ function DashboardPage() {
   const router = useRouter();
   const a = 10;
   if (a > 10) {
-    router.push("/dashboard/pos");
+    router.push("/branch/pos");
   }
   return;
 }
