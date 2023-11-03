@@ -5,7 +5,7 @@ const AdminPage = () => {
   const router = useRouter();
   const a = 10;
   if (a > 10) {
-    router.push("/admin/pos");
+    router.push("/admin/inventory");
   }
   return;
 };

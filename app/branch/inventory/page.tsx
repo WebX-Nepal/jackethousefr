@@ -110,16 +110,16 @@ function Inventory() {
           <div>
             <ActionButton
               text="Edit"
-              color="yellow"
+              color="cyan"
               row={row}
               onClick={openEditModal}
             />
           </div>
 
-          <ActionButton text="View" color="cyan" />
+          <ActionButton text="Delete" color="red" />
         </div>
       ),
-      width: "150px",
+      width: "170px",
     },
   ];
   createTheme("solarized", {

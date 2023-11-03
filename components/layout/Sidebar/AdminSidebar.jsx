@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiFillGolden } from "react-icons/ai";
 import { GoPeople } from "react-icons/go";
 import { PiCoatHangerLight } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
@@ -17,19 +17,31 @@ function Sidebar() {
 
   const menu = [
     {
-      title: "POS",
-      pathName: "pos",
+      title: "Inventory",
+      pathName: "inventory",
       icon: (
-        <AiFillHome
+        <PiCoatHangerLight
           className={` text-secondary rounded-full text-3xl border-4 ${
-            path == "pos"
+            path == "inventory"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
           }`}
         />
       ),
     },
-
+    {
+      title: "Branches",
+      pathName: "branches",
+      icon: (
+        <AiFillGolden
+          className={` text-secondary rounded-full text-3xl border-4 ${
+            path == "branches"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
+          }`}
+        />
+      ),
+    },
     {
       title: "Reports",
       pathName: "reports",
@@ -37,20 +49,6 @@ function Sidebar() {
         <GoPeople
           className={` text-secondary rounded-full text-3xl border-4 ${
             path == "reports"
-              ? "bg-red-600 border-red-600"
-              : "bg-white border-white"
-          }`}
-        />
-      ),
-    },
-
-    {
-      title: "Inventory",
-      pathName: "inventory",
-      icon: (
-        <PiCoatHangerLight
-          className={` text-secondary rounded-full text-3xl border-4 ${
-            path == "inventory"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
           }`}
