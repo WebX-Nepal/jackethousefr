@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import { setSearchQuery } from "../../redux/slices/searchSlice";
+import { setSearchQuery } from "../../../redux/slices/searchSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { RiBarcodeFill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/navigation";
-import DropdownNotification from "./components/DropdownNotification";
-import DropdownUser from "./components/DropdownUser";
-import useScreenWidth from "../screenHook";
+import DropdownNotification from "./DropdownNotification";
+import DropdownUser from "./DropdownUser";
+import useScreenWidth from "../../screenHook";
 import { useDispatch } from "react-redux";
 function Header() {
   const dispatch = useDispatch();

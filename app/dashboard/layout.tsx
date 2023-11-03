@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import Header from "../../components/layout/Header";
-import Sidebar from "../../components/layout/Sidebar";
+import React from "react";
+import Header from "../../components/layout/Header/Header";
+import Sidebar from "../../components/layout/Sidebar/BranchSidebar";
 import useScreenWidth from "../../components/screenHook";
 
 function Dashboard({ children }: { children: React.ReactNode }) {
+  //if branch admin then stay if admin then forward page to admin page
+
   const screenWidth = useScreenWidth();
 
   return (

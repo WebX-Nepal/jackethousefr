@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
-import Header from "../../components/adminLayout/Header";
-import Sidebar from "../../components/adminLayout/Sidebar";
+import Header from "../../components/layout/Header/Header";
+import Sidebar from "../../components/layout/Sidebar/AdminSidebar";
 import useScreenWidth from "../../components/screenHook";
 const Admin = ({ children }: { children: React.ReactNode }) => {
+  //if  admin then stay if branch admin then forward page to branch page
+
   const screenWidth = useScreenWidth();
 
   return (
