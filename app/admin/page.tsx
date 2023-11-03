@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
-import Header from "../../components/adminLayout/Header";
-import Sidebar from "../../components/adminLayout/Sidebar";
-import useScreenWidth from "../../components/screenHook";
-const AdminPage = () => {
-  const screenWidth = useScreenWidth();
+import { useRouter } from "next/navigation";
 
+const AdminPage = () => {
+  const router = useRouter();
+  const a = 10;
+  if (a > 10) {
+    router.push("/admin/pos");
+  }
   return;
 };
 
