@@ -159,7 +159,13 @@ function Inventory() {
             Add Products
           </button>
         </div>
-        <div className={`${isModalOpen ? "blur-xl" : "px-4 rounded-lg "}`}>
+        <div
+          className={`${
+            isModalOpen || isQrModalOpen || isEditModalOpen
+              ? "blur-xl"
+              : "px-4 rounded-lg "
+          }`}
+        >
           <DataTable
             customStyles={tableCustomStyles}
             columns={columns}

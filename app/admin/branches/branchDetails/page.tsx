@@ -8,6 +8,8 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { tableCustomStyles } from "../../../../components/Constant";
 import { toast } from "react-toastify";
 import BranchSettingsModal from "./settingsModal";
+import { IoSettingsSharp } from "react-icons/io5";
+import { IoMdCloudDownload } from "react-icons/io";
 const BranchDetails = () => {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
@@ -142,18 +144,20 @@ const BranchDetails = () => {
             ) : (
               <>
                 <button
-                  className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+                  className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
                   onClick={handleDownloadReport}
                 >
+                  <IoMdCloudDownload className="text-lg mr-2" />
                   Download report
                 </button>
               </>
             )}
             <>
               <button
-                className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+                className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
                 onClick={openBranchSettingsModal}
               >
+                <IoSettingsSharp className="text-lg mr-2" />
                 Settings
               </button>
             </>
