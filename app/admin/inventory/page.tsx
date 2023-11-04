@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
 import InventoryModal from "./Modal";
+import QrModal from "./qrModal";
 import InventoryEditModal from "./editModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
@@ -9,6 +10,7 @@ function Inventory() {
   const [productData, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
   const closeEditModal = () => {
     setIsEditModalOpen(false);
@@ -24,6 +26,12 @@ function Inventory() {
     setSelectedRowData(row);
     closeModal();
     setIsEditModalOpen(true);
+  };
+  const openQrModal = () => {
+    setIsQrModalOpen(true);
+  };
+  const closeQrModal = () => {
+    setIsQrModalOpen(false);
   };
   const {
     data: inventoryData,
@@ -109,6 +117,14 @@ function Inventory() {
         <div className="w-full flex justify-between ">
           <div>
             <ActionButton
+              text="QR"
+              color="green"
+              row={row}
+              onClick={openQrModal}
+            />
+          </div>
+          <div>
+            <ActionButton
               text="Edit"
               color="cyan"
               row={row}
@@ -119,7 +135,7 @@ function Inventory() {
           <ActionButton text="Delete" color="red" />
         </div>
       ),
-      width: "170px",
+      width: "220px",
     },
   ];
   createTheme("solarized", {
@@ -163,6 +179,12 @@ function Inventory() {
         <InventoryEditModal
           isOpen={isEditModalOpen}
           closeModal={closeEditModal}
+          selectedRowData={selectedRowData}
+          refetch={refetch}
+        />
+        <QrModal
+          isOpen={isQrModalOpen}
+          closeModal={closeQrModal}
           selectedRowData={selectedRowData}
           refetch={refetch}
         />
