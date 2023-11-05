@@ -4,8 +4,9 @@ import LoadingScreen from "../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "./ScrollBar";
 import Image from "next/image";
+import Barcode from "react-jsbarcode";
 
-const QrModal = ({ isOpen, closeModal }: any) => {
+const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -18,6 +19,12 @@ const QrModal = ({ isOpen, closeModal }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
+  console.log("selected row data is", selectedRowData);
+  let { totalItems, _id } = selectedRowData;
+  const lastSixCharacters = _id.slice(-6);
+  console.log("last siz is", lastSixCharacters);
+  // Create an array with the same length as totalItems
+  const itemsArray = new Array(totalItems).fill(null);
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
@@ -27,11 +34,17 @@ const QrModal = ({ isOpen, closeModal }: any) => {
       <>
         <section className="w-1/2 h-2/3 p-6 mx-autorounded-md shadow-2xl bg-modalBackground  mt-20 z-50 rounded-xl">
           <h1 className="text-xl font-bold text-Black capitalize pb-4">
-            Edit Products
+            Products Barcode
           </h1>
 
           <CustomScrollbar>
-            <div>hello</div>
+            <div className="grid  grid-cols-3 w-full ">
+              {itemsArray.map((item, index) => (
+                <div key={index} className="mb-4">
+                  <Barcode value={lastSixCharacters} />
+                </div>
+              ))}
+            </div>
           </CustomScrollbar>
           <div className="flex justify-end mt-6">
             <button

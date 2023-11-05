@@ -27,7 +27,8 @@ function Inventory() {
     closeModal();
     setIsEditModalOpen(true);
   };
-  const openQrModal = () => {
+  const openQrModal = (row: any) => {
+    setSelectedRowData(row);
     setIsQrModalOpen(true);
   };
   const closeQrModal = () => {
