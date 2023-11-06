@@ -1,8 +1,17 @@
 "use client";
 import { useRouter } from "next/navigation";
-
+import BranchSettingsModal from "./addBranches";
+import { useState } from "react";
 const Branches = () => {
   const router = useRouter();
+  const [isBranchSettingsModalOpen, setisBranchSettingsModalOpen] =
+    useState(false);
+  const openBranchSettingsModal = () => {
+    setisBranchSettingsModalOpen(true);
+  };
+  const closeBranchSettingsModal = () => {
+    setisBranchSettingsModalOpen(false);
+  };
   const a = [
     { name: "branch1", address: "branch1" },
     { name: "branch2", address: "branch2" },
@@ -14,11 +23,20 @@ const Branches = () => {
     <div className="p-0 sm:p-2">
       <div className="flex py-6 px-10 justify-between">
         <h4 className="text-xl font-semibold text-black">Branches</h4>
-        <button className="px-6  bg-black text-white py-1 rounded-lg">
+        <button
+          className="px-6  bg-black text-white py-1 rounded-lg"
+          onClick={openBranchSettingsModal}
+        >
           Add Branches
         </button>
       </div>
-      <div className="w-full flex items-center justify-center px-1 sm:px-10 flex-col">
+      <div
+        className={`${
+          isBranchSettingsModalOpen
+            ? "blur-xl"
+            : "w-full flex items-center justify-center px-1 sm:px-10 flex-col"
+        }`}
+      >
         {a.map((item, index) => {
           return (
             <div
@@ -40,6 +58,10 @@ const Branches = () => {
           );
         })}
       </div>
+      <BranchSettingsModal
+        isOpen={isBranchSettingsModalOpen}
+        closeModal={closeBranchSettingsModal}
+      />
     </div>
   );
 };
