@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
-import InventoryModal from "./Modal";
+import InventoryModal from "./addProductsModal";
 import QrModal from "./qrModal";
 import InventoryEditModal from "./editModal";
 import DataTable, { createTheme } from "react-data-table-component";
@@ -69,7 +69,7 @@ function Inventory() {
       selector: (row: any) => {
         return row.image[0] ? (
           <img
-            src={row.image[0]}
+            src={row.image}
             style={{
               width: "60px",
               height: "40px",
@@ -95,14 +95,6 @@ function Inventory() {
     {
       name: "Category",
       selector: (row: any) => row.category,
-    },
-    {
-      name: "Total Items",
-      selector: (row: any) => row.totalItems,
-    },
-    {
-      name: "Stock",
-      selector: (row: any) => row.stock,
     },
     {
       name: "Selling Price",

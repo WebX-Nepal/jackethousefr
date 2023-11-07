@@ -5,10 +5,9 @@ const validationSchema = yup.object().shape({
   category: yup.string().required("Please Enter Product Category"),
   costPrice: yup.number().required("Please Enter Cost Price"),
   sellingPrice: yup.number().required("Please Enter Selling Price"),
-  totalItems: yup.number().required("Please Enter Total Items"),
   discount: yup.number(),
   size: yup.string(),
-  colors: yup.array().of(yup.string()),
+  color: yup.string(),
 });
 
 export default validationSchema;

@@ -144,31 +144,19 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
                       {errors.sellingPrice?.message}
                     </p>
                   </div>
+
                   <div>
-                    Total Items:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Total Items"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("totalItems")}
-                      />
-                    </div>
-                    <p className="text-red-600">{errors.totalItems?.message}</p>
-                  </div>
-                  <div>
-                    Colors:
+                    Color:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                       <input
                         id="name"
                         type="text"
                         placeholder="Please Enter Colors"
                         className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("colors")}
+                        {...register("color")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.colors?.message}</p>
+                    <p className="text-red-600">{errors.color?.message}</p>
                   </div>
                   <div>
                     Discount (%):

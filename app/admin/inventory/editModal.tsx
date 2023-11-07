@@ -45,8 +45,7 @@ const InventoryEditModal = ({
       category: "",
       costPrice: 0,
       sellingPrice: 0,
-      totalItems: 0,
-      colors: [""],
+      color: "",
       discount: 0,
       size: "",
     },
@@ -57,8 +56,7 @@ const InventoryEditModal = ({
     setValue("category", selectedRowData?.category);
     setValue("costPrice", selectedRowData?.costPrice);
     setValue("sellingPrice", selectedRowData?.sellingPrice);
-    setValue("totalItems", selectedRowData?.totalItems);
-    setValue("colors", selectedRowData?.colors);
+    setValue("color", selectedRowData?.color);
     setValue("discount", selectedRowData?.discount);
     setValue("size", selectedRowData?.size);
     setID(selectedRowData?._id);
@@ -200,25 +198,9 @@ const InventoryEditModal = ({
                       {errors.sellingPrice?.message}
                     </p>
                   </div>
+
                   <div>
-                    Total Items:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <Controller
-                        name="totalItems"
-                        control={control}
-                        render={({ field }) => (
-                          <input
-                            type="text"
-                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                            {...field}
-                          />
-                        )}
-                      />
-                    </div>
-                    <p className="text-red-600">{errors.totalItems?.message}</p>
-                  </div>
-                  <div>
-                    Colors:
+                    Color:
                     <div className="border border-gray-600 rounded-xl flex items-center justify-center bg-white">
                       <CustomSelect
                         value={selectedOption}
@@ -226,7 +208,7 @@ const InventoryEditModal = ({
                         placeholder="Select an option"
                       />
                     </div>
-                    <p className="text-red-600">{errors.colors?.message}</p>
+                    <p className="text-red-600">{errors.color?.message}</p>
                   </div>
                   <div>
                     Discount (%):
@@ -269,7 +251,7 @@ const InventoryEditModal = ({
                   ) : (
                     <>
                       <Image
-                        src={selectedRowData.image[0]}
+                        src={selectedRowData.image}
                         width={250}
                         height={250}
                         alt="product image"
