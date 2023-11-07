@@ -19,3 +19,5 @@ export const tableCustomStyles = {
   },
   background: "#e3e1e1",
 };
+
+

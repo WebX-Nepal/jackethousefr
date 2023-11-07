@@ -1,9 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import BranchSettingsModal from "./addBranches";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetBranchQuery } from "@/redux/api/secureApi";
 const Branches = () => {
   const router = useRouter();
+  const [data, setBranchData] = useState([]);
+  const { data: branchData, isLoading, isSuccess } = useGetBranchQuery({});
   const [isBranchSettingsModalOpen, setisBranchSettingsModalOpen] =
     useState(false);
   const openBranchSettingsModal = () => {
@@ -12,6 +15,12 @@ const Branches = () => {
   const closeBranchSettingsModal = () => {
     setisBranchSettingsModalOpen(false);
   };
+  useEffect(() => {
+    if (branchData && isSuccess) {
+      console.log("data is", branchData?.branch);
+      setBranchData(branchData?.branch);
+    }
+  }, [branchData, isSuccess]);
   const a = [
     { name: "branch1", address: "branch1" },
     { name: "branch2", address: "branch2" },
@@ -37,13 +46,13 @@ const Branches = () => {
             : "w-full flex items-center justify-center px-1 sm:px-10 flex-col"
         }`}
       >
-        {a.map((item, index) => {
+        {data?.map((item: any, index) => {
           return (
             <div
               className="bg-primary w-full h-16 rounded-xl flex justify-between items-center px-6 mb-6 shadow-md hover:shadow-xl hover:cursor-pointer"
               key={index}
             >
-              <p>{item.name}</p>
+              <p>{item.branchName}</p>
               <p className="hidden sm:block">{item.address}</p>
               <button
                 className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
@@ -61,6 +70,7 @@ const Branches = () => {
       <BranchSettingsModal
         isOpen={isBranchSettingsModalOpen}
         closeModal={closeBranchSettingsModal}
+        //refetch={refetch}
       />
     </div>
   );

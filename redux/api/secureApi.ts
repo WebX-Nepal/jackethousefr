@@ -50,7 +50,18 @@ export const secureApi = createApi({
         url: `/member/salesHistory/${ID}`,
       }),
     }),
-
+    createBranch: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/branch/registerBranch`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getBranch: builder.query<any, any>({
+      query: () => ({
+        url: `/branch/getBranch`,
+      }),
+    }),
     createSales: builder.mutation<any, any>({
       query: (data) => ({
         url: `/sales/createSales`,
@@ -86,6 +97,8 @@ export const {
   useGetAllProductsQuery,
   useGetProductByIdQuery,
   useUpdateProductByIdMutation,
+  useGetBranchQuery,
+  useCreateBranchMutation,
   useGetLatestProductQuery,
   useGetMemberSalesHistoryQuery,
   useGetMemberByIDQuery,
