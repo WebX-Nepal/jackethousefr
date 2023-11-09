@@ -6,11 +6,15 @@ import QrModal from "./qrModal";
 import InventoryEditModal from "./editModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
+import { useRouter } from "next/navigation";
+import AddCategoryModal from "./addCategoryModal";
 function Inventory() {
+  const router = useRouter();
   const [productData, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
   const closeEditModal = () => {
     setIsEditModalOpen(false);
@@ -26,6 +30,13 @@ function Inventory() {
     setSelectedRowData(row);
     closeModal();
     setIsEditModalOpen(true);
+  };
+  const openAddCategoryModal = (row: any) => {
+    setSelectedRowData(row);
+    setIsAddCategoryModalOpen(true);
+  };
+  const closeAddCategoryModal = () => {
+    setIsAddCategoryModalOpen(false);
   };
   const openQrModal = (row: any) => {
     setSelectedRowData(row);
@@ -67,7 +78,7 @@ function Inventory() {
     {
       name: "Image",
       selector: (row: any) => {
-        return row.image[0] ? (
+        return row.image ? (
           <img
             src={row.image}
             style={{
@@ -110,25 +121,16 @@ function Inventory() {
         <div className="w-full flex justify-between ">
           <div>
             <ActionButton
-              text="QR"
-              color="green"
-              row={row}
-              onClick={openQrModal}
-            />
-          </div>
-          <div>
-            <ActionButton
               text="Edit"
               color="cyan"
               row={row}
               onClick={openEditModal}
             />
           </div>
-
           <ActionButton text="Delete" color="red" />
         </div>
       ),
-      width: "220px",
+      width: "180px",
     },
   ];
   createTheme("solarized", {
@@ -139,22 +141,37 @@ function Inventory() {
       default: "#FFFFFF",
     },
   });
+  const handleRowClicked = (row: any) => {
+    let slug = row._id;
+    router.push(`/admin/inventory/${slug}`);
+    console.log("row is", row);
+  };
   return (
     <>
       <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">Inventory</h4>
-
-          <button
-            className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
-            onClick={openModal}
-          >
-            Add Products
-          </button>
+          <div>
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
+              onClick={openAddCategoryModal}
+            >
+              Add Category
+            </button>
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1"
+              onClick={openModal}
+            >
+              Add Products
+            </button>
+          </div>
         </div>
         <div
           className={`${
-            isModalOpen || isQrModalOpen || isEditModalOpen
+            isModalOpen ||
+            isQrModalOpen ||
+            isEditModalOpen ||
+            isAddCategoryModalOpen
               ? "blur-xl"
               : "px-4 rounded-lg "
           }`}
@@ -166,6 +183,7 @@ function Inventory() {
             pagination
             fixedHeader
             highlightOnHover
+            onRowClicked={handleRowClicked}
             responsive
             theme="solarized"
           />
@@ -184,6 +202,12 @@ function Inventory() {
         <QrModal
           isOpen={isQrModalOpen}
           closeModal={closeQrModal}
+          selectedRowData={selectedRowData}
+          refetch={refetch}
+        />
+        <AddCategoryModal
+          isOpen={isAddCategoryModalOpen}
+          closeModal={closeAddCategoryModal}
           selectedRowData={selectedRowData}
           refetch={refetch}
         />

@@ -21,12 +21,6 @@ const Branches = () => {
       setBranchData(branchData?.branch);
     }
   }, [branchData, isSuccess]);
-  const a = [
-    { name: "branch1", address: "branch1" },
-    { name: "branch2", address: "branch2" },
-    { name: "branch3", address: "branch3" },
-    { name: "branch4", address: "branch4" },
-  ];
 
   return (
     <div className="p-0 sm:p-2">
