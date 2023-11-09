@@ -7,12 +7,12 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import validationSchema from "./validation";
-import { useUpdateProductByIdMutation } from "../../../redux/api/secureApi";
-import LoadingScreen from "../../../components/LoadingScreen";
+import validationSchema from "../validation";
+import { useUpdateProductByIdMutation } from "../../../../redux/api/secureApi";
+import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "./ScrollBar";
-import CustomSelect from "../../../components/Select";
+import CustomScrollbar from "../ScrollBar";
+import CustomSelect from "../../../../components/Select";
 import Image from "next/image";
 
 const InventoryEditModal = ({

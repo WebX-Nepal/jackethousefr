@@ -7,12 +7,12 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import validationSchema from "./validation";
-import { useCreateProductsMutation } from "../../../redux/api/secureApi";
-import LoadingScreen from "../../../components/LoadingScreen";
+import validationSchema from "../validation";
+import { useCreateProductsMutation } from "../../../../redux/api/secureApi";
+import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "./ScrollBar";
-const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
+import CustomScrollbar from "../ScrollBar";
+const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
@@ -70,7 +70,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-
+  console.log("category data is", categoryData);
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${

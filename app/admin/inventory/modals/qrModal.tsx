@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../../components/LoadingScreen";
+import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "./ScrollBar";
+import CustomScrollbar from "../ScrollBar";
 import Image from "next/image";
 import Barcode from "react-jsbarcode";
 

@@ -1,27 +1,43 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
-import InventoryModal from "./addProductsModal";
-import QrModal from "./qrModal";
-import InventoryEditModal from "./editModal";
+import {
+  useGetCategoryQuery,
+  useGetLatestProductQuery,
+} from "../../../redux/api/secureApi";
+import InventoryModal from "./modals/addProductsModal";
+import QrModal from "./modals/qrModal";
+import InventoryEditModal from "./modals/editModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
-import AddCategoryModal from "./addCategoryModal";
+import AddCategoryModal from "./modals/addCategoryModal";
+import { toast } from "react-toastify";
 function Inventory() {
   const router = useRouter();
   const [productData, setProducts] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
+  const {
+    data: inventoryData,
+    refetch,
+    isSuccess,
+  } = useGetLatestProductQuery({});
+  const { data: category, isSuccess: categoryDataSuccess } =
+    useGetCategoryQuery({});
   const closeEditModal = () => {
     setIsEditModalOpen(false);
   };
   const openModal = () => {
-    closeEditModal();
-    setIsModalOpen(true);
+    if (categoryData.length > 0) {
+      closeEditModal();
+      setIsModalOpen(true);
+    } else {
+      toast.error("Please Add a Category First");
+    }
   };
   const closeModal = () => {
     setIsModalOpen(false);
@@ -45,17 +61,18 @@ function Inventory() {
   const closeQrModal = () => {
     setIsQrModalOpen(false);
   };
-  const {
-    data: inventoryData,
-    refetch,
-    isSuccess,
-  } = useGetLatestProductQuery({});
   useEffect(() => {
     if (inventoryData && isSuccess) {
       setProducts(inventoryData.products);
     } else {
     }
   }, [inventoryData]);
+  useEffect(() => {
+    if (category && categoryDataSuccess) {
+      setCategoryData(category.category);
+    } else {
+    }
+  }, [category]);
   useEffect(() => {
     refetch();
   }, []);
@@ -144,8 +161,8 @@ function Inventory() {
   const handleRowClicked = (row: any) => {
     let slug = row._id;
     router.push(`/admin/inventory/${slug}`);
-    console.log("row is", row);
   };
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -192,6 +209,7 @@ function Inventory() {
           isOpen={isModalOpen}
           closeModal={closeModal}
           refetch={refetch}
+          categoryData={categoryData}
         ></InventoryModal>
         <InventoryEditModal
           isOpen={isEditModalOpen}

@@ -33,7 +33,11 @@ export const secureApi = createApi({
         body: formData,
       }),
     }),
-
+    getCategory: builder.query<any, any>({
+      query: () => ({
+        url: `/product/getCategory/`,
+      }),
+    }),
     getLatestProduct: builder.query<any, any>({
       query: () => ({
         url: `/product/getLatestproducts/`,
@@ -98,6 +102,7 @@ export const {
   useGetProductByIdQuery,
   useUpdateProductByIdMutation,
   useGetBranchQuery,
+  useGetCategoryQuery,
   useCreateBranchMutation,
   useGetLatestProductQuery,
   useGetMemberSalesHistoryQuery,
