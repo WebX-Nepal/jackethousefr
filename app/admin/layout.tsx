@@ -7,7 +7,6 @@ const Admin = ({ children }: { children: React.ReactNode }) => {
   //if  admin then stay if branch admin then forward page to branch page
 
   const screenWidth = useScreenWidth();
-
   return (
     <div className="min-h-screen flex flex-col">
       <div className="sticky top-0 z-50">

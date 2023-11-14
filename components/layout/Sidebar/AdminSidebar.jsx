@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiFillHome, AiFillGolden } from "react-icons/ai";
+import { AiFillGolden } from "react-icons/ai";
 import { GoPeople } from "react-icons/go";
+import { GrHistory } from "react-icons/gr";
 import { PiCoatHangerLight } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -49,6 +50,19 @@ function Sidebar() {
         <GoPeople
           className={` text-secondary rounded-full text-3xl border-4 ${
             path == "reports"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "History",
+      pathName: "history",
+      icon: (
+        <GrHistory
+          className={` text-secondary rounded-full text-3xl border-4 ${
+            path == "history"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
           }`}
