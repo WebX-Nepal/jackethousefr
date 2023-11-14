@@ -1,12 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../../components/LoadingScreen";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import Image from "next/image";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useCreateBranchMutation } from "../../../redux/api/secureApi";
-const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
-  const [sendData, { isSuccess, isLoading }] = useCreateBranchMutation();
+const BranchSettingsModal = ({ isOpen, closeModal, refetch }: any) => {
+  const [sendData, { isSuccess }] = useCreateBranchMutation();
   const {
     register,
     handleSubmit,
@@ -19,7 +17,7 @@ const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
     if (isSuccess) {
       toast.success("successfully added new branch");
       closeModal();
-      //refetch;
+      refetch();
     }
   }, [isSuccess]);
   useEffect(() => {
