@@ -26,9 +26,10 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  } = useForm();
+  //{
+  //resolver: yupResolver(validationSchema),
+  //}
   const [
     sendData,
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
@@ -102,28 +103,16 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         {...register("name")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.name?.message}</p>
-                  </div>
-                  <div>
-                    Category:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Category"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("category")}
-                      />
-                    </div>
-                    <p className="text-red-600">{errors.category?.message}</p>
+                    {/* <p className="text-red-600">{errors.name?.message}</p> */}
                   </div>
                   <div className="">
                     Category:
                     <div className="">
                       <SelectComponent
                         control={control}
-                        name="size"
+                        name="category"
                         options={categoryData}
+                        // {...register("category")}
                       />
                     </div>
                   </div>
@@ -138,7 +127,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         {...register("costPrice")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.costPrice?.message}</p>
+                    {/* <p className="text-red-600">{errors.costPrice?.message}</p> */}
                   </div>
                   <div>
                     Selling Price:
@@ -152,7 +141,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                       />
                     </div>
                     <p className="text-red-600">
-                      {errors.sellingPrice?.message}
+                      {/* {errors.sellingPrice?.message} */}
                     </p>
                   </div>
                   <div>
@@ -166,7 +155,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         {...register("color")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.color?.message}</p>
+                    {/* <p className="text-red-600">{errors.color?.message}</p> */}
                   </div>
                   <div>
                     Discount (%):
@@ -179,7 +168,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         {...register("discount")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.discount?.message}</p>
+                    {/* <p className="text-red-600">{errors.discount?.message}</p> */}
                   </div>
                   <div>
                     Size:
@@ -192,7 +181,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         {...register("size")}
                       />
                     </div>
-                    <p className="text-red-600">{errors.size?.message}</p>
+                    {/* <p className="text-red-600">{errors.size?.message}</p> */}
                   </div>
                   <div className="w-full">
                     <FilePond

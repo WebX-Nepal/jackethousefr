@@ -69,6 +69,7 @@ function Inventory() {
   }, [inventoryData]);
   useEffect(() => {
     if (category && categoryDataSuccess) {
+      console.log("Category is ", category);
       setCategoryData(category.category);
     } else {
     }
@@ -95,9 +96,9 @@ function Inventory() {
     {
       name: "Image",
       selector: (row: any) => {
-        return row.image ? (
+        return row?.category?.categoryImage ? (
           <img
-            src={row.image}
+            src={row?.category?.categoryImage}
             style={{
               width: "60px",
               height: "40px",
@@ -122,7 +123,7 @@ function Inventory() {
     },
     {
       name: "Category",
-      selector: (row: any) => row.category,
+      selector: (row: any) => row.category?.name,
     },
     {
       name: "Selling Price",
@@ -169,6 +170,12 @@ function Inventory() {
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">Inventory</h4>
           <div>
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
+              onClick={openAddCategoryModal}
+            >
+              Sort By
+            </button>
             <button
               className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
               onClick={openAddCategoryModal}

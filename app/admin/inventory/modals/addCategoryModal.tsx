@@ -7,10 +7,13 @@ import Image from "next/image";
 import Barcode from "react-jsbarcode";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePond } from "react-filepond";
-
+import { useCreateCategoryMutation } from "@/redux/api/secureApi";
 const AddCategoryModal = ({ isOpen, closeModal, selectedRowData }: any) => {
   const [files, setFiles] = useState<any>();
-
+  const [
+    sendData,
+    { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
+  ] = useCreateCategoryMutation();
   const {
     control,
     register,
@@ -23,8 +26,8 @@ const AddCategoryModal = ({ isOpen, closeModal, selectedRowData }: any) => {
     for (const key in data) {
       formData.append(key, data[key]);
     }
-    formData.append("image", files[0]?.file);
-    // await sendData(formData);
+    formData.append("categoryImage", files[0]?.file);
+    await sendData(formData);
     reset();
   };
   useEffect(() => {

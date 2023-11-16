@@ -9,7 +9,6 @@ const SelectComponent = ({ control, name, options }) => {
     name,
     control,
   });
-  console.log("optionsara", options);
   return (
     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
       <select
@@ -20,7 +19,7 @@ const SelectComponent = ({ control, name, options }) => {
         className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
       >
         {options.map((option) => (
-          <option key={option.name} value={option.name}>
+          <option key={option._id} value={option._id}>
             {option.name}
           </option>
         ))}

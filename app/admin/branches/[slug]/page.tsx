@@ -27,7 +27,6 @@ const BranchDetails = () => {
   const handleValueChange = (newValue: any) => {
     setValue(newValue);
   };
-
   useEffect(() => {
     if (reportData && isSuccess) {
       setProducts(reportData.data);

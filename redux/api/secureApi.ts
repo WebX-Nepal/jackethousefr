@@ -73,6 +73,13 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
+    createCategory: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/product/registerCategory`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getSalesReportsProductsData: builder.query<any, any>({
       query: () => ({
         url: `sales/getSalesReportsDataProducts`,
@@ -100,6 +107,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useCreateCategoryMutation,
   useUpdateProductByIdMutation,
   useGetBranchQuery,
   useGetCategoryQuery,

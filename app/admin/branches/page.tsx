@@ -57,7 +57,7 @@ const Branches = () => {
                 className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
                 type="button"
                 onClick={() => {
-                  router.push("branches/branchDetails");
+                  router.push(`branches/${item._id}`);
                 }}
               >
                 View
