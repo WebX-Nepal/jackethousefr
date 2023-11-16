@@ -234,6 +234,7 @@ function Inventory() {
           isOpen={isAddCategoryModalOpen}
           closeModal={closeAddCategoryModal}
           selectedRowData={selectedRowData}
+          categoryData={categoryData}
           refetch={refetch}
         />
       </div>
