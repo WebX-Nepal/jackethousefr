@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
@@ -49,11 +49,12 @@ const InventoryEditModal = ({
       discount: 0,
       size: "",
     },
-    resolver: yupResolver(validationSchema),
+    // resolver: yupResolver(validationSchema),
   });
+  console.log("selected data is", selectedRowData);
   useEffect(() => {
     setValue("name", selectedRowData?.name);
-    setValue("category", selectedRowData?.category);
+    setValue("category", selectedRowData?.category?.name);
     setValue("costPrice", selectedRowData?.costPrice);
     setValue("sellingPrice", selectedRowData?.sellingPrice);
     setValue("color", selectedRowData?.color);
@@ -201,14 +202,20 @@ const InventoryEditModal = ({
 
                   <div>
                     Color:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center bg-white">
-                      <CustomSelect
-                        value={selectedOption}
-                        onChange={handleSelectChange}
-                        placeholder="Select an option"
+                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                      <Controller
+                        name="color"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="text"
+                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
-                    <p className="text-red-600">{errors.color?.message}</p>
+                    {/* <p className="text-red-600">{errors.sellingPrice?.color}</p> */}
                   </div>
                   <div>
                     Discount (%):
@@ -251,7 +258,7 @@ const InventoryEditModal = ({
                   ) : (
                     <>
                       <Image
-                        src={selectedRowData.image}
+                        src={selectedRowData.productImage}
                         width={250}
                         height={250}
                         alt="product image"

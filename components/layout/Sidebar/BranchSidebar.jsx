@@ -91,8 +91,8 @@ function Sidebar() {
           return (
             <li
               key={index}
-              className={`text-sm flex flex-col items-center gap-x-4 cursor-pointer p-2 mb-3 rounded-l-sm hover:border-l-4 ${
-                path == item.pathName ? "border-l-4" : ""
+              className={`text-sm flex flex-col items-center gap-x-4 cursor-pointer p-2 mb-3 rounded-l-sm border-l-4 border-black hover:border-white ${
+                path == item.pathName ? "border-l-4 border-white" : ""
               }`}
               onClick={() => router.push(`/branch/${item.pathName}`)}
             >
