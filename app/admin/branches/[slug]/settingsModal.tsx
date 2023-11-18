@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import Image from "next/image";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 const BranchSettingsModal = ({ isOpen, closeModal }: any) => {

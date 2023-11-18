@@ -21,6 +21,8 @@ function Inventory() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
+  const [sortBy, selectSortBy] = useState("Date");
+  const options = [{ name: "Date" }, { name: "Category" }];
   const {
     data: inventoryData,
     refetch,
@@ -163,19 +165,36 @@ function Inventory() {
     let slug = row._id;
     router.push(`/admin/inventory/${slug}`);
   };
-
+  const handleSelectChange = () => {
+    if (sortBy == "Date") {
+      selectSortBy("Category");
+    } else {
+      selectSortBy("Date");
+    }
+  };
   return (
     <>
       <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">Inventory</h4>
           <div>
-            <button
+            {/* <button
               className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
               onClick={openAddCategoryModal}
             >
               Sort By
-            </button>
+            </button> */}
+            <select
+              value={sortBy}
+              onChange={handleSelectChange}
+              className="p-1 px-2 outline-none placeholder-gray-500 bg-white text-black rounded-xl mr-2"
+            >
+              {options.map((option) => (
+                <option key={option.name} value={option.name}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
             <button
               className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
               onClick={openAddCategoryModal}
@@ -223,6 +242,7 @@ function Inventory() {
           closeModal={closeEditModal}
           selectedRowData={selectedRowData}
           refetch={refetch}
+          categoryData={categoryData}
         />
         <QrModal
           isOpen={isQrModalOpen}

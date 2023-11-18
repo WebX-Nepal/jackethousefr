@@ -12,15 +12,17 @@ import { useUpdateProductByIdMutation } from "../../../../redux/api/secureApi";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "../ScrollBar";
-import CustomSelect from "../../../../components/Select";
 import Image from "next/image";
+import SelectComponent from "../../../../components/SelectComponent";
 
 const InventoryEditModal = ({
   isOpen,
   closeModal,
   selectedRowData,
   refetch,
+  categoryData,
 }: any) => {
+  console.log("edit category data is", categoryData);
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
@@ -42,10 +44,10 @@ const InventoryEditModal = ({
   } = useForm({
     defaultValues: {
       name: "",
-      category: "",
       costPrice: 0,
       sellingPrice: 0,
       color: "",
+      category: "",
       discount: 0,
       size: "",
     },
@@ -67,13 +69,12 @@ const InventoryEditModal = ({
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
   ] = useUpdateProductByIdMutation();
   const onSubmit: SubmitHandler<any> = async (data) => {
-    data.colors = selectedOption?.map((obj: any) => obj.value);
     const formData = new FormData();
     for (const key in data) {
       formData.append(key, data[key]);
     }
     if (files?.length > 0) {
-      formData.append("image", files[0]?.file);
+      formData.append("productImage", files[0]?.file);
     }
     await sendEditedData([formData, ID]);
     reset();
@@ -146,22 +147,15 @@ const InventoryEditModal = ({
                     </div>
                     <p className="text-red-600">{errors.name?.message}</p>
                   </div>
-                  <div>
+                  <div className="">
                     Category:
-                    <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                      <Controller
-                        name="category"
+                    <div className="">
+                      <SelectComponent
                         control={control}
-                        render={({ field }) => (
-                          <input
-                            type="text"
-                            className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                            {...field}
-                          />
-                        )}
+                        name="category"
+                        options={categoryData}
                       />
                     </div>
-                    <p className="text-red-600">{errors.category?.message}</p>
                   </div>
                   <div>
                     Cost Price:

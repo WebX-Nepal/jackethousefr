@@ -35,6 +35,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
   ] = useCreateProductsMutation();
   const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log("add prodcuts data is", data);
     const formData = new FormData();
     for (const key in data) {
       formData.append(key, data[key]);
@@ -112,7 +113,6 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                         control={control}
                         name="category"
                         options={categoryData}
-                        // {...register("category")}
                       />
                     </div>
                   </div>
