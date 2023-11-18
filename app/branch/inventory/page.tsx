@@ -1,35 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useGetLatestProductQuery } from "../../../redux/api/secureApi";
-import InventoryModal from "./Modal";
-import InventoryEditModal from "./editModal";
+import { useGetLocalProductsByBranchQuery } from "../../../redux/api/secureApi";
+
+import BarcodeInventoryModal from "./barcodeModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 function Inventory() {
   const [productData, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedRowData, setSelectedRowData] = useState();
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-  };
+
   const openModal = () => {
-    closeEditModal();
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const openEditModal = (row: any) => {
-    setSelectedRowData(row);
-    closeModal();
-    setIsEditModalOpen(true);
-  };
+  const category = "";
+  const productName = "";
   const {
     data: inventoryData,
     refetch,
     isSuccess,
-  } = useGetLatestProductQuery({});
+  } = useGetLocalProductsByBranchQuery({ category, productName });
   useEffect(() => {
     if (inventoryData && isSuccess) {
       setProducts(inventoryData.products);
@@ -107,15 +99,6 @@ function Inventory() {
       name: "Actions",
       cell: (row: any) => (
         <div className="w-full flex justify-between ">
-          <div>
-            <ActionButton
-              text="Edit"
-              color="cyan"
-              row={row}
-              onClick={openEditModal}
-            />
-          </div>
-
           <ActionButton text="Delete" color="red" />
         </div>
       ),
@@ -134,8 +117,14 @@ function Inventory() {
     <>
       <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-          <h4 className="text-xl font-semibold text-black ">Inventory</h4>
+          <h4 className="text-xl font-semibold text-black ">Local Inventory</h4>
 
+          {/* <button
+            className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
+            onClick={openModal}
+          >
+            Add Products
+          </button> */}
           <button
             className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl "
             onClick={openModal}
@@ -155,17 +144,11 @@ function Inventory() {
             theme="solarized"
           />
         </div>
-        <InventoryModal
+        <BarcodeInventoryModal
           isOpen={isModalOpen}
           closeModal={closeModal}
           refetch={refetch}
-        ></InventoryModal>
-        <InventoryEditModal
-          isOpen={isEditModalOpen}
-          closeModal={closeEditModal}
-          selectedRowData={selectedRowData}
-          refetch={refetch}
-        />
+        ></BarcodeInventoryModal>
       </div>
     </>
   );

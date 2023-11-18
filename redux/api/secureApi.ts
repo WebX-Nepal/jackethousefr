@@ -50,6 +50,13 @@ export const secureApi = createApi({
         url: `/product/getLatestproducts/${data}`,
       }),
     }),
+    recordLocalProduct: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/localProducts/createLocalProduct`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getDeliveredProducts: builder.query<any, any>({
       query: () => ({
         url: `/product/getDeliveredProducts/`,
@@ -124,6 +131,7 @@ export const {
   useUpdateProductByIdMutation,
   useGetDeliveredProductsQuery,
   useGetBranchQuery,
+  useRecordLocalProductMutation,
   useGetCategoryQuery,
   useCreateBranchMutation,
   useGetLatestProductQuery,
