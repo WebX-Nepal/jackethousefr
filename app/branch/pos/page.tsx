@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillCreditCard } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
 import Modal from "./Modal";
-import { useGetAllProductsQuery } from "../../../redux/api/secureApi";
+import { useGetLocalProductsByBranchQuery } from "../../../redux/api/secureApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addItems, removeItems } from "@/redux/slices/counterSlice";
 import { menu } from "../../../components/Constant";
@@ -28,7 +28,7 @@ function Pos() {
     data: allData,
     isSuccess,
     refetch,
-  } = useGetAllProductsQuery({
+  } = useGetLocalProductsByBranchQuery({
     category,
     productName,
   });

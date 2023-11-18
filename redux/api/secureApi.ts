@@ -21,6 +21,13 @@ export const secureApi = createApi({
         }`,
       }),
     }),
+    getLocalProductsByBranch: builder.query<any, any>({
+      query: ({ category, productName }) => ({
+        url: `/localProducts/getLocalProduct?productName=${productName}&category=${
+          category == "All" ? "" : category
+        }`,
+      }),
+    }),
     getProductById: builder.query<any, any>({
       query: (ID) => ({
         url: `/product/${ID}`,
@@ -112,6 +119,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useGetLocalProductsByBranchQuery,
   useCreateCategoryMutation,
   useUpdateProductByIdMutation,
   useGetDeliveredProductsQuery,

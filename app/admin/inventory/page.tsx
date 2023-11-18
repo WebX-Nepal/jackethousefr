@@ -23,7 +23,7 @@ function Inventory() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
-  const [sortBy, selectSortBy] = useState("Date");
+  const [sortBy, selectSortBy] = useState("default");
   const options = [{ name: "Date" }, { name: "category" }];
   console.log("filter options is", filterOptions);
   const {
