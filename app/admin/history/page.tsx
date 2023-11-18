@@ -1,82 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  useGetCategoryQuery,
-  useGetLatestProductQuery,
-} from "../../../redux/api/secureApi";
-import InventoryModal from "./modals/addProductsModal";
-import QrModal from "./modals/qrModal";
-import InventoryEditModal from "./modals/editModal";
+import { useGetDeliveredProductsQuery } from "../../../redux/api/secureApi";
+
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
-import AddCategoryModal from "./modals/addCategoryModal";
 import { toast } from "react-toastify";
 import { AiTwotoneDelete } from "react-icons/ai";
 function Inventory() {
   const router = useRouter();
-  const [productData, setProducts] = useState([]);
-  const [categoryData, setCategoryData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const [selectedRowData, setSelectedRowData] = useState();
-  const {
-    data: inventoryData,
-    refetch,
-    isSuccess,
-  } = useGetLatestProductQuery({});
-  const { data: category, isSuccess: categoryDataSuccess } =
-    useGetCategoryQuery({});
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-  };
-  const openModal = () => {
-    if (categoryData.length > 0) {
-      closeEditModal();
-      setIsModalOpen(true);
-    } else {
-      toast.error("Please Add a Category First");
-    }
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  const openEditModal = (row: any) => {
-    setSelectedRowData(row);
-    closeModal();
-    setIsEditModalOpen(true);
-  };
-  const openAddCategoryModal = (row: any) => {
-    setSelectedRowData(row);
-    setIsAddCategoryModalOpen(true);
-  };
-  const closeAddCategoryModal = () => {
-    setIsAddCategoryModalOpen(false);
-  };
-  const openQrModal = (row: any) => {
-    setSelectedRowData(row);
-    setIsQrModalOpen(true);
-  };
-  const closeQrModal = () => {
-    setIsQrModalOpen(false);
-  };
+  const [historyData, setHistoryData] = useState([]);
+  const { data, isSuccess } = useGetDeliveredProductsQuery({});
   useEffect(() => {
-    if (inventoryData && isSuccess) {
-      setProducts(inventoryData.products);
-    } else {
+    if (data && isSuccess) {
+      setHistoryData(data?.products);
     }
-  }, [inventoryData]);
-  useEffect(() => {
-    if (category && categoryDataSuccess) {
-      setCategoryData(category.category);
-    } else {
-    }
-  }, [category]);
-  useEffect(() => {
-    refetch();
-  }, []);
+  }, [data]);
   const ActionButton = ({ text, onClick, color, row }: any) => (
     <button
       className={`bg-${color}-500 px-4 py-2 rounded-lg text-white`}
@@ -160,31 +99,21 @@ function Inventory() {
     <>
       <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-          <h4 className="text-xl font-semibold text-black ">Inventory</h4>
+          <h4 className="text-xl font-semibold text-black ">
+            Delivered Products
+          </h4>
           <div>
-            <button
-              className="bg-red-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1 flex items-center"
-              onClick={openModal}
-            >
+            <button className="bg-red-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1 flex items-center">
               <AiTwotoneDelete className="text-xl mr-2" />
               Delete History
             </button>
           </div>
         </div>
-        <div
-          className={`${
-            isModalOpen ||
-            isQrModalOpen ||
-            isEditModalOpen ||
-            isAddCategoryModalOpen
-              ? "blur-xl"
-              : "px-4 rounded-lg "
-          }`}
-        >
+        <div>
           <DataTable
             customStyles={tableCustomStyles}
             columns={columns}
-            data={productData}
+            data={historyData}
             pagination
             fixedHeader
             highlightOnHover
@@ -193,30 +122,6 @@ function Inventory() {
             theme="solarized"
           />
         </div>
-        <InventoryModal
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          refetch={refetch}
-          categoryData={categoryData}
-        ></InventoryModal>
-        <InventoryEditModal
-          isOpen={isEditModalOpen}
-          closeModal={closeEditModal}
-          selectedRowData={selectedRowData}
-          refetch={refetch}
-        />
-        <QrModal
-          isOpen={isQrModalOpen}
-          closeModal={closeQrModal}
-          selectedRowData={selectedRowData}
-          refetch={refetch}
-        />
-        <AddCategoryModal
-          isOpen={isAddCategoryModalOpen}
-          closeModal={closeAddCategoryModal}
-          selectedRowData={selectedRowData}
-          refetch={refetch}
-        />
       </div>
     </>
   );

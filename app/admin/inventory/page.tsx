@@ -12,9 +12,11 @@ import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
 import AddCategoryModal from "./modals/addCategoryModal";
 import { toast } from "react-toastify";
+import { skipToken } from "@reduxjs/toolkit/query";
 function Inventory() {
   const router = useRouter();
   const [productData, setProducts] = useState([]);
+  const [filterOptions, setFilterOptions] = useState("category");
   const [categoryData, setCategoryData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -22,12 +24,13 @@ function Inventory() {
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
   const [sortBy, selectSortBy] = useState("Date");
-  const options = [{ name: "Date" }, { name: "Category" }];
+  const options = [{ name: "Date" }, { name: "category" }];
+  console.log("filter options is", filterOptions);
   const {
     data: inventoryData,
     refetch,
     isSuccess,
-  } = useGetLatestProductQuery({});
+  } = useGetLatestProductQuery(filterOptions ?? skipToken);
   const { data: category, isSuccess: categoryDataSuccess } =
     useGetCategoryQuery({});
   const closeEditModal = () => {
@@ -168,8 +171,10 @@ function Inventory() {
   const handleSelectChange = () => {
     if (sortBy == "Date") {
       selectSortBy("Category");
+      setFilterOptions("category");
     } else {
       selectSortBy("Date");
+      setFilterOptions("createdAt");
     }
   };
   return (
@@ -187,7 +192,7 @@ function Inventory() {
             <select
               value={sortBy}
               onChange={handleSelectChange}
-              className="p-1 px-2 outline-none placeholder-gray-500 bg-white text-black rounded-xl mr-2"
+              className="p-1 px-2 outline-none placeholder-gray-500 bg-white text-black rounded-xl mr-2 hover:cursor-pointer"
             >
               {options.map((option) => (
                 <option key={option.name} value={option.name}>

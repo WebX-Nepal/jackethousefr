@@ -39,8 +39,13 @@ export const secureApi = createApi({
       }),
     }),
     getLatestProduct: builder.query<any, any>({
+      query: (data) => ({
+        url: `/product/getLatestproducts/${data}`,
+      }),
+    }),
+    getDeliveredProducts: builder.query<any, any>({
       query: () => ({
-        url: `/product/getLatestproducts/`,
+        url: `/product/getDeliveredProducts/`,
       }),
     }),
     getMemberByID: builder.query<any, any>({
@@ -109,6 +114,7 @@ export const {
   useGetProductByIdQuery,
   useCreateCategoryMutation,
   useUpdateProductByIdMutation,
+  useGetDeliveredProductsQuery,
   useGetBranchQuery,
   useGetCategoryQuery,
   useCreateBranchMutation,
