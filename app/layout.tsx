@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#e3e1e1] `}>
+      <body className={`${inter.className} bg-[#e3e1e1]`}>
         <AuthProvider>
           <ReduxProvider>
             {children}
