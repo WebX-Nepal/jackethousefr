@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CustomScrollbar from "../../../components/ScrollBar";
+import CustomScrollbar from "@/components/ScrollBar";
 import {
   useGetProductByIdQuery,
   useGetMemberByIDQuery,
@@ -338,7 +338,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
               </button>
             </div>
             <div className="flex items-center justify-center h-2/3">
-              <CustomScrollbar>
+              <CustomScrollbar scrollHeight={250}>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="">
                     <tr>

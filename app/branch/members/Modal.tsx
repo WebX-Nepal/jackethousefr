@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetMemberSalesHistoryQuery } from "../../../redux/api/secureApi";
 import { skipToken } from "@reduxjs/toolkit/query";
-import CustomScrollbar from "./ScrollBar";
+import CustomScrollbar from "@/components/ScrollBar";
 
 const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
   const [productData, setProductData] = useState([]);
@@ -43,7 +43,7 @@ const ViewModal = ({ isOpen, closeModal, memberId }: any) => {
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                   <div className="overflow-hidden">
-                    <CustomScrollbar>
+                    <CustomScrollbar scrollHeight={250}>
                       <table className="min-w-full text-left text-sm font-light">
                         <thead className="border-b font-medium dark:border-neutral-500">
                           <tr>

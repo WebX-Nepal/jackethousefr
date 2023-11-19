@@ -11,7 +11,7 @@ import validationSchema from "../validation";
 import { useUpdateProductByIdMutation } from "../../../../redux/api/secureApi";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "../ScrollBar";
+import CustomScrollbar from "@/components/ScrollBar";
 import Image from "next/image";
 import SelectComponent from "../../../../components/SelectComponent";
 
@@ -126,7 +126,7 @@ const InventoryEditModal = ({
               Edit Products
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomScrollbar>
+              <CustomScrollbar scrollHeight={250}>
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 pr-8">
                   <div>
                     Name:

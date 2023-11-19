@@ -1,11 +1,10 @@
 import React from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 
-const CustomScrollbar = ({ children }) => {
+const CustomScrollbar = ({ scrollHeight, children }) => {
   return (
     <Scrollbars
-      style={{ width: "100%", height: "250px" }}
-      autoHide
+      style={{ width: "100%", height: `${scrollHeight}px` }}
       renderThumbVertical={({ style, ...props }) => (
         <div
           {...props}

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "../ScrollBar";
+import CustomScrollbar from "@/components/ScrollBar";
 import Image from "next/image";
 import Barcode from "react-jsbarcode";
 
@@ -35,7 +35,7 @@ const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
             Products Barcode
           </h1>
 
-          <CustomScrollbar>
+          <CustomScrollbar scrollHeight={250}>
             <div className="grid  grid-cols-3 w-full ">
               {itemsArray.map((item, index) => (
                 <div key={index} className="mb-4">

@@ -11,7 +11,7 @@ import validationSchema from "../validation";
 import { useCreateProductsMutation } from "../../../../redux/api/secureApi";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "../ScrollBar";
+import CustomScrollbar from "@/components/ScrollBar";
 import SelectComponent from "../../../../components/SelectComponent";
 const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
   registerPlugin(
@@ -90,7 +90,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
               Add Products
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <CustomScrollbar>
+              <CustomScrollbar scrollHeight={300}>
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 pr-8">
                   <div>
                     Name:

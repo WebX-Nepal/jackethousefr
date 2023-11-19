@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
-import CustomScrollbar from "../ScrollBar";
-import Image from "next/image";
-import Barcode from "react-jsbarcode";
+import CustomScrollbar from "../../../../components/ScrollBar";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePond } from "react-filepond";
 import { useCreateCategoryMutation } from "@/redux/api/secureApi";
@@ -83,7 +81,7 @@ const AddCategoryModal = ({
           ) : (
             <>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <CustomScrollbar>
+                <CustomScrollbar scrollHeight={190}>
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="">
                       <tr>
