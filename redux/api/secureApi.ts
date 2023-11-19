@@ -33,6 +33,12 @@ export const secureApi = createApi({
         url: `/product/${ID}`,
       }),
     }),
+    deleteProductById: builder.query<any, any>({
+      query: (deleteProductId) => ({
+        url: `/product/${deleteProductId}`,
+        method: "DELETE",
+      }),
+    }),
     updateProductById: builder.mutation<any, any>({
       query: ([formData, ID]) => ({
         url: `/product/${ID}`,
@@ -126,6 +132,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useDeleteProductByIdQuery,
   useGetLocalProductsByBranchQuery,
   useCreateCategoryMutation,
   useUpdateProductByIdMutation,

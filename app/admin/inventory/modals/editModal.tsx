@@ -22,7 +22,6 @@ const InventoryEditModal = ({
   refetch,
   categoryData,
 }: any) => {
-  console.log("edit category data is", categoryData);
   registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
@@ -53,7 +52,6 @@ const InventoryEditModal = ({
     },
     // resolver: yupResolver(validationSchema),
   });
-  console.log("selected data is", selectedRowData);
   useEffect(() => {
     setValue("name", selectedRowData?.name);
     setValue("category", selectedRowData?.category?.name);

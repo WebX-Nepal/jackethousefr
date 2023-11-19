@@ -62,7 +62,7 @@ function Inventory() {
     },
     {
       name: "Category",
-      selector: (row: any) => row.category,
+      selector: (row: any) => row.category?.name,
     },
     {
       name: "Selling Price",
@@ -71,6 +71,10 @@ function Inventory() {
     {
       name: "Cost Price",
       selector: (row: any) => row.costPrice,
+    },
+    {
+      name: "Delivered To",
+      selector: (row: any) => row.deliveredTo,
     },
     {
       name: "Actions",

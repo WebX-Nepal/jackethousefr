@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
+  useDeleteProductByIdQuery,
   useGetCategoryQuery,
   useGetLatestProductQuery,
 } from "../../../redux/api/secureApi";
@@ -24,8 +25,8 @@ function Inventory() {
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
   const [sortBy, selectSortBy] = useState("default");
+  const [deleteProductId, setDeleteProductID] = useState();
   const options = [{ name: "Date" }, { name: "category" }];
-  console.log("filter options is", filterOptions);
   const {
     data: inventoryData,
     refetch,
@@ -33,6 +34,8 @@ function Inventory() {
   } = useGetLatestProductQuery(filterOptions ?? skipToken);
   const { data: category, isSuccess: categoryDataSuccess } =
     useGetCategoryQuery({});
+  const { data: deleteProduct, isSuccess: isDeleteSuccess } =
+    useDeleteProductByIdQuery(deleteProductId);
   const closeEditModal = () => {
     setIsEditModalOpen(false);
   };
@@ -59,6 +62,9 @@ function Inventory() {
   const closeAddCategoryModal = () => {
     setIsAddCategoryModalOpen(false);
   };
+  const useDeleteProductById = (row: any) => {
+    setDeleteProductID(row._id);
+  };
   const openQrModal = (row: any) => {
     setSelectedRowData(row);
     setIsQrModalOpen(true);
@@ -73,8 +79,13 @@ function Inventory() {
     }
   }, [inventoryData]);
   useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.success("Deleted Successfully");
+    }
+    refetch();
+  }, [isDeleteSuccess]);
+  useEffect(() => {
     if (category && categoryDataSuccess) {
-      console.log("Category is ", category);
       setCategoryData(category.category);
     } else {
     }
@@ -150,7 +161,12 @@ function Inventory() {
               onClick={openEditModal}
             />
           </div>
-          <ActionButton text="Delete" color="red" />
+          <ActionButton
+            text="Delete"
+            color="red"
+            row={row}
+            onClick={useDeleteProductById}
+          />
         </div>
       ),
       width: "180px",

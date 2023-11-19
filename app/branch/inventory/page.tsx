@@ -77,24 +77,14 @@ function Inventory() {
     },
     {
       name: "Category",
-      selector: (row: any) => row.category,
+      selector: (row: any) => row.category?.name,
     },
-    {
-      name: "Total Items",
-      selector: (row: any) => row.totalItems,
-    },
-    {
-      name: "Stock",
-      selector: (row: any) => row.stock,
-    },
+
     {
       name: "Selling Price",
       selector: (row: any) => row.sellingPrice,
     },
-    {
-      name: "Cost Price",
-      selector: (row: any) => row.costPrice,
-    },
+   
     {
       name: "Actions",
       cell: (row: any) => (

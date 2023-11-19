@@ -22,7 +22,6 @@ const Branches = () => {
   };
   useEffect(() => {
     if (branchData && isSuccess) {
-      console.log("data is", branchData?.branch);
       setBranchData(branchData?.branch);
     }
   }, [branchData, isSuccess]);

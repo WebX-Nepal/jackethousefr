@@ -19,10 +19,8 @@ const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  console.log("selected row data is", selectedRowData);
   let { totalItems, _id } = selectedRowData;
   const lastSixCharacters = _id.slice(-6);
-  console.log("last siz is", lastSixCharacters);
   // Create an array with the same length as totalItems
   const itemsArray = new Array(totalItems).fill(null);
   return (

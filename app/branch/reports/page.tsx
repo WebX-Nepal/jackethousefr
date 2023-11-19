@@ -41,7 +41,7 @@ function Reports() {
       selector: (row: any) => {
         return row.image ? (
           <img
-            src={row.image}
+            src={row.productImage}
             style={{
               width: "60px",
               height: "40px",
@@ -69,8 +69,8 @@ function Reports() {
       selector: (row: any) => row.productCategory,
     },
     {
-      name: "Cost Price",
-      selector: (row: any) => row.cost,
+      name: "Payment Method",
+      selector: (row: any) => row.paymentMethod,
     },
     {
       name: "Selling Price",
@@ -123,7 +123,7 @@ function Reports() {
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between ">
         <h4 className="text-xl font-semibold text-black ">Reports</h4>
         <div className="flex w-1/3 justify-between">
-          <div className="hover:cursor-pointer ">
+          <div className="hover:cursor-pointer w-60">
             <Datepicker
               primaryColor={"red"}
               value={value}
