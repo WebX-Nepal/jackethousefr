@@ -1,10 +1,11 @@
-import React from "react";
-
+"use client";
 function Profile() {
   return (
     <div className="h-full bg-primary m-4 z-10 shadow-lg p-4">
       <div className="flex p-4">
-        <div className="w-[200px] h-[200px] bg-red-300 rounded-full "></div>
+        <div className="w-[200px] h-[200px] bg-red-300 rounded-full ">
+          image
+        </div>
         <div className="ml-20 mt-8">
           <p className="text-3xl">Branch Admin Name</p>
           <p className="text-2xl pt-1">Branch Admin Number</p>
