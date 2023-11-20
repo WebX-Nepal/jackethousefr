@@ -1,19 +1,18 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AiFillCaretDown } from "react-icons/ai";
 import { signOut } from "next-auth/react";
 import { logOutUser } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const DropdownUser = () => {
   const dispatch = useDispatch();
-
+  const userDetails = useSelector((state: any) => state.auth);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-
-  // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
@@ -42,6 +41,7 @@ const DropdownUser = () => {
     dispatch(logOutUser());
     await signOut({ callbackUrl: "/login" });
   }
+  console.log("user details is", userDetails.userDetail);
   return (
     <div className="relative bg-white px-2 py-2 rounded-3xl">
       <Link
@@ -68,10 +68,16 @@ const DropdownUser = () => {
         </div>
 
         <span className="hidden lg:block">
-          <span className="block text-sm font-medium text-black ">
-            Satdobato first
+          <span className="block text-sm font-medium text-black w-[110px]">
+            {userDetails.userDetail.name}
           </span>
-          <span className="block text-xs">Branch</span>
+          <span className="block text-xs ">
+            {userDetails.userDetail.role == "admin" ? (
+              <>Branch</>
+            ) : (
+              <>Central</>
+            )}
+          </span>
         </span>
 
         <AiFillCaretDown className="text-xl" />
