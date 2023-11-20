@@ -47,8 +47,11 @@ const DropdownUser = () => {
     dispatch(logOutUser());
   }
   const handleProfileClick = () => {
+    setDropdownOpen(false);
     if (userDetails?.userDetail?.role == "admin") {
       router.push("/branch/profile");
+    } else {
+      router.push("/admin/profile");
     }
   };
   return (
