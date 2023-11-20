@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetLocalProductsByBranchQuery } from "../../../redux/api/secureApi";
-
+import { useRouter } from "next/navigation";
 import BarcodeInventoryModal from "./barcodeModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 function Inventory() {
+  const router = useRouter();
   const [productData, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -31,6 +31,11 @@ function Inventory() {
   useEffect(() => {
     refetch();
   }, []);
+  const openViewDetails = (row: any) => {
+    console.log("row is", row);
+    let slug = row._id;
+    router.push(`/branch/inventory/${slug}`);
+  };
   const ActionButton = ({ text, onClick, color, row }: any) => (
     <button
       className={`bg-${color}-500 px-4 py-2 rounded-lg text-white`}
@@ -84,15 +89,27 @@ function Inventory() {
       name: "Selling Price",
       selector: (row: any) => row.sellingPrice,
     },
-   
+
     {
       name: "Actions",
       cell: (row: any) => (
-        <div className="w-full flex justify-between ">
-          <ActionButton text="Delete" color="red" />
+        <div className="w-[150px] flex justify-between ">
+          <div>
+            <ActionButton
+              text="View"
+              color="cyan"
+              row={row}
+              onClick={() => openViewDetails(row)}
+            />
+          </div>
+          <ActionButton
+            text="Delete"
+            color="red"
+            row={row}
+            // onClick={useDeleteProduct}
+          />
         </div>
       ),
-      width: "170px",
     },
   ];
   createTheme("solarized", {
