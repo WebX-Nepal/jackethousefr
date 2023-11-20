@@ -52,9 +52,6 @@ function InventoryDetailsPage({ params: { slug } }: any) {
                     Product Name: &nbsp; {data?.name}
                   </h1>
                   <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Category:&nbsp; {data?.category?.name}
-                  </h2>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
                     Cost Price:&nbsp; {data?.costPrice}
                   </h2>
                   <h2 className="text-sm title-font text-gray-500 tracking-widest">
