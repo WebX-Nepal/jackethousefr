@@ -10,8 +10,23 @@ import { toast } from "react-toastify";
 import BranchSettingsModal from "./settingsModal";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloudDownload } from "react-icons/io";
+import {
+  TETabs,
+  TETabsContent,
+  TETabsItem,
+  TETabsPane,
+} from "tw-elements-react";
+
 const BranchDetails = () => {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
+  const [basicActive, setBasicActive] = useState("tab1");
+
+  const handleBasicClick = (value: string) => {
+    if (value === basicActive) {
+      return;
+    }
+    setBasicActive(value);
+  };
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
   const [isBranchSettingsModalOpen, setisBranchSettingsModalOpen] =
@@ -127,61 +142,85 @@ const BranchDetails = () => {
   const closeBranchSettingsModal = () => {
     setisBranchSettingsModalOpen(false);
   };
+
   return (
     <>
       <div className=" border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
-        <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between ">
-          <h4 className="text-xl font-semibold text-black ">Reports</h4>
-          <div className="flex w-1/2 justify-between ">
-            <div className="hover:cursor-pointer w-60">
-              <Datepicker value={value} onChange={handleValueChange} />
-            </div>
-            {downloading ? (
-              <>
-                <LoadingScreen message="Downloading" />
-              </>
-            ) : (
-              <>
-                <button
-                  className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
-                  onClick={handleDownloadReport}
-                >
-                  <IoMdCloudDownload className="text-lg mr-2" />
-                  Download report
-                </button>
-              </>
-            )}
-            <>
-              <button
-                className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
-                onClick={openBranchSettingsModal}
+        <TETabs className="-mb-2 ml-2 py-0  max-w-max">
+          <TETabsItem
+            onClick={() => handleBasicClick("tab1")}
+            active={basicActive === "tab1"}
+            className="normal-case bg-blue-500 rounded-tr-xl"
+          >
+            Reports
+          </TETabsItem>
+          <TETabsItem
+            onClick={() => handleBasicClick("tab2")}
+            active={basicActive === "tab2"}
+            className="normal-case bg-blue-500 rounded-tr-xl"
+          >
+            Inventory
+          </TETabsItem>
+        </TETabs>
+        <TETabsContent>
+          <TETabsPane show={basicActive === "tab1"}>
+            <div className=" m-2 mb-5">
+              <div className="py-4 px-4 md:px-6 xl:px-7.5 flex justify-between ">
+                <h4 className="text-xl font-semibold text-black ">Reports</h4>
+                <div className="flex w-1/2 justify-between ">
+                  <div className="hover:cursor-pointer w-60">
+                    <Datepicker value={value} onChange={handleValueChange} />
+                  </div>
+                  {downloading ? (
+                    <>
+                      <LoadingScreen message="Downloading" />
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
+                        onClick={handleDownloadReport}
+                      >
+                        <IoMdCloudDownload className="text-lg mr-2" />
+                        Download report
+                      </button>
+                    </>
+                  )}
+                  <>
+                    <button
+                      className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl flex items-center justify-center"
+                      onClick={openBranchSettingsModal}
+                    >
+                      <IoSettingsSharp className="text-lg mr-2" />
+                      Settings
+                    </button>
+                  </>
+                </div>
+              </div>
+              <div
+                className={`${
+                  isBranchSettingsModalOpen ? "blur-xl" : "px-4 rounded-lg "
+                }`}
               >
-                <IoSettingsSharp className="text-lg mr-2" />
-                Settings
-              </button>
-            </>
-          </div>
-        </div>
-        <div
-          className={`${
-            isBranchSettingsModalOpen ? "blur-xl" : "px-4 rounded-lg "
-          }`}
-        >
-          <DataTable
-            customStyles={tableCustomStyles}
-            columns={columns}
-            data={productData}
-            pagination
-            fixedHeader
-            highlightOnHover
-            responsive
-            theme="solarized"
-          />
-        </div>
-        <BranchSettingsModal
-          isOpen={isBranchSettingsModalOpen}
-          closeModal={closeBranchSettingsModal}
-        />
+                <DataTable
+                  customStyles={tableCustomStyles}
+                  columns={columns}
+                  data={productData}
+                  pagination
+                  fixedHeader
+                  highlightOnHover
+                  responsive
+                  theme="solarized"
+                />
+              </div>
+              <BranchSettingsModal
+                isOpen={isBranchSettingsModalOpen}
+                closeModal={closeBranchSettingsModal}
+              />
+            </div>
+          </TETabsPane>
+          <TETabsPane show={basicActive === "tab2"}>Tab 2 content</TETabsPane>
+        </TETabsContent>
       </div>
     </>
   );

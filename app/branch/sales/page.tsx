@@ -29,7 +29,7 @@ function Sales() {
     {
       name: "Product",
       selector: (row: any) => {
-        return row.products[0]?.product.category || "-";
+        return row.products?.name || "-";
       },
     },
     {

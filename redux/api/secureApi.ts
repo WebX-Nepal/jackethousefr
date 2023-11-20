@@ -27,6 +27,12 @@ export const secureApi = createApi({
         }`,
       }),
     }),
+
+    getBranchSalesDetails: builder.query<any, any>({
+      query: () => ({
+        url: "/sales/generateTotalDataOfBranch",
+      }),
+    }),
     getProductById: builder.query<any, any>({
       query: (ID) => ({
         url: `/product/${ID}`,
@@ -131,6 +137,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useGetBranchSalesDetailsQuery,
   useDeleteProductByIdQuery,
   useGetLocalProductsByBranchQuery,
   useCreateCategoryMutation,

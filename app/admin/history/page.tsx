@@ -76,15 +76,16 @@ function Inventory() {
       name: "Delivered To",
       selector: (row: any) => row.deliveredTo,
     },
-    {
-      name: "Actions",
-      cell: (row: any) => (
-        <div className="w-full flex justify-between ">
-          <ActionButton text="Delete" color="red" />
-        </div>
-      ),
-      width: "180px",
-    },
+
+    // {
+    //   name: "Actions",
+    //   cell: (row: any) => (
+    //     <div className="w-full flex justify-between ">
+    //       <ActionButton text="Delete" color="red" />
+    //     </div>
+    //   ),
+    //   width: "180px",
+    // },
   ];
   createTheme("solarized", {
     background: {
@@ -101,7 +102,7 @@ function Inventory() {
 
   return (
     <>
-      <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-2">
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">
             Delivered Products
@@ -113,7 +114,7 @@ function Inventory() {
             </button>
           </div>
         </div>
-        <div>
+        <div className="px-6">
           <DataTable
             customStyles={tableCustomStyles}
             columns={columns}

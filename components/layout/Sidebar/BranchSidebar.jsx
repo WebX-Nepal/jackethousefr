@@ -31,19 +31,19 @@ function Sidebar() {
         />
       ),
     },
-    {
-      title: "Sales",
-      pathName: "sales",
-      icon: (
-        <BsBarChart
-          className={` text-secondary rounded-full text-3xl border-4 ${
-            path == "sales"
-              ? "bg-red-600 border-red-600"
-              : "bg-white border-white"
-          }`}
-        />
-      ),
-    },
+    // {
+    //   title: "Sales",
+    //   pathName: "sales",
+    //   icon: (
+    //     <BsBarChart
+    //       className={` text-secondary rounded-full text-3xl border-4 ${
+    //         path == "sales"
+    //           ? "bg-red-600 border-red-600"
+    //           : "bg-white border-white"
+    //       }`}
+    //     />
+    //   ),
+    // },
     {
       title: "Reports",
       pathName: "reports",

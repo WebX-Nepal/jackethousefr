@@ -79,8 +79,8 @@ function Members() {
     {
       name: "Actions",
       cell: (row: any) => (
-        <div className="w-4/5 flex justify-between">
-          <div>
+        <div className="flex justify-between">
+          <div className="mr-2">
             {row.points === 10 && (
               <ActionButton
                 text="Give Rewards"
@@ -89,7 +89,6 @@ function Members() {
               />
             )}
           </div>
-
           <ActionButton
             text="View"
             onClick={() => handleViewMember(row)}
@@ -97,6 +96,7 @@ function Members() {
           />
         </div>
       ),
+      width: "220px",
     },
   ];
   createTheme("solarized", {
