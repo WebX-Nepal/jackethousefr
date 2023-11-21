@@ -115,6 +115,12 @@ export const secureApi = createApi({
         url: `sales/getSalesReportsDataProducts`,
       }),
     }),
+    getTotalSalesDataOfAllBranches: builder.query<any, any>({
+      query: () => ({
+        url: `sales/generateTotalDataOfAllBranches`,
+      }),
+    }),
+
     getSalesData: builder.query<any, any>({
       query: () => ({
         url: "/sales/getSales",
@@ -125,10 +131,14 @@ export const secureApi = createApi({
         url: "/member/getAllMember",
       }),
     }),
-
     downloadReports: builder.query<any, any>({
       query: () => ({
         url: "report/createPDFReport",
+      }),
+    }),
+    downloadReportsForSuperAdmin: builder.query<any, any>({
+      query: () => ({
+        url: "report/createReportForSuperAdmin",
       }),
     }),
   }),
@@ -155,4 +165,6 @@ export const {
   useGetSalesDataQuery,
   useGetAllMembersQuery,
   useDownloadReportsQuery,
+  useDownloadReportsForSuperAdminQuery,
+  useGetTotalSalesDataOfAllBranchesQuery,
 } = secureApi;

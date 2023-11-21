@@ -19,7 +19,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     FilePondPluginImagePreview
   );
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
-  const [files, setFiles] = useState<any>();
+  const [files, setFiles] = useState<any>([]);
   const {
     control,
     register,
@@ -39,7 +39,9 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     for (const key in data) {
       formData.append(key, data[key]);
     }
-    formData.append("productImage", files[0]?.file);
+    if (files.length > 0) {
+      formData.append("productImage", files[0]?.file);
+    }
     await sendData(formData);
     reset();
   };

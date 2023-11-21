@@ -32,7 +32,6 @@ function Inventory() {
     refetch();
   }, []);
   const openViewDetails = (row: any) => {
-    console.log("row is", row);
     let slug = row._id;
     router.push(`/branch/inventory/${slug}`);
   };

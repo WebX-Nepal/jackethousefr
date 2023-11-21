@@ -5,7 +5,6 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 function Profile() {
   const userDetails = useSelector((state: any) => state.auth?.userDetail);
-  console.log("user details is", userDetails);
   const {
     register,
     handleSubmit,
