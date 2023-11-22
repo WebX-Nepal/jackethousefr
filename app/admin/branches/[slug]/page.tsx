@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useGetSalesReportsProductsDataQuery } from "../../../../redux/api/secureApi";
+import { useGetBranchSalesReportsQuery } from "../../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
 import DataTable, { createTheme } from "react-data-table-component";
 import Datepicker from "react-tailwindcss-datepicker";
@@ -10,14 +10,15 @@ import { toast } from "react-toastify";
 import BranchSettingsModal from "./settingsModal";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloudDownload } from "react-icons/io";
-const BranchDetails = () => {
+import { skipToken } from "@reduxjs/toolkit/query";
+const BranchDetails = ({ params: { slug } }: any) => {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
   const [isBranchSettingsModalOpen, setisBranchSettingsModalOpen] =
     useState(false);
-  const { data: reportData, isSuccess } = useGetSalesReportsProductsDataQuery(
-    {}
+  const { data: reportData, isSuccess } = useGetBranchSalesReportsQuery(
+    slug ?? skipToken
   );
   const [value, setValue] = useState<any>({
     startDate: new Date(),

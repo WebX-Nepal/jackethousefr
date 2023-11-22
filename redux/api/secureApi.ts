@@ -115,6 +115,11 @@ export const secureApi = createApi({
         url: `sales/getSalesReportsDataProducts`,
       }),
     }),
+    getBranchSalesReports: builder.query<any, any>({
+      query: (ID) => ({
+        url: `sales/getBranchSalesReports/${ID}`,
+      }),
+    }),
 
     generateLatestSalesDataForAdmin: builder.query<any, any>({
       query: () => ({
@@ -165,6 +170,7 @@ export const {
   useCreateBranchMutation,
   useGetLatestProductQuery,
   useGetMemberSalesHistoryQuery,
+  useGetBranchSalesReportsQuery,
   useGetMemberByIDQuery,
   useCreateSalesMutation,
   useGetSalesReportsProductsDataQuery,
