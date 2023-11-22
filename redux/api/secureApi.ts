@@ -115,6 +115,12 @@ export const secureApi = createApi({
         url: `sales/getSalesReportsDataProducts`,
       }),
     }),
+
+    generateLatestSalesDataForAdmin: builder.query<any, any>({
+      query: () => ({
+        url: `sales/generateLatestSalesDataForAdmin`,
+      }),
+    }),
     getTotalSalesDataOfAllBranches: builder.query<any, any>({
       query: () => ({
         url: `sales/generateTotalDataOfAllBranches`,
@@ -166,5 +172,6 @@ export const {
   useGetAllMembersQuery,
   useDownloadReportsQuery,
   useDownloadReportsForSuperAdminQuery,
+  useGenerateLatestSalesDataForAdminQuery,
   useGetTotalSalesDataOfAllBranchesQuery,
 } = secureApi;

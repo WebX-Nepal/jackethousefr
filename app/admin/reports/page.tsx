@@ -1,19 +1,24 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useGetTotalSalesDataOfAllBranchesQuery } from "../../../redux/api/secureApi";
+import {
+  useGetTotalSalesDataOfAllBranchesQuery,
+  useGenerateLatestSalesDataForAdminQuery,
+} from "../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
 import DataTable, { createTheme } from "react-data-table-component";
 import Datepicker from "react-tailwindcss-datepicker";
 import { tableCustomStyles } from "../../../components/Constant";
 import { toast } from "react-toastify";
-
 function Reports() {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createReportForSuperAdmin`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState<any>([]);
+  const [totalSalesData, setTotalSalesData] = useState<any>([]);
   const { data: reportData, isSuccess } =
     useGetTotalSalesDataOfAllBranchesQuery({});
+  const { data: salesData, isSuccess: isTotalSalesDataSuccess } =
+    useGenerateLatestSalesDataForAdminQuery({});
   const [value, setValue] = useState<any>({
     startDate: new Date(),
     endDate: new Date().setMonth(11),
@@ -22,10 +27,14 @@ function Reports() {
   const handleValueChange = (newValue: any) => {
     setValue(newValue);
   };
-
+  useEffect(() => {
+    if (salesData && isTotalSalesDataSuccess) {
+      setTotalSalesData(salesData.data);
+    } else {
+    }
+  }, [salesData]);
   useEffect(() => {
     if (reportData && isSuccess) {
-      console.log("report datya is ", reportData);
       setProducts(reportData.data);
     } else {
     }
@@ -157,7 +166,7 @@ function Reports() {
       <DataTable
         customStyles={tableCustomStyles}
         columns={columns}
-        data={productData}
+        data={totalSalesData}
         pagination
         fixedHeader
         highlightOnHover
