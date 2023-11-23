@@ -28,6 +28,13 @@ export const secureApi = createApi({
       }),
     }),
 
+    //super admin ->
+    getLocalProductsByBranchAdmin: builder.query<any, any>({
+      query: (ID) => ({
+        url: `/localProducts/getLocalProductByBranch/${ID}`,
+      }),
+    }),
+
     getBranchSalesDetails: builder.query<any, any>({
       query: () => ({
         url: "/sales/generateTotalDataOfBranch",
@@ -165,6 +172,7 @@ export const {
   useUpdateProductByIdMutation,
   useGetDeliveredProductsQuery,
   useGetBranchQuery,
+  useGetLocalProductsByBranchAdminQuery,
   useRecordLocalProductMutation,
   useGetCategoryQuery,
   useCreateBranchMutation,
