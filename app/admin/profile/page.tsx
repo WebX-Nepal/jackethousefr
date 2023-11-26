@@ -15,6 +15,8 @@ function Profile() {
   } = useForm({
     defaultValues: {
       name: "",
+      email: "",
+      phone: "",
     },
     // resolver: yupResolver(validationSchema),
   });
@@ -23,7 +25,7 @@ function Profile() {
   };
   useEffect(() => {
     setValue("name", userDetails?.name);
-    //setValue("phone", userDetails?.phone);
+    setValue("phone", userDetails?.phone);
     setValue("email", userDetails?.email);
     //setValue("password", userDetails?.password);
   }, [userDetails]);
