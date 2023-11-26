@@ -129,7 +129,7 @@ function Pos() {
                   </div>
                   <div className="mt-2 flex items-center justify-center h-2/3 w-full">
                     <img
-                      src={item.image ? item.image : "/logo.svg"}
+                      src={item.productImage ? item.productImage : "/logo.svg"}
                       className=" w-full h-full object-cover rounded-xl"
                       alt="Image Not Found"
                     />
