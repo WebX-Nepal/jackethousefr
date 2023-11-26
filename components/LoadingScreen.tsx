@@ -8,7 +8,7 @@ function LoadingScreen({ message }: LoadingScreenProps) {
       <div className="flex items-center space-x-2">
         <div aria-label="Loading..." role="status">
           <svg
-            className="animate-spin w-4 h-4 stroke-slate-500"
+            className="animate-spin w-6 h-5 stroke-slate-500"
             viewBox="0 0 256 256"
           >
             <line

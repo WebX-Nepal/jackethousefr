@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   useGetBranchSalesReportsQuery,
   useGetLocalProductsByBranchAdminQuery,
+  useGetBranchSalesDetailsQuery,
 } from "../../../../redux/api/secureApi";
 import LoadingScreen from "@/components/LoadingScreen";
 import DataTable, { createTheme } from "react-data-table-component";
@@ -18,10 +19,13 @@ const BranchDetails = ({ params: { slug } }: any) => {
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
+  const [salesDetailsData, setSalesDetailsData] = useState<any>();
   const [inventoryData, setInventoryData] = useState<any>([]);
   const [toggleTable, setToggleTable] = useState<"reports" | "inventory">(
     "reports"
   );
+  const { data: salesDetails, isSuccess: isSalesDetailsSuccess } =
+    useGetBranchSalesDetailsQuery(slug ?? skipToken);
   const [isBranchSettingsModalOpen, setisBranchSettingsModalOpen] =
     useState(false);
   const { data: reportData, isSuccess } = useGetBranchSalesReportsQuery(
@@ -36,6 +40,12 @@ const BranchDetails = ({ params: { slug } }: any) => {
   const handleValueChange = (newValue: any) => {
     setValue(newValue);
   };
+  useEffect(() => {
+    if (salesDetails && isSalesDetailsSuccess) {
+      setSalesDetailsData(salesDetails.data[0]);
+    } else {
+    }
+  }, [salesDetails]);
   useEffect(() => {
     if (reportData && isSuccess) {
       setProducts(reportData.data);

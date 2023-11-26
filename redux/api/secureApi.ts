@@ -36,8 +36,8 @@ export const secureApi = createApi({
     }),
 
     getBranchSalesDetails: builder.query<any, any>({
-      query: () => ({
-        url: "/sales/generateTotalDataOfBranch",
+      query: (ID) => ({
+        url: `/sales/generateTotalDataOfBranch/${ID}`,
       }),
     }),
     getProductById: builder.query<any, any>({

@@ -15,6 +15,7 @@ function Reports() {
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState<any>([]);
   const [totalSalesData, setTotalSalesData] = useState<any>([]);
+
   const { data: reportData, isSuccess } =
     useGetTotalSalesDataOfAllBranchesQuery({});
   const { data: salesData, isSuccess: isTotalSalesDataSuccess } =

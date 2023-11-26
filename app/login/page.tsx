@@ -6,6 +6,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { setAuthState } from "@/redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import LoadingScreen from "@/components/LoadingScreen";
 type Inputs = {
   email: string;
   password: string;
@@ -14,6 +15,7 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -22,6 +24,7 @@ export default function Home() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setLoading(true);
     signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -83,16 +86,24 @@ export default function Home() {
                 <button
                   onClick={handleSubmit(onSubmit)}
                   type="button"
-                  className="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"
+                  className="transition duration-200 bg-black focus:shadow-sm  focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block"
                 >
-                  <span className="inline-block mr-2">Login</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-4 h-4 inline-block"
-                  ></svg>
+                  {loading ? (
+                    <>
+                      <LoadingScreen message="" />
+                    </>
+                  ) : (
+                    <>
+                      <span className="inline-block mr-2">Login</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        className="w-4 h-4 inline-block"
+                      ></svg>
+                    </>
+                  )}
                 </button>
               </div>
 

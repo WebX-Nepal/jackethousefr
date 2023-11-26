@@ -10,8 +10,11 @@ import DataTable, { createTheme } from "react-data-table-component";
 import Datepicker from "react-tailwindcss-datepicker";
 import { tableCustomStyles } from "../../../components/Constant";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 function Reports() {
+  const userData = useSelector((state: any) => state.auth);
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
@@ -20,12 +23,11 @@ function Reports() {
     {}
   );
   const { data: salesDetails, isSuccess: isSalesDetailsSuccess } =
-    useGetBranchSalesDetailsQuery({});
+    useGetBranchSalesDetailsQuery(userData?.userDetail?.branch ?? skipToken);
   const [value, setValue] = useState<any>({
     startDate: new Date(),
     endDate: new Date().setMonth(11),
   });
-
   const handleValueChange = (newValue: any) => {
     setValue(newValue);
   };
