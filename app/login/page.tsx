@@ -14,7 +14,7 @@ type Inputs = {
 export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession<any>();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -33,8 +33,13 @@ export default function Home() {
   };
   useEffect(() => {
     if (status === "authenticated") {
+      const { ...val } = session as any;
       dispatch(setAuthState(session));
-      router.push("/branch/pos");
+      if (val?.user?.userDetails?.role == "super") {
+        router.push("/admin/inventory");
+      } else {
+        router.push("/branch/pos");
+      }
     }
   }, [session]);
 
