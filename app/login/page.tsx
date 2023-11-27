@@ -7,6 +7,8 @@ import { setAuthState } from "@/redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import LoadingScreen from "@/components/LoadingScreen";
+import { toast } from "react-toastify";
+
 type Inputs = {
   email: string;
   password: string;
@@ -37,8 +39,10 @@ export default function Home() {
       dispatch(setAuthState(session));
       if (val?.user?.userDetails?.role == "super") {
         router.push("/admin/inventory");
+        toast.success("Welcome Super Admin");
       } else {
         router.push("/branch/pos");
+        toast.success("Welcome To Jacket House");
       }
     }
   }, [session]);

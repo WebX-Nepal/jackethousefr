@@ -12,6 +12,7 @@ const AddCategoryModal = ({
   categoryData,
   refetch,
 }: any) => {
+  console.log("Categ roy data is", categoryData);
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
   const [files, setFiles] = useState<any>();
   const [
@@ -81,45 +82,47 @@ const AddCategoryModal = ({
           ) : (
             <>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <CustomScrollbar scrollHeight={190}>
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="">
-                      <tr>
-                        <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
-                          SN
-                        </th>
-                        <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
-                          Name
-                        </th>
-                        <th className="px-6  text-left text-md font-semibold text-black  tracking-wider">
-                          Image
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {categoryData.map((item: any, index: number) => {
-                        return (
-                          <tr key={index}>
-                            <td className="px-6 py-2 whitespace-nowrap mt-2">
-                              {index + 1}
-                            </td>
-                            <td className="px-6 py-2 whitespace-nowrap">
-                              {item?.name}
-                            </td>
-                            <td className="px-6  whitespace-nowrap">
-                              <img
-                                src={item?.categoryImage}
-                                height={70}
-                                width={70}
-                                alt="image"
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </CustomScrollbar>
+                {categoryData.length > 0 && (
+                  <CustomScrollbar scrollHeight={190}>
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="">
+                        <tr>
+                          <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
+                            SN
+                          </th>
+                          <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
+                            Name
+                          </th>
+                          <th className="px-6  text-left text-md font-semibold text-black  tracking-wider">
+                            Image
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {categoryData.map((item: any, index: number) => {
+                          return (
+                            <tr key={index}>
+                              <td className="px-6 py-2 whitespace-nowrap mt-2">
+                                {index + 1}
+                              </td>
+                              <td className="px-6 py-2 whitespace-nowrap">
+                                {item?.name}
+                              </td>
+                              <td className="px-6  whitespace-nowrap">
+                                <img
+                                  src={item?.categoryImage}
+                                  height={70}
+                                  width={70}
+                                  alt="image"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </CustomScrollbar>
+                )}
                 <div className="grid grid-cols-2 gap-6 mt-6">
                   <div>
                     Name:
