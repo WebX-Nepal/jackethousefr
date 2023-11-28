@@ -32,8 +32,11 @@ function Inventory() {
     refetch,
     isSuccess,
   } = useGetLatestProductQuery(filterOptions ?? skipToken);
-  const { data: category, isSuccess: categoryDataSuccess } =
-    useGetCategoryQuery({});
+  const {
+    data: category,
+    isSuccess: categoryDataSuccess,
+    refetch: categoryRefetch,
+  } = useGetCategoryQuery({});
   const { data: deleteProduct, isSuccess: isDeleteSuccess } =
     useDeleteProductByIdQuery(deleteProductId);
   const closeEditModal = () => {
@@ -154,12 +157,12 @@ function Inventory() {
       cell: (row: any) => (
         <div className="w-full flex justify-between ">
           <div>
-            <ActionButton
+            {/* <ActionButton
               text="Edit"
               color="cyan"
               row={row}
               onClick={openEditModal}
-            />
+            /> */}
           </div>
           <ActionButton
             text="Delete"
@@ -277,6 +280,7 @@ function Inventory() {
           selectedRowData={selectedRowData}
           categoryData={categoryData}
           refetch={refetch}
+          categoryRefetch={categoryRefetch}
         />
       </div>
     </>

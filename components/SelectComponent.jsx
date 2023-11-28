@@ -9,6 +9,7 @@ const SelectComponent = ({ control, name, options }) => {
     name,
     control,
   });
+
   return (
     <div className="border border-gray-600 rounded-xl flex items-center justify-center">
       <select

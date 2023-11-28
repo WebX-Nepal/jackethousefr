@@ -11,8 +11,8 @@ const AddCategoryModal = ({
   closeModal,
   categoryData,
   refetch,
+  categoryRefetch,
 }: any) => {
-  console.log("Categ roy data is", categoryData);
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
   const [files, setFiles] = useState<any>();
   const [
@@ -42,6 +42,7 @@ const AddCategoryModal = ({
       setFiles(null);
       toast.success("Successfully Created Category");
       refetch();
+      categoryRefetch();
     } else {
     }
   }, [isSendDataSuccess]);
