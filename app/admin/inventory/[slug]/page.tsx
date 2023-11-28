@@ -24,7 +24,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
       setLoading(false);
     }
   }, [isLoading]);
-
+  console.log("data is", data);
   return (
     <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
@@ -45,7 +45,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
                 <img
                   alt="ecommerce"
                   className="lg:w-1/2 w-1/2 h-[300px] rounded border border-gray-200"
-                  src="http://res.cloudinary.com/dgt9nvfjk/image/upload/v1700123005/ed33iewvknyk5ojf9i2u.jpg"
+                  src={data?.productImage}
                 />
                 <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                   <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
@@ -57,9 +57,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
                   <h2 className="text-sm title-font text-gray-500 tracking-widest">
                     Cost Price:&nbsp; {data?.costPrice}
                   </h2>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Selling Price:&nbsp; {data?.sellingPrice}
-                  </h2>
+
                   <h2 className="text-sm title-font text-gray-500 tracking-widest">
                     Delivered:&nbsp; {data?.delivered ? <>true</> : <>false</>}
                   </h2>
@@ -98,7 +96,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
                   </div>
                   <div className="flex">
                     <span className="title-font font-medium text-2xl text-gray-900">
-                      Price: $58.00
+                      Price:{data?.sellingPrice}
                     </span>
                   </div>
                 </div>
