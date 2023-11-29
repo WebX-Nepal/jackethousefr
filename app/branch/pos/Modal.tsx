@@ -163,6 +163,7 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
+  console.log("memeber data is", memberData);
   return (
     <div
       className={`fixed inset-0 top-12 flex items-center justify-center z-50 modal-container ${
@@ -216,25 +217,28 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                         value={phoneNumber}
                       />
                     </div>
-                    {showMemberData &&
-                      memberData &&
-                      memberData.map((item: any, index: number) => {
-                        return (
-                          <ul
-                            className="absolute bg-white  rounded-xl p-2 z-40"
-                            style={{ width: "98%" }}
-                          >
-                            <li
-                              className="hover:cursor-pointer hover:bg-slate-100"
-                              key={index}
-                            >
-                              <button onClick={() => handleValueChanges(item)}>
-                                {item?.phone}
-                              </button>
-                            </li>
-                          </ul>
-                        );
-                      })}
+                    {phoneNumber.length != 10 && (
+                      <ul
+                        className="absolute bg-slate-200  rounded-xl p-2 z-40"
+                        style={{ width: "98%" }}
+                      >
+                        {memberData &&
+                          memberData.map((item: any, index: number) => {
+                            return (
+                              <li
+                                className="hover:cursor-pointer hover:bg-slate-100 pb-1"
+                                key={item?._id}
+                              >
+                                <button
+                                  onClick={() => handleValueChanges(item)}
+                                >
+                                  {item?.phone}
+                                </button>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    )}
                   </div>
                   <div className="pl-1 pr-1 pt-2">
                     <h3 className="pb-2">Name</h3>
