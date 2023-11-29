@@ -148,11 +148,18 @@ const InventoryEditModal = ({
                   <div className="">
                     Category:
                     <div className="">
-                      <SelectComponent
-                        control={control}
-                        name="category"
-                        options={categoryData}
-                      />
+                      <select
+                        className="w-full p-3 text-gray-500 bg-white  shadow-sm outline-none border rounded-xl border-gray-600 "
+                        {...register("category")}
+                      >
+                        {categoryData.map((item: any) => {
+                          return (
+                            <option value={item._id} key={item._id}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                   </div>
                   <div>

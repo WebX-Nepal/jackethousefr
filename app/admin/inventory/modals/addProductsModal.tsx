@@ -12,7 +12,7 @@ import { useCreateProductsMutation } from "../../../../redux/api/secureApi";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "@/components/ScrollBar";
-import SelectComponent from "../../../../components/SelectComponent";
+
 const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
   registerPlugin(
     FilePondPluginImageExifOrientation,
@@ -74,7 +74,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-
+  console.log("category data is", categoryData);
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
@@ -110,11 +110,19 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                   <div className="">
                     Category:
                     <div className="">
-                      <SelectComponent
-                        control={control}
-                        name="category"
-                        options={categoryData}
-                      />
+                      <select
+                        className="w-full p-3 text-gray-500 bg-white  shadow-sm outline-none border rounded-xl border-gray-600 "
+                        defaultValue={categoryData[0]._id}
+                        {...register("category")}
+                      >
+                        {categoryData.map((item: any) => {
+                          return (
+                            <option value={item._id} key={item._id}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                   </div>
                   <div>

@@ -67,6 +67,7 @@ function Inventory() {
   };
   const useDeleteProductById = (row: any) => {
     setDeleteProductID(row._id);
+    refetch;
   };
   const openQrModal = (row: any) => {
     setSelectedRowData(row);
@@ -157,12 +158,12 @@ function Inventory() {
       cell: (row: any) => (
         <div className="w-full flex justify-between ">
           <div>
-            {/* <ActionButton
+            <ActionButton
               text="Edit"
               color="cyan"
               row={row}
               onClick={openEditModal}
-            /> */}
+            />
           </div>
           <ActionButton
             text="Delete"
