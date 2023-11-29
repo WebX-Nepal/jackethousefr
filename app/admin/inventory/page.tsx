@@ -23,14 +23,15 @@ function Inventory() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
-  const [sortBy, selectSortBy] = useState("default");
+  const [sortBy, selectSortBy] = useState("Date");
   const [deleteProductId, setDeleteProductID] = useState();
   const options = [{ name: "Date" }, { name: "category" }];
+  console.log("sort by is", sortBy);
   const {
     data: inventoryData,
     refetch,
     isSuccess,
-  } = useGetLatestProductQuery(filterOptions ?? skipToken);
+  } = useGetLatestProductQuery(sortBy ?? skipToken);
   const {
     data: category,
     isSuccess: categoryDataSuccess,
@@ -202,16 +203,9 @@ function Inventory() {
         <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
           <h4 className="text-xl font-semibold text-black ">Inventory</h4>
           <div>
-            {/* <button
-              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl mr-1"
-              onClick={openAddCategoryModal}
-            >
-              Sort By
-            </button> */}
             <select
-              value={sortBy}
               onChange={handleSelectChange}
-              className="p-1 px-2 outline-none placeholder-gray-500 bg-white text-black rounded-xl mr-2 hover:cursor-pointer"
+              className="p-1 px-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl mr-2 hover:cursor-pointer"
             >
               {options.map((option) => (
                 <option key={option.name} value={option.name}>

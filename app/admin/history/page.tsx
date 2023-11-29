@@ -76,16 +76,6 @@ function Inventory() {
       name: "Delivered To",
       selector: (row: any) => row.deliveredTo,
     },
-
-    // {
-    //   name: "Actions",
-    //   cell: (row: any) => (
-    //     <div className="w-full flex justify-between ">
-    //       <ActionButton text="Delete" color="red" />
-    //     </div>
-    //   ),
-    //   width: "180px",
-    // },
   ];
   createTheme("solarized", {
     background: {
@@ -107,12 +97,12 @@ function Inventory() {
           <h4 className="text-xl font-semibold text-black ">
             Delivered Products
           </h4>
-          <div>
+          {/* <div>
             <button className="bg-red-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1 flex items-center">
               <AiTwotoneDelete className="text-xl mr-2" />
               Delete History
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="px-6">
           <DataTable
