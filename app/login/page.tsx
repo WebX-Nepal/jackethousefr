@@ -25,13 +25,17 @@ export default function Home() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    signIn("credentials", {
+    const credentials = await signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: false,
     });
+    if (credentials?.status == 401) {
+      toast.error("ID or Password does not match");
+      setLoading(false);
+    }
   };
   useEffect(() => {
     if (status === "authenticated") {

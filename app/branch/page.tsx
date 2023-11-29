@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-
 function DashboardPage() {
   const router = useRouter();
   const a = 10;

@@ -80,7 +80,12 @@ function Members() {
       name: "Actions",
       cell: (row: any) => (
         <div className="flex justify-between">
-          <div className="mr-2">
+          <ActionButton
+            text="View"
+            onClick={() => handleViewMember(row)}
+            color="cyan"
+          />
+          <div className="ml-2">
             {row.points === 10 && (
               <ActionButton
                 text="Give Rewards"
@@ -89,11 +94,6 @@ function Members() {
               />
             )}
           </div>
-          <ActionButton
-            text="View"
-            onClick={() => handleViewMember(row)}
-            color="cyan"
-          />
         </div>
       ),
       width: "220px",
