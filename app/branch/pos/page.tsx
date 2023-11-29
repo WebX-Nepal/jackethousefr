@@ -154,7 +154,11 @@ function Pos() {
           </ul>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} closeModal={closeModal}></Modal>
+      <Modal
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        refetch={refetch}
+      ></Modal>
     </div>
   );
 }

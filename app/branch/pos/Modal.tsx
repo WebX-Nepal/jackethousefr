@@ -13,7 +13,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import validationSchema from "./validation";
 import { AiOutlineDollarCircle } from "react-icons/ai";
-const Modal = ({ isOpen, closeModal }: any) => {
+const Modal = ({ isOpen, closeModal, refetch }: any) => {
   const dispatch = useDispatch();
   const [productID, setProductID] = useState();
   const [isPaymentModal, setIsPaymentModal] = useState(false);
@@ -146,6 +146,7 @@ const Modal = ({ isOpen, closeModal }: any) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Successfully Created Sale");
+      refetch();
     }
   }, [isSuccess]);
   useEffect(() => {

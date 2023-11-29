@@ -55,7 +55,7 @@ function Reports() {
       selector: (row: any) => {
         return row.image ? (
           <img
-            src={row.productImage}
+            src={row?.image}
             style={{
               width: "60px",
               height: "40px",
