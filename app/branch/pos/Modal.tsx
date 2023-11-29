@@ -219,18 +219,19 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                     </div>
                     {phoneNumber.length != 10 && (
                       <ul
-                        className="absolute bg-slate-200  rounded-xl p-2 z-40"
+                        className="absolute bg-modalBackground  rounded-xl p-2 z-40"
                         style={{ width: "98%" }}
                       >
                         {memberData &&
                           memberData.map((item: any, index: number) => {
                             return (
                               <li
-                                className="hover:cursor-pointer hover:bg-slate-100 pb-1"
+                                className="hover:cursor-pointer bg-slate-300  hover:bg-slate-100 pb-1 rounded-sm"
                                 key={item?._id}
                               >
                                 <button
                                   onClick={() => handleValueChanges(item)}
+                                  className="pl-1 rounded-sm"
                                 >
                                   {item?.phone}
                                 </button>
