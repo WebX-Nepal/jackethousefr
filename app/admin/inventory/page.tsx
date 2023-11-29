@@ -7,7 +7,6 @@ import {
 } from "../../../redux/api/secureApi";
 import InventoryModal from "./modals/addProductsModal";
 import QrModal from "./modals/qrModal";
-import InventoryEditModal from "./modals/editModal";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
@@ -116,9 +115,9 @@ function Inventory() {
     {
       name: "Image",
       selector: (row: any) => {
-        return row?.category?.categoryImage ? (
+        return row?.productImage ? (
           <img
-            src={row?.category?.categoryImage}
+            src={row?.productImage}
             style={{
               width: "60px",
               height: "40px",
@@ -162,7 +161,7 @@ function Inventory() {
               text="Edit"
               color="cyan"
               row={row}
-              onClick={openEditModal}
+              onClick={handleRowClicked}
             />
           </div>
           <ActionButton
@@ -262,13 +261,7 @@ function Inventory() {
           refetch={refetch}
           categoryData={categoryData}
         ></InventoryModal>
-        <InventoryEditModal
-          isOpen={isEditModalOpen}
-          closeModal={closeEditModal}
-          selectedRowData={selectedRowData}
-          refetch={refetch}
-          categoryData={categoryData}
-        />
+
         <QrModal
           isOpen={isQrModalOpen}
           closeModal={closeQrModal}

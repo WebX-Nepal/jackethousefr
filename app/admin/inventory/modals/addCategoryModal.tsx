@@ -83,8 +83,33 @@ const AddCategoryModal = ({
           ) : (
             <>
               <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex w-full justify-between mt-6 mb-3">
+                  <div className="w-3/4">
+                    Name:
+                    <div className="border rounded-xl border-gray-600  flex items-center justify-center">
+                      <input
+                        id="name"
+                        type="text"
+                        placeholder="Please Enter Category"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...register("name")}
+                      />
+                    </div>
+                    {/* <p className="text-red-600">{errors.name?.message}</p> */}
+                  </div>
+                  <div className="w-1/5  flex items-center justify-center">
+                    <button
+                      className="mt-4 px-8 py-2 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                      onClick={handleSubmit(onSubmit)}
+                      type="button"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+
                 {categoryData.length > 0 && (
-                  <CustomScrollbar scrollHeight={190}>
+                  <CustomScrollbar scrollHeight={350}>
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="">
                         <tr>
@@ -94,8 +119,8 @@ const AddCategoryModal = ({
                           <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
                             Name
                           </th>
-                          <th className="px-6  text-left text-md font-semibold text-black  tracking-wider">
-                            Image
+                          <th className="px-6 text-center text-md font-semibold text-black  tracking-wider">
+                            Actions
                           </th>
                         </tr>
                       </thead>
@@ -109,14 +134,26 @@ const AddCategoryModal = ({
                               <td className="px-6 py-2 whitespace-nowrap">
                                 {item?.name}
                               </td>
-                              <td className="px-6  whitespace-nowrap">
-                                <img
-                                  src={item?.categoryImage}
-                                  height={70}
-                                  width={70}
-                                  alt="image"
-                                />
-                              </td>
+                              <div className="align-right">
+                                <td className=" whitespace-nowrap mt-2">
+                                  <button
+                                    className="px-4 py-2 text-white transition-colors duration-200 transform bg-cyan-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                                    onClick={handleSubmit(onSubmit)}
+                                    type="button"
+                                  >
+                                    Save
+                                  </button>
+                                </td>
+                                <td className=" whitespace-nowrap">
+                                  <button
+                                    className="px-4 py-2 text-white transition-colors duration-200 transform bg-red-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                                    onClick={handleSubmit(onSubmit)}
+                                    type="button"
+                                  >
+                                    Save
+                                  </button>
+                                </td>
+                              </div>
                             </tr>
                           );
                         })}
@@ -124,41 +161,6 @@ const AddCategoryModal = ({
                     </table>
                   </CustomScrollbar>
                 )}
-                <div className="grid grid-cols-2 gap-6 mt-6">
-                  <div>
-                    Name:
-                    <div className="border rounded-xl border-gray-600  flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Name"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("name")}
-                      />
-                    </div>
-                    {/* <p className="text-red-600">{errors.name?.message}</p> */}
-                  </div>
-                  <div className="w-full">
-                    <FilePond
-                      files={files}
-                      allowMultiple={false}
-                      allowRevert
-                      allowDrop
-                      onupdatefiles={setFiles}
-                      styleButtonRemoveItemPosition="left"
-                      labelIdle={`Drag & Drop your <span class="filepond--label-action">Image</span> Files`}
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end mt-6">
-                  <button
-                    className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-                    onClick={handleSubmit(onSubmit)}
-                    type="button"
-                  >
-                    Save
-                  </button>
-                </div>
               </form>
             </>
           )}
