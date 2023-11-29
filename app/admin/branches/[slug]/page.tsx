@@ -16,7 +16,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloudDownload } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";
 const BranchDetails = ({ params: { slug } }: any) => {
-  const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createPDFReport`;
+  const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createBranchReportForAdmin/${slug}`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
   const [salesDetailsData, setSalesDetailsData] = useState<any>();

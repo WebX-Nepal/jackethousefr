@@ -159,6 +159,11 @@ export const secureApi = createApi({
         url: "report/createReportForSuperAdmin",
       }),
     }),
+    downloadBranchReportsForSuperAdmin: builder.query<any, any>({
+      query: (ID) => ({
+        url: `report/createBranchReportForAdmin/${ID}`,
+      }),
+    }),
   }),
 });
 export const {
@@ -188,4 +193,5 @@ export const {
   useDownloadReportsForSuperAdminQuery,
   useGenerateLatestSalesDataForAdminQuery,
   useGetTotalSalesDataOfAllBranchesQuery,
+  useDownloadBranchReportsForSuperAdminQuery,
 } = secureApi;
