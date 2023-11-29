@@ -135,7 +135,7 @@ function Reports() {
   return (
     <div className=" border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
       <h4 className="text-xl font-semibold text-black pt-4 pl-4">Reports</h4>
-      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between ">
+      <div className="py-6 pl-4 md:px-6 xl:px-7.5 flex justify-between ">
         <h4 className="text-xl font-semibold text-black ">
           Total Profits: {salesDetailsData?.totalProfit}
         </h4>
