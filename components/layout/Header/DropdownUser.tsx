@@ -80,7 +80,7 @@ const DropdownUser = () => {
         </div>
 
         <span className="hidden lg:block">
-          <span className="block text-sm font-medium text-black w-[110px]">
+          <span className="block text-sm font-medium text-black w-[110px] overflow-hidden">
             {userDetails.userDetail?.name}
           </span>
           <span className="block text-xs ">

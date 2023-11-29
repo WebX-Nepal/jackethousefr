@@ -114,10 +114,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
       name: "Selling Price",
       selector: (row: any) => row.sellingPrice,
     },
-    {
-      name: "Items Sold",
-      selector: (row: any) => row.totalItemsSold,
-    },
+
     {
       name: "Profit",
       selector: (row: any) => <p>Rs {row.profit}</p>,
@@ -132,9 +129,9 @@ const BranchDetails = ({ params: { slug } }: any) => {
     {
       name: "Image",
       selector: (row: any) => {
-        return row.image ? (
+        return row?.productImage ? (
           <img
-            src={row.image}
+            src={row?.productImage}
             style={{
               width: "60px",
               height: "40px",
