@@ -37,9 +37,11 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
   const onSubmit: SubmitHandler<any> = async (data) => {
     const formData = new FormData();
     for (const key in data) {
-      formData.append(key, data[key]);
+      const value =
+        data[key] !== undefined && data[key] !== null ? data[key] : "";
+      formData.append(key, value);
     }
-    if (files.length > 0) {
+    if (files && files.length > 0) {
       formData.append("productImage", files[0]?.file);
     }
     await sendData(formData);
