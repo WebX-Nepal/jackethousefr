@@ -46,6 +46,7 @@ const DropdownUser = () => {
     localStorage.removeItem("persist:root");
     localStorage.removeItem("accessToken");
     dispatch(logOutUser());
+    await signOut();
     router.push("https://jkh.webxnep.com/login");
   }
   const handleProfileClick = () => {
