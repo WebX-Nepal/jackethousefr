@@ -77,6 +77,14 @@ export const secureApi = createApi({
         url: `/product/getCategory/`,
       }),
     }),
+    deleteCategoryById: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/product/deleteCategoryByID`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     getLatestProduct: builder.query<any, any>({
       query: (data) => ({
         url: `/product/getLatestproducts/${data}`,
@@ -186,6 +194,7 @@ export const {
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,
+  useDeleteCategoryByIdMutation,
   useGetBranchSalesDetailsQuery,
   useDeleteProductByIdQuery,
   useGetLocalProductsByBranchQuery,

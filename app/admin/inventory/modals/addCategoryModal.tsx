@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../../../components/LoadingScreen";
 import { toast } from "react-toastify";
 import CustomScrollbar from "../../../../components/ScrollBar";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FilePond } from "react-filepond";
-import { useCreateCategoryMutation } from "@/redux/api/secureApi";
+import {
+  useCreateCategoryMutation,
+  useDeleteCategoryByIdMutation,
+} from "@/redux/api/secureApi";
 const AddCategoryModal = ({
   isOpen,
   closeModal,
@@ -19,6 +20,10 @@ const AddCategoryModal = ({
     sendData,
     { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
   ] = useCreateCategoryMutation();
+  const [
+    deleteCategory,
+    { isSuccess: isdeleteCategorySuccess, isLoading: isdeleteCategoryLoading },
+  ] = useDeleteCategoryByIdMutation();
   const {
     control,
     register,
@@ -27,15 +32,21 @@ const AddCategoryModal = ({
     reset,
   } = useForm();
   const onSubmit: SubmitHandler<any> = async (data) => {
-    setIsdataSending(true);
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    formData.append("categoryImage", files[0]?.file);
-    await sendData(formData);
+    await sendData(data);
     reset();
   };
+  const handleDeleteCategory = (item: any) => {
+    const data = {
+      categoryID: item._id,
+    };
+    deleteCategory(data);
+  };
+  useEffect(() => {
+    if (isdeleteCategorySuccess) {
+      toast.success("Successfully deleted");
+      categoryRefetch();
+    }
+  }, [isdeleteCategorySuccess]);
   useEffect(() => {
     if (isSendDataSuccess) {
       closeModal();
@@ -76,94 +87,77 @@ const AddCategoryModal = ({
           <h1 className="text-xl font-bold text-Black capitalize pb-4">
             Add New Category
           </h1>
-          {isDataSending ? (
-            <>
-              <LoadingScreen message="Sending Data. Please Wait...." />
-            </>
-          ) : (
-            <>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex w-full justify-between mt-6 mb-3">
-                  <div className="w-3/4">
-                    Name:
-                    <div className="border rounded-xl border-gray-600  flex items-center justify-center">
-                      <input
-                        id="name"
-                        type="text"
-                        placeholder="Please Enter Category"
-                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                        {...register("name")}
-                      />
-                    </div>
-                    {/* <p className="text-red-600">{errors.name?.message}</p> */}
-                  </div>
-                  <div className="w-1/5  flex items-center justify-center">
-                    <button
-                      className="mt-4 px-8 py-2 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-                      onClick={handleSubmit(onSubmit)}
-                      type="button"
-                    >
-                      Save
-                    </button>
-                  </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex w-full justify-between mt-6 mb-3">
+              <div className="w-3/4">
+                Name:
+                <div className="border rounded-xl border-gray-600  flex items-center justify-center">
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Please Enter Category"
+                    className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                    {...register("name")}
+                  />
                 </div>
+                {/* <p className="text-red-600">{errors.name?.message}</p> */}
+              </div>
+              <div className="w-1/5  flex items-center justify-center">
+                <button
+                  className="mt-4 px-8 py-2 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                  onClick={handleSubmit(onSubmit)}
+                  type="button"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
 
-                {categoryData.length > 0 && (
-                  <CustomScrollbar scrollHeight={350}>
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="">
-                        <tr>
-                          <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
-                            SN
-                          </th>
-                          <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
-                            Name
-                          </th>
-                          <th className="px-6 text-center text-md font-semibold text-black  tracking-wider">
-                            Actions
-                          </th>
+            {categoryData.length > 0 && (
+              <CustomScrollbar scrollHeight={350}>
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="">
+                    <tr>
+                      <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
+                        SN
+                      </th>
+                      <th className="px-6 text-left text-md font-semibold text-black  tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-6 text-center text-md font-semibold text-black  tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 mt-2">
+                    {categoryData.map((item: any, index: number) => {
+                      return (
+                        <tr key={index}>
+                          <td className="px-6 py-2 whitespace-nowrap">
+                            {index + 1}
+                          </td>
+                          <td className="px-6 py-2 whitespace-nowrap">
+                            {item?.name}
+                          </td>
+                          <div className=" flex items-center justify-center">
+                            <td className=" whitespace-nowrap">
+                              <button
+                                className="px-4 py-2 text-white transition-colors duration-200 transform bg-red-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                                onClick={() => handleDeleteCategory(item)}
+                                type="button"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </div>
                         </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {categoryData.map((item: any, index: number) => {
-                          return (
-                            <tr key={index}>
-                              <td className="px-6 py-2 whitespace-nowrap mt-2">
-                                {index + 1}
-                              </td>
-                              <td className="px-6 py-2 whitespace-nowrap">
-                                {item?.name}
-                              </td>
-                              <div className="align-right">
-                                <td className=" whitespace-nowrap mt-2">
-                                  <button
-                                    className="px-4 py-2 text-white transition-colors duration-200 transform bg-cyan-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-                                    onClick={handleSubmit(onSubmit)}
-                                    type="button"
-                                  >
-                                    Save
-                                  </button>
-                                </td>
-                                <td className=" whitespace-nowrap">
-                                  <button
-                                    className="px-4 py-2 text-white transition-colors duration-200 transform bg-red-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-                                    onClick={handleSubmit(onSubmit)}
-                                    type="button"
-                                  >
-                                    Save
-                                  </button>
-                                </td>
-                              </div>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </CustomScrollbar>
-                )}
-              </form>
-            </>
-          )}
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </CustomScrollbar>
+            )}
+          </form>
         </section>
       </>
     </div>
