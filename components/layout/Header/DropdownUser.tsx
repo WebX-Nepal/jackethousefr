@@ -41,11 +41,12 @@ const DropdownUser = () => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
   async function handleLogOut() {
-    await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
+    // await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
     localStorage.removeItem("persist:auth");
     localStorage.removeItem("persist:root");
     localStorage.removeItem("accessToken");
     dispatch(logOutUser());
+    router.push("https://jkh.webxnep.com/login");
   }
   const handleProfileClick = () => {
     setDropdownOpen(false);
