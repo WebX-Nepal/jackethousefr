@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-
-const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
+import { useGetBranchDetailsForAdminQuery } from "../../../../redux/api/secureApi";
+import { skipToken } from "@reduxjs/toolkit/query";
+const BranchSettingsModal = ({ isOpen, closeModal, slug }: any) => {
+  const { data: branchAdminData, isSuccess: isbranchAdminDataSuccess } =
+    useGetBranchDetailsForAdminQuery(slug ?? skipToken);
   const {
     register,
     handleSubmit,
@@ -13,28 +16,26 @@ const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
     setValue,
   } = useForm({
     defaultValues: {
+      branchName: "",
+      address: "",
       name: "",
-      category: "",
-      costPrice: 0,
-      sellingPrice: 0,
-      totalItems: 0,
-      colors: [""],
-      discount: 0,
-      size: "",
+      email: "",
+      phone: "",
     },
     // resolver: yupResolver(validationSchema),
   });
   useEffect(() => {
-    // setValue("name", selectedRowData?.name);
-    // setValue("category", selectedRowData?.category);
-    // setValue("costPrice", selectedRowData?.costPrice);
-    // setValue("sellingPrice", selectedRowData?.sellingPrice);
-    // setValue("totalItems", selectedRowData?.totalItems);
-    // setValue("colors", selectedRowData?.colors);
-    // setValue("discount", selectedRowData?.discount);
-    // setValue("size", selectedRowData?.size);
-    // setID(selectedRowData?._id);
-  }, []);
+    if (branchAdminData && isbranchAdminDataSuccess) {
+      setValue("branchName", branchAdminData?.data?.branchName);
+      setValue("address", branchAdminData?.data?.address);
+      setValue("name", branchAdminData?.data?.name);
+      setValue("email", branchAdminData?.data?.email);
+      setValue("phone", branchAdminData?.data?.phone);
+    }
+  }, [branchAdminData]);
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log("submitted data is", data);
+  };
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -58,60 +59,94 @@ const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
           <h1 className="text-xl font-bold text-Black capitalize pb-4">
             Branch Settings
           </h1>
-
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 pr-8">
-            <div>
-              Branch Name:
-              <div className="border rounded-xl border-gray-600  flex items-center justify-center">
-                <Controller
-                  name="name"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                      {...field}
-                    />
-                  )}
-                />
+          <form>
+            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 pr-8">
+              <div>
+                Branch Name:
+                <div className="border rounded-xl border-gray-600  flex items-center justify-center">
+                  <Controller
+                    name="branchName"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                {/* <p className="text-red-600">{errors.name?.message}</p> */}
               </div>
-              <p className="text-red-600">{errors.name?.message}</p>
-            </div>
-            <div>
-              Branch Location:
-              <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                <Controller
-                  name="category"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                      {...field}
-                    />
-                  )}
-                />
+              <div>
+                Branch Location:
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                  <Controller
+                    name="address"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                {/* <p className="text-red-600">{errors.category?.message}</p> */}
               </div>
-              <p className="text-red-600">{errors.category?.message}</p>
-            </div>
-            <div>
-              Branch Username:
-              <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                <Controller
-                  name="costPrice"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                      {...field}
-                    />
-                  )}
-                />
+              <div>
+                Branch Manager Name:
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                  <Controller
+                    name="name"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                {/* <p className="text-red-600">{errors.costPrice?.message}</p> */}
               </div>
-              <p className="text-red-600">{errors.costPrice?.message}</p>
-            </div>
-            <div>
+              <div>
+                Branch Phone:
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                  <Controller
+                    name="phone"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                {/* <p className="text-red-600">{errors.totalItems?.message}</p> */}
+              </div>
+              <div>
+                Branch Email:
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+                {/* <p className="text-red-600">{errors.totalItems?.message}</p> */}
+              </div>
+              {/* <div>
               Branch Password
               <div className="border border-gray-600 rounded-xl flex items-center justify-center">
                 <Controller
@@ -127,33 +162,18 @@ const BranchSettingsModal = ({ isOpen, closeModal }: any) => {
                 />
               </div>
               <p className="text-red-600">{errors.sellingPrice?.message}</p>
+            </div> */}
             </div>
-            <div>
-              Branch Phone:
-              <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                <Controller
-                  name="totalItems"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                      {...field}
-                    />
-                  )}
-                />
-              </div>
-              <p className="text-red-600">{errors.totalItems?.message}</p>
+            <div className="flex justify-end mt-6">
+              <button
+                className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                type="button"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </button>
             </div>
-          </div>
-          <div className="flex justify-end mt-6">
-            <button
-              className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-              type="button"
-            >
-              Save
-            </button>
-          </div>
+          </form>
         </section>
       </>
     </div>

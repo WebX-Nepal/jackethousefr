@@ -50,10 +50,7 @@ const Branches = () => {
               className="bg-primary w-full h-16 rounded-xl flex justify-between items-center px-6 mb-6 shadow-md hover:shadow-xl hover:cursor-pointer"
               key={index}
             >
-              <p className="w-1/5">
-                image &nbsp;
-                {item.branchName}
-              </p>
+              <p className="w-1/5">{item.branchName}</p>
               <p className="hidden sm:block w-1/3 pl-10">{item.address}</p>
               <button
                 className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"

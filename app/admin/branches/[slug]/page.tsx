@@ -233,7 +233,6 @@ const BranchDetails = ({ params: { slug } }: any) => {
       setToggleTable("inventory");
     }
   };
-  console.log("toggleTable is", toggleTable);
   return (
     <>
       <div className=" border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
@@ -322,6 +321,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
           <BranchSettingsModal
             isOpen={isBranchSettingsModalOpen}
             closeModal={closeBranchSettingsModal}
+            slug={slug}
           />
         </div>
       </div>
