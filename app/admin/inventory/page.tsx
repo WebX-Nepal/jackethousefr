@@ -190,11 +190,11 @@ function Inventory() {
   };
   const handleSelectChange = () => {
     if (sortBy == "Date") {
-      selectSortBy("Category");
-      setFilterOptions("category");
+      selectSortBy("category");
+      // setFilterOptions("category");
     } else {
       selectSortBy("Date");
-      setFilterOptions("createdAt");
+      // setFilterOptions("createdAt");
     }
   };
   return (
