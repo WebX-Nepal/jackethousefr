@@ -12,12 +12,14 @@ import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
 import AddCategoryModal from "./modals/addCategoryModal";
 import { toast } from "react-toastify";
-import { skipToken } from "@reduxjs/toolkit/query";
+import { RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
+
 function Inventory() {
   const router = useRouter();
   const [productData, setProducts] = useState([]);
-  const [filterOptions, setFilterOptions] = useState("category");
   const [categoryData, setCategoryData] = useState([]);
+  const [search, setSearch] = useState<string>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -26,12 +28,14 @@ function Inventory() {
   const [sortBy, selectSortBy] = useState("Date");
   const [deleteProductId, setDeleteProductID] = useState();
   const options = [{ name: "Date" }, { name: "category" }];
-  console.log("sort by is", sortBy);
+  let searchQuery: string = useSelector(
+    (state: RootState) => state.search.searchQuery
+  );
   const {
     data: inventoryData,
     refetch,
     isSuccess,
-  } = useGetLatestProductQuery(sortBy ?? skipToken);
+  } = useGetLatestProductQuery({ sortBy, search });
   const {
     data: category,
     isSuccess: categoryDataSuccess,
@@ -76,6 +80,9 @@ function Inventory() {
   const closeQrModal = () => {
     setIsQrModalOpen(false);
   };
+  useEffect(() => {
+    setSearch(searchQuery);
+  }, [searchQuery]);
   useEffect(() => {
     if (inventoryData && isSuccess) {
       setProducts(inventoryData.products);

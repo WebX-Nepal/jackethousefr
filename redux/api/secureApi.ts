@@ -34,13 +34,6 @@ export const secureApi = createApi({
         }`,
       }),
     }),
-    getLocalProductsByBranch: builder.query<any, any>({
-      query: ({ category, productName }) => ({
-        url: `/localProducts/getLocalProduct?productName=${productName}&category=${
-          category == "All" ? "" : category
-        }`,
-      }),
-    }),
 
     //super admin ->
     getLocalProductsByBranchAdmin: builder.query<any, any>({
@@ -94,10 +87,17 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
+    getLocalProductsByBranch: builder.query<any, any>({
+      query: ({ category, productName }) => ({
+        url: `/localProducts/getLocalProduct?productName=${productName}&category=${
+          category == "All" ? "" : category
+        }`,
+      }),
+    }),
 
     getLatestProduct: builder.query<any, any>({
-      query: (data) => ({
-        url: `/product/getLatestproducts/${data}`,
+      query: ({ sortBy, search }) => ({
+        url: `/product/getLatestproducts?sortOrder=${sortBy}&productName=${search}`,
       }),
     }),
     recordLocalProduct: builder.mutation<any, any>({
