@@ -9,13 +9,18 @@ import { useRouter } from "next/navigation";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import useScreenWidth from "../../screenHook";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 function Header() {
+  const userDetails = useSelector((state) => state.auth?.userDetail);
   const dispatch = useDispatch();
   const screenWidth = useScreenWidth();
   const router = useRouter();
   const handleClickLogo = () => {
-    router.push("/branch/pos");
+    if (userDetails?.role == "admin") {
+      router.push("/branch/pos");
+    } else {
+      router.push("/admin/inventory");
+    }
   };
   const handleSearch = (e) => {
     dispatch(setSearchQuery(e.target.value));

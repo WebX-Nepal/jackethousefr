@@ -153,9 +153,13 @@ function Reports() {
       <div>
         {productData.map((item: any) => {
           return (
-            <div>
-              <div>total items sold:{item?.totalItemsSold}</div>
-              <div>total profits:{item?.totalProfit}</div>
+            <div className="ml-2 mb-2 rounded-lg flex w-1/2 justify-between">
+              <div className="capitalize">
+                total items sold: {item?.totalItemsSold}
+              </div>
+              <div className="capitalize">
+                total profits: {item?.totalProfit}
+              </div>
             </div>
           );
         })}

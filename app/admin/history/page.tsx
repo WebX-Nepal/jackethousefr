@@ -35,9 +35,9 @@ function Inventory() {
     {
       name: "Image",
       selector: (row: any) => {
-        return row.image ? (
+        return row.productImage ? (
           <img
-            src={row.image}
+            src={row.productImage}
             style={{
               width: "60px",
               height: "40px",

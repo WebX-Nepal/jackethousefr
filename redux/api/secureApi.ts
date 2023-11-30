@@ -6,6 +6,20 @@ export const secureApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ["User"],
   endpoints: (builder) => ({
+    updateSuperAdmin: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/updateSuperAdmin`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    updateProfilePicture: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/updateProfilePicture`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
     createProducts: builder.mutation<any, any>({
       query: (data) => ({
         url: `/product/registerProduct`,
@@ -167,6 +181,8 @@ export const secureApi = createApi({
   }),
 });
 export const {
+  useUpdateSuperAdminMutation,
+  useUpdateProfilePictureMutation,
   useCreateProductsMutation,
   useGetAllProductsQuery,
   useGetProductByIdQuery,

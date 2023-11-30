@@ -15,6 +15,7 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
@@ -73,7 +74,7 @@ const DropdownUser = () => {
           }}
         >
           <img
-            src={"/pic9.jfif"}
+            src={userDetails?.userDetail?.profileImage}
             alt="User"
             style={{ borderRadius: "50%", height: "38px", width: "38px" }}
           />
