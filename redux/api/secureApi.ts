@@ -59,7 +59,7 @@ export const secureApi = createApi({
     }),
     getProductById: builder.query<any, any>({
       query: (ID) => ({
-        url: `/localProducts/getLocalProductByID/${ID}`,
+        url: `/product/${ID}`,
       }),
     }),
     deleteProductById: builder.query<any, any>({

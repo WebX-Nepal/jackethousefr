@@ -42,10 +42,10 @@ const DropdownUser = () => {
   });
   async function handleLogOut() {
     // await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
+    dispatch(logOutUser());
     localStorage.removeItem("persist:auth");
     localStorage.removeItem("persist:root");
     localStorage.removeItem("accessToken");
-    dispatch(logOutUser());
     await signOut();
     router.push("https://jkh.webxnep.com/login");
   }

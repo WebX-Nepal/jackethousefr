@@ -76,7 +76,6 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  console.log("category data is", categoryData);
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
