@@ -250,6 +250,7 @@ function Inventory() {
             data={productData}
             pagination
             fixedHeader
+            
             highlightOnHover
             onRowClicked={handleRowClicked}
             responsive

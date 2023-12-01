@@ -173,14 +173,14 @@ const BranchDetails = ({ params: { slug } }: any) => {
               text="View"
               color="cyan"
               row={row}
-              //onClick={() => openViewDetails(row)}
+              //  onClick={() => openViewDetails(row)}
             />
           </div>
           <ActionButton
             text="Delete"
             color="red"
             row={row}
-            // onClick={useDeleteProduct}
+            //onClick={useDeleteProduct}
           />
         </div>
       ),
@@ -233,6 +233,8 @@ const BranchDetails = ({ params: { slug } }: any) => {
       setToggleTable("inventory");
     }
   };
+  const commonStyles = "px-4 rounded-lg";
+  const blurStyles = isBranchSettingsModalOpen ? "blur-xl" : "";
   return (
     <>
       <div className=" border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark px-4 rounded-lg">
@@ -287,9 +289,9 @@ const BranchDetails = ({ params: { slug } }: any) => {
             </div>
           </div>
           <div
-            className={`${
-              isBranchSettingsModalOpen ? "blur-xl" : "px-4 rounded-lg hidden"
-            }${toggleTable == "inventory" ? "" : "hidden"}`}
+            className={`${blurStyles} ${
+              toggleTable === "inventory" ? commonStyles : "hidden"
+            }`}
           >
             <DataTable
               customStyles={tableCustomStyles}
@@ -302,10 +304,11 @@ const BranchDetails = ({ params: { slug } }: any) => {
               theme="solarized"
             />
           </div>
+
           <div
-            className={`${
-              isBranchSettingsModalOpen ? "blur-xl" : "px-4 rounded-lg hidden"
-            }${toggleTable == "reports" ? "" : "hidden"}`}
+            className={`${blurStyles} ${
+              toggleTable === "reports" ? commonStyles : "hidden"
+            }`}
           >
             <DataTable
               customStyles={tableCustomStyles}
