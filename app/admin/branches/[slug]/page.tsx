@@ -15,7 +15,9 @@ import BranchSettingsModal from "./settingsModal";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoMdCloudDownload } from "react-icons/io";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useRouter } from "next/navigation";
 const BranchDetails = ({ params: { slug } }: any) => {
+  const router = useRouter();
   const reportUrl = `${process.env.NEXT_PUBLIC_NEXTAUTH_BASE_URL}/report/createBranchReportForAdmin/${slug}`;
   const [downloading, setDownloading] = useState(false);
   const [productData, setProducts] = useState([]);
@@ -68,6 +70,9 @@ const BranchDetails = ({ params: { slug } }: any) => {
       {text}
     </button>
   );
+  const openViewDetails = (row: any) => {
+    router.push(`${slug}/${row._id}`);
+  };
   const columns = [
     {
       name: "SN",
@@ -173,15 +178,9 @@ const BranchDetails = ({ params: { slug } }: any) => {
               text="View"
               color="cyan"
               row={row}
-              //  onClick={() => openViewDetails(row)}
+              onClick={() => openViewDetails(row)}
             />
           </div>
-          <ActionButton
-            text="Delete"
-            color="red"
-            row={row}
-            //onClick={useDeleteProduct}
-          />
         </div>
       ),
     },
