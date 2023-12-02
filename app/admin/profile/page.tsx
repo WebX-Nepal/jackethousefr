@@ -45,10 +45,12 @@ function Profile() {
     // resolver: yupResolver(validationSchema),
   });
   useEffect(() => {
-    if (data && isSuccess) {
+    if (data && isUserProfileSuccess) {
       setData(data?.user);
+      setValue("name", data?.user?.name);
+      setValue("email", data?.user?.email);
     }
-  }, [isSuccess]);
+  }, [isUserProfileSuccess]);
   const handleProfileChange = async () => {
     if (files.length > 0) {
       setProfileLoading(true);
@@ -60,11 +62,6 @@ function Profile() {
   const onSubmit: SubmitHandler<any> = async (data: any) => {
     await updateSuperAdmin(data);
   };
-  useEffect(() => {
-    setValue("name", userData?.name);
-    setValue("email", userData?.email);
-  }, [userData]);
-
   useEffect(() => {
     if (isProfileUpdateSuccess) {
       toast.success("Successfully Updated Image");
