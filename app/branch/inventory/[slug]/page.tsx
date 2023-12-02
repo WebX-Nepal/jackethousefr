@@ -1,22 +1,86 @@
 "use client";
-import { useGetProductByIdQuery } from "@/redux/api/secureApi";
+import {
+  useGetProductByIdQuery,
+  useGetCategoryQuery,
+  useUpdateProductByIdMutation,
+} from "@/redux/api/secureApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { MdDone } from "react-icons/md";
+
 import LoadingScreen from "@/components/LoadingScreen";
+import { FilePond } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 function InventoryDetailsPage({ params: { slug } }: any) {
   const [data, setData] = useState<any>();
+  const [files, setFiles] = useState<any>([]);
+  const [categoryData, setCategoryData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [
+    sendData,
+    { isLoading: isSendingDataLoading, isSuccess: isSendingDataSuccess },
+  ] = useUpdateProductByIdMutation({});
   const {
     data: productIdData,
     isSuccess: isProductIdSuccess,
     isLoading,
   } = useGetProductByIdQuery(slug ?? skipToken);
+  const {
+    data: category,
+    isSuccess: categoryDataSuccess,
+    refetch: categoryRefetch,
+  } = useGetCategoryQuery({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      category: "",
+      costPrice: 0,
+      sellingPrice: 0,
+      color: "",
+      size: "",
+      discount: 0,
+    },
+    // resolver: yupResolver(validationSchema),
+  });
+  useEffect(() => {
+    if (category && categoryDataSuccess) {
+      setCategoryData(category.category);
+    } else {
+    }
+  }, [category]);
   useEffect(() => {
     if (productIdData && isProductIdSuccess) {
       setLoading(false);
       setData(productIdData.products);
+      setValue("name", productIdData.products?.name);
+      setValue("costPrice", productIdData.products?.costPrice);
+      setValue("sellingPrice", productIdData.products?.sellingPrice);
+      setValue("color", productIdData.products?.color);
+      setValue("size", productIdData.products?.size);
+      setValue("discount", productIdData.products?.discount);
     }
   }, [productIdData]);
+  const onSubmit: SubmitHandler<any> = async (data: any) => {
+    const formData = new FormData();
+    for (const key in data) {
+      const value =
+        data[key] !== undefined && data[key] !== null ? data[key] : "";
+      formData.append(key, value);
+    }
+    if (files && files.length > 0) {
+      formData.append("productImage", files[0]?.file);
+    }
+    await sendData([formData, slug]);
+  };
   useEffect(() => {
     if (isLoading) {
       setLoading(true);
@@ -24,86 +88,142 @@ function InventoryDetailsPage({ params: { slug } }: any) {
       setLoading(false);
     }
   }, [isLoading]);
-
   return (
-    <div className="rounded-sm border border-stroke bg-[#e3e1e1] shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="p-4">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-        <h4 className="text-xl font-semibold text-black ">Product</h4>
-        <button className="bg-green-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-xl">
-          Download Barcode
-        </button>
+        <p className="font-semibold text-xl">Product Details</p>
+        <button>Download Barcode</button>
       </div>
-      {loading ? (
-        <>
-          <LoadingScreen message="Loading Product. Please Wait...." />
-        </>
-      ) : (
-        <>
-          <section className="text-gray-700 body-font overflow-hidden ">
-            <div className="container py-6 mx-auto">
-              <div className="lg:w-4/5 mx-auto flex flex-wrap h-100">
-                <img
-                  alt="ecommerce"
-                  className="lg:w-1/2 w-1/2 h-[300px] rounded border border-gray-200"
-                  src="http://res.cloudinary.com/dgt9nvfjk/image/upload/v1700123005/ed33iewvknyk5ojf9i2u.jpg"
-                />
-                <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                  <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                    Product Name: &nbsp; {data?.name}
-                  </h1>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Cost Price:&nbsp; {data?.costPrice}
-                  </h2>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Selling Price:&nbsp; {data?.sellingPrice}
-                  </h2>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Delivered:&nbsp; {data?.delivered ? <>true</> : <>false</>}
-                  </h2>
-                  <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                    Discount:&nbsp; {data?.discount}
-                  </h2>
-                  <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                    <div className="flex">
-                      <span className="mr-3">Color</span>
-                      <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                    </div>
-                    <div className="flex ml-6 items-center">
-                      <span className="mr-3">Size</span>
-                      <div className="relative">
-                        <select className="rounded border appearance-none border-gray-400 py-2 focus:outline-none  text-base pl-3 pr-10">
-                          <option>SM</option>
-                          <option>M</option>
-                          <option>L</option>
-                          <option>XL</option>
-                        </select>
-                        <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                          <svg
-                            fill="none"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            className="w-4 h-4"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d="M6 9l6 6 6-6"></path>
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <span className="title-font font-medium text-2xl text-gray-900">
-                      Price: $58.00
-                    </span>
-                  </div>
+      <div className="mt-1 block w-full items-center justify-center xl:flex">
+        <div className="bg-transparent">
+          {data?.productImage ? (
+            <img src={data?.productImage} height={"250px"} width={"250px"} />
+          ) : (
+            <img src={"/logo.svg"} height={"250px"} width={"250px"} />
+          )}
+        </div>
+        <div className="xl:w-2/3 w-full">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="2xl:grid 2xl:grid-cols-1 pl-4 pr-4 pt-4 mb-0">
+              <div className="flex  w-full  justify-between p-2">
+                <p className="text-xl flex items-center justify-center">
+                  Product Name
+                </p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="name"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
+                        type="text"
+                        placeholder="Enter Product Name"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="flex  w-full justify-between p-2">
+                <p className="text-xl flex items-center justify-center">
+                  Cost Price
+                </p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="costPrice"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
+                        type="text"
+                        placeholder="Enter Cost Price"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="flex  w-full justify-between p-2">
+                <p className="text-xl flex items-center justify-center">
+                  Selling Price
+                </p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="sellingPrice"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                        placeholder="Enter Selling Price"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="flex  w-full justify-between p-2">
+                <p className="text-xl flex items-center justify-center">
+                  Color
+                </p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="color"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                        placeholder="Enter Color"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="flex  w-full justify-between p-2">
+                <p className="text-xl flex items-center justify-center">Size</p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="size"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                        placeholder="Enter Size"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="flex  w-full justify-between p-2">
+                <p className="text-xl flex items-center justify-center">
+                  Discount %
+                </p>
+                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                  <Controller
+                    name="discount"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                        placeholder="Enter Discount"
+                        {...field}
+                        disabled
+                      />
+                    )}
+                  />
                 </div>
               </div>
             </div>
-          </section>
-        </>
-      )}
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

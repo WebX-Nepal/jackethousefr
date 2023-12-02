@@ -101,12 +101,6 @@ function Inventory() {
               onClick={() => openViewDetails(row)}
             />
           </div>
-          <ActionButton
-            text="Delete"
-            color="red"
-            row={row}
-            // onClick={useDeleteProduct}
-          />
         </div>
       ),
     },

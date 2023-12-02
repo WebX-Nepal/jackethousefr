@@ -87,6 +87,11 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
+    getSoldLocalProducts: builder.query<any, any>({
+      query: () => ({
+        url: `/localProducts/getSoldLocalProduct/`,
+      }),
+    }),
     getLocalProductsByBranch: builder.query<any, any>({
       query: ({ category, productName }) => ({
         url: `/localProducts/getLocalProduct?productName=${productName}&category=${
@@ -214,6 +219,7 @@ export const {
   useGetBranchDetailsForAdminQuery,
   useGetBranchDetailsQuery,
   useGetLocalProductByIdQuery,
+  useGetSoldLocalProductsQuery,
   useGetLocalProductsByBranchQuery,
   useCreateCategoryMutation,
   useUpdateProductByIdMutation,

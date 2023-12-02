@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { BsBarChart } from "react-icons/bs";
+import { GrHistory } from "react-icons/gr";
 import { GoPeople } from "react-icons/go";
 import { BiSolidReport } from "react-icons/bi";
 import { PiCoatHangerLight } from "react-icons/pi";
@@ -77,6 +78,19 @@ function Sidebar() {
         <PiCoatHangerLight
           className={` text-secondary rounded-full text-3xl border-4 ${
             path == "inventory"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "History",
+      pathName: "history",
+      icon: (
+        <GrHistory
+          className={` text-secondary rounded-full text-3xl border-4 ${
+            path == "history"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
           }`}
