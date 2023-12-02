@@ -20,6 +20,12 @@ export const secureApi = createApi({
         body: data,
       }),
     }),
+    getUserProfile: builder.query<any, any>({
+      query: () => ({
+        url: `/getProfile/`,
+      }),
+    }),
+
     createProducts: builder.mutation<any, any>({
       query: (data) => ({
         url: `/product/registerProduct`,
@@ -212,6 +218,7 @@ export const {
   useUpdateProfilePictureMutation,
   useCreateProductsMutation,
   useGetAllProductsQuery,
+  useGetUserProfileQuery,
   useGetProductByIdQuery,
   useDeleteCategoryByIdMutation,
   useGetBranchSalesDetailsQuery,

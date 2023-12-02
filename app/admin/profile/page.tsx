@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import LoadingScreen from "@/components/LoadingScreen";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
@@ -8,19 +7,21 @@ import { MdDone } from "react-icons/md";
 import {
   useUpdateSuperAdminMutation,
   useUpdateProfilePictureMutation,
+  useGetUserProfileQuery,
 } from "@/redux/api/secureApi";
 import { toast } from "react-toastify";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 function Profile() {
-  const userDetails = useSelector((state: any) => state.auth?.userDetail);
+  const { data, isSuccess: isUserProfileSuccess } = useGetUserProfileQuery({});
   const [updateSuperAdmin, { isSuccess, isLoading }] =
     useUpdateSuperAdminMutation();
   const [
     updateProfilePicture,
     { isSuccess: isProfileUpdateSuccess, isLoading: isProfileUpdateLoading },
   ] = useUpdateProfilePictureMutation();
+  const [userData, setData] = useState<any>();
   const [files, setFiles] = useState<any>([]);
   const [profileLoading, setProfileLoading] = useState(false);
   const [showpassword, setShowpassword] = useState(false);
@@ -43,6 +44,11 @@ function Profile() {
     },
     // resolver: yupResolver(validationSchema),
   });
+  useEffect(() => {
+    if (data && isSuccess) {
+      setData(data?.user);
+    }
+  }, [isSuccess]);
   const handleProfileChange = async () => {
     if (files.length > 0) {
       setProfileLoading(true);
@@ -55,9 +61,9 @@ function Profile() {
     await updateSuperAdmin(data);
   };
   useEffect(() => {
-    setValue("name", userDetails?.name);
-    setValue("email", userDetails?.email);
-  }, [userDetails]);
+    setValue("name", userData?.name);
+    setValue("email", userData?.email);
+  }, [userData]);
 
   useEffect(() => {
     if (isProfileUpdateSuccess) {
@@ -99,7 +105,7 @@ function Profile() {
             <div>
               <div className="w-[200px] h-[200px] bg-red-300 rounded-full flex items-center justify-center">
                 <img
-                  src={userDetails?.profileImage}
+                  src={userData?.profileImage}
                   alt="User"
                   style={{
                     borderRadius: "50%",
@@ -129,10 +135,8 @@ function Profile() {
               </div>
             </div>
             <div className="ml-20 mt-8">
-              <p className="text-3xl">{userDetails?.name}</p>
-              <p className="text-2xl text-blue-600 pt-1">
-                {userDetails?.email}
-              </p>
+              <p className="text-3xl">{userData?.name}</p>
+              <p className="text-2xl text-blue-600 pt-1">{userData?.email}</p>
             </div>
           </div>
           <p className="px-6 text-xl font-bold pt-6">Account</p>

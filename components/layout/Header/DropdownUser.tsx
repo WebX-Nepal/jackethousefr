@@ -5,17 +5,23 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { signOut } from "next-auth/react";
 import { logOutUser } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { persistor, RootState } from "@/redux/store";
+import { persistor } from "@/redux/store";
+import { useGetUserProfileQuery } from "@/redux/api/secureApi";
+
 const DropdownUser = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userDetails = useSelector((state: any) => state.auth);
+  const { data, isSuccess, isLoading } = useGetUserProfileQuery({});
+  const [userData, setData] = useState<any>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
-
+  useEffect(() => {
+    if (data && isSuccess) {
+      setData(data?.user);
+    }
+  }, [isSuccess]);
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
@@ -57,7 +63,7 @@ const DropdownUser = () => {
 
   const handleProfileClick = () => {
     setDropdownOpen(false);
-    if (userDetails?.userDetail?.role == "admin") {
+    if (userData?.role == "admin") {
       router.push("/branch/profile");
     } else {
       router.push("/admin/profile");
@@ -82,7 +88,7 @@ const DropdownUser = () => {
           }}
         >
           <img
-            src={userDetails?.userDetail?.profileImage}
+            src={userData?.profileImage}
             alt="User"
             style={{ borderRadius: "50%", height: "38px", width: "38px" }}
           />
@@ -90,14 +96,10 @@ const DropdownUser = () => {
 
         <span className="hidden lg:block">
           <span className="block text-sm font-medium text-black w-[110px] overflow-hidden">
-            {userDetails.userDetail?.name}
+            {userData?.name}
           </span>
           <span className="block text-xs ">
-            {userDetails.userDetail?.role == "admin" ? (
-              <>Branch</>
-            ) : (
-              <>Central</>
-            )}
+            {userData?.role == "admin" ? <>Branch</> : <>Central</>}
           </span>
         </span>
 

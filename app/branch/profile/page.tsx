@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
   useGetBranchDetailsQuery,
+  useGetUserProfileQuery,
   useUpdateProfilePictureMutation,
 } from "@/redux/api/secureApi";
 import { FilePond } from "react-filepond";
@@ -14,6 +15,9 @@ import LoadingScreen from "@/components/LoadingScreen";
 import { toast } from "react-toastify";
 
 function Profile() {
+  const { data: userDetailsData, isSuccess: isUserProfileSuccess } =
+    useGetUserProfileQuery({});
+  const [userData, setData] = useState<any>();
   const [files, setFiles] = useState<any>([]);
   const [branchDetails, setBranchDetails] = useState<any>([]);
   const [profileLoading, setProfileLoading] = useState(false);
@@ -44,6 +48,14 @@ function Profile() {
   const onSubmit = () => {
     console.log("here");
   };
+  useEffect(() => {
+    if (userDetailsData && isUserProfileSuccess) {
+      setData(userDetailsData?.user);
+      setValue("name", userDetailsData?.user?.name);
+      setValue("adminNumber", userDetailsData?.user?.phone);
+      setValue("adminEmail", userDetailsData?.user?.email);
+    }
+  }, [isUserProfileSuccess]);
   const handleProfileChange = async () => {
     if (files.length > 0) {
       setProfileLoading(true);
@@ -66,14 +78,6 @@ function Profile() {
       setProfileLoading(false);
     }
   }, [isProfileUpdateSuccess]);
-  useEffect(() => {
-    if (data && isSuccess) {
-      setValue("name", userDetails?.name);
-      setValue("adminNumber", userDetails?.phone);
-      setValue("adminEmail", userDetails?.email);
-    }
-  }, [isSuccess]);
-
   return (
     <div className="h-full bg-primary m-4 z-10 shadow-lg p-4 pt-8 mt-11">
       {profileLoading ? (
@@ -86,7 +90,7 @@ function Profile() {
             <div>
               <div className="w-[200px] h-[200px] bg-red-300 rounded-full flex items-center justify-center">
                 <img
-                  src={userDetails?.profileImage}
+                  src={userData?.profileImage}
                   alt="User"
                   style={{
                     borderRadius: "50%",
@@ -118,8 +122,8 @@ function Profile() {
             <div className="ml-20 mt-8">
               <p className="text-2xl pt-1">{branchDetails?.branchName}</p>
               <p className="text-2xl pt-1"> {branchDetails?.address}</p>
-              <p className="text-3xl text-blue-600">{userDetails.name}</p>
-              <p className="text-2xl pt-1">{userDetails.phone}</p>
+              <p className="text-3xl text-blue-600">{userData?.name}</p>
+              <p className="text-2xl pt-1">{userData?.phone}</p>
             </div>
           </div>
           <p className="px-6 text-xl font-bold pt-6">Account</p>
