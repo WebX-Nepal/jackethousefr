@@ -90,10 +90,7 @@ function Reports() {
       name: "Selling Price",
       selector: (row: any) => row.sellingPrice,
     },
-    {
-      name: "Items Sold",
-      selector: (row: any) => row.totalItemsSold,
-    },
+
     {
       name: "Profit",
       selector: (row: any) => <p>Rs {row.profit}</p>,
