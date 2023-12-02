@@ -7,7 +7,7 @@ import { logOutUser } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-
+import { persistor, RootState } from "@/redux/store";
 const DropdownUser = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -41,14 +41,18 @@ const DropdownUser = () => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
   async function handleLogOut() {
-    // await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
-    dispatch(logOutUser());
+    await dispatch(logOutUser());
+    persistor.pause();
+    persistor.flush().then(() => {
+      return persistor.purge();
+    });
+    localStorage.removeItem("token");
     localStorage.removeItem("persist:auth");
     localStorage.removeItem("persist:root");
     localStorage.removeItem("accessToken");
-    await signOut();
-    router.push("https://jkh.webxnep.com/login");
+    await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
   }
+
   const handleProfileClick = () => {
     setDropdownOpen(false);
     if (userDetails?.userDetail?.role == "admin") {

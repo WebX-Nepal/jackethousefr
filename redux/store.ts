@@ -4,9 +4,24 @@ import authSlice from "./slices/authSlice";
 import searchSlice from "./slices/searchSlice";
 import { secureApi } from "./api/secureApi";
 import { publicApi } from "./api/publicApi";
-import { persistReducer, persistStore } from "redux-persist";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import storage from "redux-persist/lib/storage";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+};
 const rootReducer = combineReducers({
   auth: authSlice,
   counter: counterSlice,
@@ -15,24 +30,21 @@ const rootReducer = combineReducers({
   [secureApi.reducerPath]: secureApi.reducer,
 });
 
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["auth"],
-};
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  devTools: process.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(
-      publicApi.middleware,
-      secureApi.middleware
-    ),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(publicApi.middleware, secureApi.middleware),
 });
-
 export const persistor = persistStore(store);
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

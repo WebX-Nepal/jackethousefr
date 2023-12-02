@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { persistor } from "../store";
 export interface AuthState {
   userDetail: any;
   token: string;
@@ -21,7 +21,6 @@ export const authSlice = createSlice({
     logOutUser: (state) => {
       state.userDetail = null;
       state.token = "";
-      localStorage.removeItem("token");
     },
   },
 });
