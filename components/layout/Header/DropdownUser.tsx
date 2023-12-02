@@ -50,7 +50,9 @@ const DropdownUser = () => {
     localStorage.removeItem("persist:auth");
     localStorage.removeItem("persist:root");
     localStorage.removeItem("accessToken");
-    await signOut({ callbackUrl: "https://jkh.webxnep.com/login" });
+    await signOut().then(() => {
+      window.location.href = "https://jkh.webxnep.com/login";
+    });
   }
 
   const handleProfileClick = () => {
