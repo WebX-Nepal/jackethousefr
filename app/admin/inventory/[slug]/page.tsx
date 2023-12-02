@@ -13,6 +13,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { toast } from "react-toastify";
 function InventoryDetailsPage({ params: { slug } }: any) {
   const [data, setData] = useState<any>();
   const [files, setFiles] = useState<any>([]);
@@ -20,12 +21,17 @@ function InventoryDetailsPage({ params: { slug } }: any) {
   const [loading, setLoading] = useState(false);
   const [
     sendData,
-    { isLoading: isSendingDataLoading, isSuccess: isSendingDataSuccess },
+    {
+      isLoading: isSendingDataLoading,
+      isSuccess: isSendingDataSuccess,
+      isError,
+    },
   ] = useUpdateProductByIdMutation({});
   const {
     data: productIdData,
     isSuccess: isProductIdSuccess,
     isLoading,
+    refetch,
   } = useGetProductByIdQuery(slug ?? skipToken);
   const {
     data: category,
@@ -42,7 +48,6 @@ function InventoryDetailsPage({ params: { slug } }: any) {
   } = useForm({
     defaultValues: {
       name: "",
-      category: "",
       costPrice: 0,
       sellingPrice: 0,
       color: "",
@@ -58,6 +63,17 @@ function InventoryDetailsPage({ params: { slug } }: any) {
     }
   }, [category]);
   useEffect(() => {
+    if (isSendingDataSuccess) {
+      setLoading(false);
+      toast.success("Successfully updated product");
+      refetch();
+    } else if (isError) {
+      setLoading(false);
+      toast.error("Please Retry Something went wrong");
+      refetch();
+    }
+  }, [isSendingDataSuccess, isError]);
+  useEffect(() => {
     if (productIdData && isProductIdSuccess) {
       setLoading(false);
       setData(productIdData.products);
@@ -70,6 +86,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
     }
   }, [productIdData]);
   const onSubmit: SubmitHandler<any> = async (data: any) => {
+    setLoading(true);
     const formData = new FormData();
     for (const key in data) {
       const value =
@@ -81,180 +98,175 @@ function InventoryDetailsPage({ params: { slug } }: any) {
     }
     await sendData([formData, slug]);
   };
-  useEffect(() => {
-    if (isLoading) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [isLoading]);
+
   return (
     <div className="p-4">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <p className="font-semibold text-xl">Product Details</p>
         <button>Download Barcode</button>
       </div>
-      <div className="mt-1 block w-full items-center justify-center xl:flex">
-        <div className="bg-transparent">
-          {data?.productImage ? (
-            <img src={data?.productImage} height={"250px"} width={"250px"} />
-          ) : (
-            <img src={"/logo.svg"} height={"250px"} width={"250px"} />
-          )}
-          <div className="flex mt-2 w-[250px]">
-            <div className="w-full">
-              <FilePond
-                files={files}
-                allowMultiple={false}
-                allowRevert
-                allowImagePreview={false}
-                allowDrop
-                onupdatefiles={setFiles}
-                styleButtonRemoveItemPosition="left"
-                labelIdle={`Update Image`}
-              />
+      {loading ? (
+        <>
+          <LoadingScreen message="Updating. Please Wait" />
+        </>
+      ) : (
+        <>
+          <div className="mt-1 block w-full items-center justify-center xl:flex">
+            <div className="bg-transparent">
+              {data?.productImage ? (
+                <img
+                  src={data?.productImage}
+                  height={"250px"}
+                  width={"250px"}
+                />
+              ) : (
+                <img src={"/logo.svg"} height={"250px"} width={"250px"} />
+              )}
+              <div className="flex mt-2 w-[250px]">
+                <div className="w-full">
+                  <FilePond
+                    files={files}
+                    allowMultiple={false}
+                    allowRevert
+                    allowImagePreview={false}
+                    allowDrop
+                    onupdatefiles={setFiles}
+                    styleButtonRemoveItemPosition="left"
+                    labelIdle={`Update Image`}
+                  />
+                </div>
+                {files.length > 0 && (
+                  <button className="pb-4" onClick={onSubmit}>
+                    <MdDone className="text-3xl font-semibold " />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="xl:w-2/3 w-full">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="2xl:grid 2xl:grid-cols-1 pl-4 pr-4 pt-4 mb-0">
+                  <div className="flex  w-full  justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Product Name
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="name"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
+                            type="text"
+                            placeholder="Enter Product Name"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex  w-full justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Cost Price
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="costPrice"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
+                            type="text"
+                            placeholder="Enter Cost Price"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex  w-full justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Selling Price
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="sellingPrice"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                            placeholder="Enter Selling Price"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex  w-full justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Color
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="color"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                            placeholder="Enter Color"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex  w-full justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Size
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="size"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                            placeholder="Enter Size"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex  w-full justify-between p-2">
+                    <p className="text-xl flex items-center justify-center">
+                      Discount %
+                    </p>
+                    <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
+                      <Controller
+                        name="discount"
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
+                            placeholder="Enter Discount"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full pr-6 flex justify-end pt-2 mt-0 ">
+                  <div className="flex bg-black h-11 rounded-xl w-[80px] items-center justify-center text-white text-lg">
+                    <button onClick={handleSubmit(onSubmit)}>Save</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-        <div className="xl:w-2/3 w-full">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="2xl:grid 2xl:grid-cols-1 pl-4 pr-4 pt-4 mb-0">
-              <div className="flex  w-full  justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Product Name
-                </p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="name"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
-                        type="text"
-                        placeholder="Enter Product Name"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="flex  w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Cost Price
-                </p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="costPrice"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex  flex-grow "
-                        type="text"
-                        placeholder="Enter Cost Price"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="flex  w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Selling Price
-                </p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="sellingPrice"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
-                        placeholder="Enter Selling Price"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="flex  w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Color
-                </p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="color"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
-                        placeholder="Enter Color"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="flex  w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">Size</p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="size"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
-                        placeholder="Enter Size"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="flex  w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Discount %
-                </p>
-                <div className="flex items-center rounded-xl border border-gray-600 p-2 justify-between bg-white w-2/3">
-                  <Controller
-                    name="discount"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        className="outline-none placeholder-gray-500 bg-white text-black flex flex-grow"
-                        placeholder="Enter Discount"
-                        {...field}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-between p-2">
-                <p className="text-xl flex items-center justify-center">
-                  Category
-                </p>
-                <select
-                  className="w-2/3 p-3 text-gray-500 bg-white  shadow-sm outline-none border rounded-xl border-gray-600 "
-                  defaultValue={"ankjdsjkasdjkasd"}
-                  {...register("category")}
-                >
-                  {categoryData.map((item: any) => {
-                    return (
-                      <option value={item._id} key={item._id}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-            </div>
-            <div className="w-full pr-6 flex justify-end pt-2 mt-0 ">
-              <div className="flex bg-black h-11 rounded-xl w-[80px] items-center justify-center text-white text-lg">
-                <button onClick={handleSubmit(onSubmit)}>Save</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
