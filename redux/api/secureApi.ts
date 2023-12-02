@@ -94,7 +94,11 @@ export const secureApi = createApi({
         }`,
       }),
     }),
-
+    getLocalProductById: builder.query<any, any>({
+      query: (ID) => ({
+        url: `/localProducts/getLocalProductByID/${ID}`,
+      }),
+    }),
     getLatestProduct: builder.query<any, any>({
       query: ({ sortBy, search }) => ({
         url: `/product/getLatestproducts?sortOrder=${sortBy}&productName=${search}`,
@@ -209,6 +213,7 @@ export const {
   useDeleteProductByIdQuery,
   useGetBranchDetailsForAdminQuery,
   useGetBranchDetailsQuery,
+  useGetLocalProductByIdQuery,
   useGetLocalProductsByBranchQuery,
   useCreateCategoryMutation,
   useUpdateProductByIdMutation,

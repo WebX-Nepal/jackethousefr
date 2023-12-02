@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomScrollbar from "@/components/ScrollBar";
 import {
-  useGetProductByIdQuery,
+  useGetLocalProductByIdQuery,
   useGetMemberByIDQuery,
   useCreateSalesMutation,
 } from "../../../redux/api/secureApi";
@@ -39,7 +39,7 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
     (state: RootState) => state.counter.cartItem
   );
   const { data: productIdData, isSuccess: isProductIdSuccess } =
-    useGetProductByIdQuery(productID);
+    useGetLocalProductByIdQuery(productID);
   const {
     data: MemberData,
     isSuccess: MemberSearchSuccess,
