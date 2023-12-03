@@ -156,7 +156,7 @@ function Reports() {
           )}
         </div>
       </div>
-      <div>
+      <div className="pl-4">
         {productData.map((item: any) => {
           return (
             <div className="ml-2 mb-2 rounded-lg flex w-1/2 justify-between">
@@ -170,7 +170,6 @@ function Reports() {
           );
         })}
       </div>
-
       <DataTable
         customStyles={tableCustomStyles}
         columns={columns}
