@@ -224,13 +224,20 @@ const BranchDetails = ({ params: { slug } }: any) => {
   const closeBranchSettingsModal = () => {
     setisBranchSettingsModalOpen(false);
   };
-  const handleToggle = () => {
-    if (toggleTable == "inventory") {
-      setToggleTable("reports");
-    } else {
-      setToggleTable("inventory");
-    }
+  // const handleToggle = () => {
+  //   if (toggleTable == "inventory") {
+  //     setToggleTable("reports");
+  //   } else {
+  //     setToggleTable("inventory");
+  //   }
+  // };
+  const handleToggleReports = () => {
+    setToggleTable("reports");
   };
+  const handleToggleInventory = () => {
+    setToggleTable("inventory");
+  };
+
   const commonStyles = "px-4 rounded-lg";
   const blurStyles = isBranchSettingsModalOpen ? "blur-xl" : "";
   return (
@@ -242,7 +249,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
               <div className="trapezoid">
                 <button
                   className={`text-black text-center pt-1.5 hover:text-lg pl-4`}
-                  onClick={handleToggle}
+                  onClick={handleToggleReports}
                 >
                   Reports
                 </button>
@@ -250,7 +257,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
               <div className="trapezoid">
                 <button
                   className="text-black text-center pt-1.5 hover:text-lg pl-4"
-                  onClick={handleToggle}
+                  onClick={handleToggleInventory}
                 >
                   Inventory
                 </button>
@@ -288,7 +295,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
           </div>
           <div
             className={`${blurStyles} ${
-              toggleTable === "inventory" ? commonStyles : "hidden"
+              toggleTable === "reports" ? commonStyles : "hidden"
             }`}
           >
             <DataTable
@@ -305,7 +312,7 @@ const BranchDetails = ({ params: { slug } }: any) => {
 
           <div
             className={`${blurStyles} ${
-              toggleTable === "reports" ? commonStyles : "hidden"
+              toggleTable === "inventory" ? commonStyles : "hidden"
             }`}
           >
             <DataTable
