@@ -22,8 +22,11 @@ function Reports() {
   const { data: reportData, isSuccess } = useGetSalesReportsProductsDataQuery(
     {}
   );
-  const { data: salesDetails, isSuccess: isSalesDetailsSuccess } =
-    useGetBranchSalesDetailsQuery(userData?.userDetail?.branch ?? skipToken);
+  const {
+    data: salesDetails,
+    isSuccess: isSalesDetailsSuccess,
+    refetch,
+  } = useGetBranchSalesDetailsQuery(userData?.userDetail?.branch ?? skipToken);
   const [value, setValue] = useState<any>({
     startDate: new Date(),
     endDate: new Date().setMonth(11),
@@ -31,7 +34,9 @@ function Reports() {
   const handleValueChange = (newValue: any) => {
     setValue(newValue);
   };
-
+  useEffect(() => {
+    refetch();
+  }, []);
   useEffect(() => {
     if (reportData && isSuccess) {
       setProducts(reportData.data);

@@ -15,8 +15,11 @@ import LoadingScreen from "@/components/LoadingScreen";
 import { toast } from "react-toastify";
 
 function Profile() {
-  const { data: userDetailsData, isSuccess: isUserProfileSuccess } =
-    useGetUserProfileQuery({});
+  const {
+    data: userDetailsData,
+    isSuccess: isUserProfileSuccess,
+    refetch,
+  } = useGetUserProfileQuery({});
   const [userData, setData] = useState<any>();
   const [files, setFiles] = useState<any>([]);
   const [branchDetails, setBranchDetails] = useState<any>([]);
@@ -64,6 +67,10 @@ function Profile() {
       await updateProfilePicture(formData);
     }
   };
+  useEffect(() => {
+    refetch();
+  }, []);
+
   useEffect(() => {
     if (data && isSuccess) {
       setBranchDetails(data?.data);

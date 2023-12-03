@@ -11,7 +11,7 @@ function Members() {
   const [isRewardsModalOpen, setIsRewardsModalOpen] = useState(false);
   const [productData, setProducts] = useState([]);
   const [memberId, setMemberId] = useState();
-  const { data: memberData, isSuccess } = useGetAllMembersQuery({});
+  const { data: memberData, isSuccess, refetch } = useGetAllMembersQuery({});
   const openModal = () => {
     setIsModalOpen(true);
     setIsRewardsModalOpen(false);
@@ -32,6 +32,9 @@ function Members() {
     } else {
     }
   }, [memberData]);
+  useEffect(() => {
+    refetch();
+  }, []);
   const handleViewMember = (row: any) => {
     openModal();
     setMemberId(row._id);

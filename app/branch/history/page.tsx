@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 function Inventory() {
   const router = useRouter();
   const [historyData, setHistoryData] = useState([]);
-  const { data, isSuccess } = useGetSoldLocalProductsQuery({});
+  const { data, isSuccess, refetch } = useGetSoldLocalProductsQuery({});
   useEffect(() => {
     if (data && isSuccess) {
       setHistoryData(data?.products);
@@ -24,6 +24,9 @@ function Inventory() {
       {text}
     </button>
   );
+  useEffect(() => {
+    refetch();
+  }, []);
   const columns = [
     {
       name: "SN",
