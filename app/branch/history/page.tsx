@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useGetSoldLocalProductsQuery } from "../../../redux/api/secureApi";
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
-import { useRouter } from "next/navigation";
 
 function Inventory() {
-  const router = useRouter();
   const [historyData, setHistoryData] = useState([]);
   const { data, isSuccess, refetch } = useGetSoldLocalProductsQuery({});
   useEffect(() => {

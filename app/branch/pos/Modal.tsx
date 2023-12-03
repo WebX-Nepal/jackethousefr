@@ -287,12 +287,12 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                     >
                       <AiOutlineDollarCircle className="text-green-600 text-3xl" />
                     </div>
-                    <p>Debit</p>
+                    <p>Online</p>
                   </div>
                   <div className="text-center">
                     <div
                       className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
-                        paymentMethod == "wallet"
+                        paymentMethod == "E-wallet"
                           ? "bg-black text-white"
                           : "bg-white"
                       } " `}
