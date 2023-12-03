@@ -14,7 +14,11 @@ import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 function Profile() {
-  const { data, isSuccess: isUserProfileSuccess } = useGetUserProfileQuery({});
+  const {
+    data,
+    isSuccess: isUserProfileSuccess,
+    refetch,
+  } = useGetUserProfileQuery({});
   const [updateSuperAdmin, { isSuccess, isLoading }] =
     useUpdateSuperAdminMutation();
   const [
@@ -59,12 +63,14 @@ function Profile() {
       await updateProfilePicture(formData);
     }
   };
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
+  const onSubmit: SubmitHandler<any> = async (data: any, e: any) => {
+    e.preventDefault();
     await updateSuperAdmin(data);
   };
   useEffect(() => {
     if (isProfileUpdateSuccess) {
       toast.success("Successfully Updated Image");
+      refetch();
       setFiles([]);
       setProfileLoading(false);
     }
@@ -73,6 +79,7 @@ function Profile() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Successfully Updated");
+      refetch();
     }
   }, [isSuccess]);
   const togglePasswordVisibility = (passwordType: string) => {
@@ -137,7 +144,7 @@ function Profile() {
             </div>
           </div>
           <p className="px-6 text-xl font-bold pt-6">Account</p>
-          <form>
+          <form onSubmit={(e) => handleSubmit(onSubmit)(e)}>
             <div className="2xl:grid 2xl:grid-cols-1 pl-4 pr-4 pt-4 mb-0">
               <div className="flex  w-11/12 justify-between p-2">
                 <p className="text-xl flex items-center justify-center">
@@ -195,7 +202,10 @@ function Profile() {
                       />
                     )}
                   />
-                  <button onClick={() => togglePasswordVisibility("current")}>
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("current")}
+                  >
                     {showpassword ? (
                       <AiFillEye className="text-xl hover:cursor-pointer" />
                     ) : (
@@ -221,7 +231,10 @@ function Profile() {
                       />
                     )}
                   />
-                  <button onClick={() => togglePasswordVisibility("new")}>
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("new")}
+                  >
                     {showNewPassword ? (
                       <AiFillEye className="text-xl hover:cursor-pointer" />
                     ) : (
@@ -247,7 +260,10 @@ function Profile() {
                       />
                     )}
                   />
-                  <button onClick={() => togglePasswordVisibility("confirm")}>
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("confirm")}
+                  >
                     {showConfirmPassword ? (
                       <AiFillEye className="text-xl hover:cursor-pointer" />
                     ) : (
@@ -259,7 +275,7 @@ function Profile() {
             </div>
             <div className="w-11/12 pr-6 flex justify-end pt-2 mt-0 ">
               <div className="flex bg-black h-11 rounded-xl w-[80px] items-center justify-center text-white text-lg">
-                <button onClick={handleSubmit(onSubmit)}>Save</button>
+                <button onClick={(e) => handleSubmit(onSubmit)(e)}>Save</button>
               </div>
             </div>
           </form>
