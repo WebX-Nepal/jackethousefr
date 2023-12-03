@@ -3,9 +3,14 @@ import { useRouter } from "next/navigation";
 import BranchSettingsModal from "./addBranches";
 import { useEffect, useState } from "react";
 import { useGetBranchQuery } from "@/redux/api/secureApi";
+import ConfirmDeleteModal from "./confirmDelete";
 const Branches = () => {
   const router = useRouter();
   const [data, setBranchData] = useState([]);
+  const [id, setID] = useState<string>();
+  const [isConfirmDeleteModalOpen, setisConfirmDeleteModalOpen] =
+    useState(false);
+
   const {
     data: branchData,
     isLoading,
@@ -19,6 +24,13 @@ const Branches = () => {
   };
   const closeBranchSettingsModal = () => {
     setisBranchSettingsModalOpen(false);
+  };
+  const openConfirmDelete = (id: string) => {
+    setID(id);
+    setisConfirmDeleteModalOpen(true);
+  };
+  const closeConfirmDeleteModal = () => {
+    setisConfirmDeleteModalOpen(false);
   };
   useEffect(() => {
     if (branchData && isSuccess) {
@@ -39,7 +51,7 @@ const Branches = () => {
       </div>
       <div
         className={`${
-          isBranchSettingsModalOpen
+          isBranchSettingsModalOpen || isConfirmDeleteModalOpen
             ? "blur-xl"
             : "w-full flex items-center justify-center px-1 sm:px-10 flex-col"
         }`}
@@ -52,15 +64,24 @@ const Branches = () => {
             >
               <p className="w-1/5">{item.branchName}</p>
               <p className="hidden sm:block w-1/3 pl-10">{item.address}</p>
-              <button
-                className="px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
-                type="button"
-                onClick={() => {
-                  router.push(`branches/${item._id}`);
-                }}
-              >
-                View
-              </button>
+              <div>
+                <button
+                  className="mr-1 px-6 py-2 leading-5 text-black transition-colors duration-200 transform bg-transparant border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                  type="button"
+                  onClick={() => {
+                    router.push(`branches/${item._id}`);
+                  }}
+                >
+                  View
+                </button>
+                <button
+                  className="ml-1 px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-500 border-white border rounded-2xl shadow-md shadow-buttonShadow  focus:outline-none focus:bg-gray-600 focus:text-white"
+                  type="button"
+                  onClick={() => openConfirmDelete(item._id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           );
         })}
@@ -68,6 +89,12 @@ const Branches = () => {
       <BranchSettingsModal
         isOpen={isBranchSettingsModalOpen}
         closeModal={closeBranchSettingsModal}
+        refetch={refetch}
+      />
+      <ConfirmDeleteModal
+        isOpen={isConfirmDeleteModalOpen}
+        closeModal={closeConfirmDeleteModal}
+        deleteID={id}
         refetch={refetch}
       />
     </div>

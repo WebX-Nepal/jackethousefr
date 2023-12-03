@@ -47,6 +47,12 @@ export const secureApi = createApi({
         url: `/localProducts/getLocalProductByBranch/${ID}`,
       }),
     }),
+    deleteBranchByID: builder.mutation<any, any>({
+      query: (deleteProductId) => ({
+        url: `/branch/deleteBranch/${deleteProductId}`,
+        method: "DELETE",
+      }),
+    }),
 
     getBranchDetails: builder.query<any, any>({
       query: () => ({
@@ -230,6 +236,7 @@ export const {
   useDeleteCategoryByIdMutation,
   useGetBranchSalesDetailsQuery,
   useDeleteProductByIdQuery,
+  useDeleteBranchByIDMutation,
   useGetBranchDetailsForAdminQuery,
   useGetBranchDetailsQuery,
   useGetLocalProductByIdQuery,
