@@ -18,7 +18,7 @@ const AddCategoryModal = ({
   const [files, setFiles] = useState<any>();
   const [
     sendData,
-    { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
+    { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading, isError },
   ] = useCreateCategoryMutation();
   const [
     deleteCategory,
@@ -64,6 +64,11 @@ const AddCategoryModal = ({
       setIsdataSending(false);
     }
   }, [isDataSendingLoading]);
+  useEffect(() => {
+    if (isError) {
+      toast.error("Category must be unique");
+    }
+  }, [isError]);
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {

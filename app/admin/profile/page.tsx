@@ -68,6 +68,9 @@ function Profile() {
     await updateSuperAdmin(data);
   };
   useEffect(() => {
+    refetch();
+  }, []);
+  useEffect(() => {
     if (isProfileUpdateSuccess) {
       toast.success("Successfully Updated Image");
       refetch();

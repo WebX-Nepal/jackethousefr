@@ -81,6 +81,9 @@ function Inventory() {
     setIsQrModalOpen(false);
   };
   useEffect(() => {
+    refetch();
+  }, []);
+  useEffect(() => {
     setSearch(searchQuery);
   }, [searchQuery]);
   useEffect(() => {
@@ -250,7 +253,6 @@ function Inventory() {
             data={productData}
             pagination
             fixedHeader
-            
             highlightOnHover
             onRowClicked={handleRowClicked}
             responsive

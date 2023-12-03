@@ -18,8 +18,11 @@ function Reports() {
 
   const { data: reportData, isSuccess } =
     useGetTotalSalesDataOfAllBranchesQuery({});
-  const { data: salesData, isSuccess: isTotalSalesDataSuccess } =
-    useGenerateLatestSalesDataForAdminQuery({});
+  const {
+    data: salesData,
+    isSuccess: isTotalSalesDataSuccess,
+    refetch,
+  } = useGenerateLatestSalesDataForAdminQuery({});
   const [value, setValue] = useState<any>({
     startDate: new Date(),
     endDate: new Date().setMonth(11),
@@ -34,6 +37,9 @@ function Reports() {
     } else {
     }
   }, [salesData]);
+  useEffect(() => {
+    refetch();
+  }, []);
   useEffect(() => {
     if (reportData && isSuccess) {
       setProducts(reportData.data);

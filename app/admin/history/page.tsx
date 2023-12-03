@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useGetDeliveredProductsQuery } from "../../../redux/api/secureApi";
-
 import DataTable, { createTheme } from "react-data-table-component";
 import { tableCustomStyles } from "../../../components/Constant";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { AiTwotoneDelete } from "react-icons/ai";
+
 function Inventory() {
   const router = useRouter();
   const [historyData, setHistoryData] = useState([]);
-  const { data, isSuccess } = useGetDeliveredProductsQuery({});
+  const { data, isSuccess, refetch } = useGetDeliveredProductsQuery({});
+  useEffect(() => {
+    refetch();
+  }, []);
   useEffect(() => {
     if (data && isSuccess) {
       setHistoryData(data?.products);
@@ -97,12 +98,6 @@ function Inventory() {
           <h4 className="text-xl font-semibold text-black ">
             Delivered Products
           </h4>
-          {/* <div>
-            <button className="bg-red-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1 flex items-center">
-              <AiTwotoneDelete className="text-xl mr-2" />
-              Delete History
-            </button>
-          </div> */}
         </div>
         <div className="px-6">
           <DataTable
