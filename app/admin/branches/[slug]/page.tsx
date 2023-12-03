@@ -211,7 +211,6 @@ const BranchDetails = ({ params: { slug } }: any) => {
     }
   };
   createTheme("solarized", {
-    borderRadius: "0px",
     background: {
       default: "#e3e1e1",
     },

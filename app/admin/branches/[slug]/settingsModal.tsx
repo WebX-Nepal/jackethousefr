@@ -2,11 +2,18 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useGetBranchDetailsForAdminQuery } from "../../../../redux/api/secureApi";
+import {
+  useGetBranchDetailsForAdminQuery,
+  useUpdateBranchDetailsMutation,
+} from "../../../../redux/api/secureApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 const BranchSettingsModal = ({ isOpen, closeModal, slug }: any) => {
   const { data: branchAdminData, isSuccess: isbranchAdminDataSuccess } =
     useGetBranchDetailsForAdminQuery(slug ?? skipToken);
+  const [
+    sendData,
+    { isSuccess: isDataUpdateSuccess, isLoading: isDataUpdateLoading },
+  ] = useUpdateBranchDetailsMutation({});
   const {
     register,
     handleSubmit,
@@ -21,6 +28,7 @@ const BranchSettingsModal = ({ isOpen, closeModal, slug }: any) => {
       name: "",
       email: "",
       phone: "",
+      password: "",
     },
     // resolver: yupResolver(validationSchema),
   });
@@ -31,11 +39,19 @@ const BranchSettingsModal = ({ isOpen, closeModal, slug }: any) => {
       setValue("name", branchAdminData?.data?.name);
       setValue("email", branchAdminData?.data?.email);
       setValue("phone", branchAdminData?.data?.phone);
+      setValue("password", branchAdminData?.data?.password);
     }
   }, [branchAdminData]);
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log("submitted data is", data);
+    const ID: string = slug;
+    sendData({ ID, data });
   };
+  useEffect(() => {
+    if (isDataUpdateSuccess) {
+      toast.success("Successfully Updated");
+      closeModal();
+    }
+  }, [isDataUpdateSuccess]);
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -146,23 +162,23 @@ const BranchSettingsModal = ({ isOpen, closeModal, slug }: any) => {
                 </div>
                 {/* <p className="text-red-600">{errors.totalItems?.message}</p> */}
               </div>
-              {/* <div>
-              Branch Password
-              <div className="border border-gray-600 rounded-xl flex items-center justify-center">
-                <Controller
-                  name="sellingPrice"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      type="text"
-                      className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
-                      {...field}
-                    />
-                  )}
-                />
+
+              <div>
+                Branch Password
+                <div className="border border-gray-600 rounded-xl flex items-center justify-center">
+                  <Controller
+                    name="password"
+                    control={control}
+                    render={({ field }) => (
+                      <input
+                        type="text"
+                        className="w-full h-full p-3 outline-none placeholder-gray-500 bg-white text-black rounded-xl"
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
               </div>
-              <p className="text-red-600">{errors.sellingPrice?.message}</p>
-            </div> */}
             </div>
             <div className="flex justify-end mt-6">
               <button
