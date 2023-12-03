@@ -88,7 +88,7 @@ function Inventory() {
   });
   const handleRowClicked = (row: any) => {
     let slug = row._id;
-    router.push(`/admin/inventory/${slug}`);
+    router.push(`/admin/history/${slug}`);
   };
 
   return (
