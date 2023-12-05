@@ -19,7 +19,7 @@ function Profile() {
     isSuccess: isUserProfileSuccess,
     refetch,
   } = useGetUserProfileQuery({});
-  const [updateSuperAdmin, { isSuccess, isLoading }] =
+  const [updateSuperAdmin, { isSuccess, isLoading, isError }] =
     useUpdateSuperAdminMutation();
   const [
     updateProfilePicture,

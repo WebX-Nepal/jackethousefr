@@ -5,7 +5,11 @@ import {
   useGetMemberByIDQuery,
   useCreateSalesMutation,
 } from "../../../redux/api/secureApi";
-import { addItems, emptyCartItems } from "@/redux/slices/counterSlice";
+import {
+  addItems,
+  emptyCartItems,
+  removeItems,
+} from "@/redux/slices/counterSlice";
 import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -127,6 +131,9 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
   const handleBackSales = () => {
     setIsPaymentModal(false);
   };
+  function handleItemRemove(item: number) {
+    dispatch(removeItems(item));
+  }
   useEffect(() => {
     if (phoneNumber.length > 1 && phoneNumber !== "") {
       if (MemberData && MemberSearchSuccess) {
@@ -163,7 +170,6 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  console.log("memeber data is", memberData);
   return (
     <div
       className={`fixed inset-0 top-12 flex items-center justify-center z-50 modal-container ${
@@ -292,7 +298,7 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                   <div className="text-center">
                     <div
                       className={`border px-10 py-4 lg:px-16 md:px-8 sm:px-6 hover:cursor-pointer rounded-lg shadow-xl ${
-                        paymentMethod == "E-wallet"
+                        paymentMethod == "wallet"
                           ? "bg-black text-white"
                           : "bg-white"
                       } " `}
@@ -363,6 +369,9 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                       <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
                         Discount(%)
                       </th>
+                      <th className="px-6 py-3 text-left text-md font-bold text-black  tracking-wider">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -383,6 +392,14 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {item?.discount}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              onClick={() => handleItemRemove(item)}
+                              className="bg-red-500 text-white p-2 rounded-lg"
+                            >
+                              delete
+                            </button>
                           </td>
                         </tr>
                       ))}
