@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export interface Item {
   _id: string;
@@ -26,7 +27,16 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addItems: (state, action) => {
-      state.cartItem.push(action.payload);
+      const newItem = action.payload;
+      const existingItem = state.cartItem.find(
+        (item) => item._id === newItem._id
+      );
+
+      if (!existingItem) {
+        state.cartItem.push(newItem);
+      } else {
+        toast.error("Item already exists");
+      }
     },
     removeItems: (state, action) => {
       const itemIndex = state.cartItem.findIndex(

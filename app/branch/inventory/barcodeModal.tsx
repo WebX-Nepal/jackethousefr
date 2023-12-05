@@ -19,12 +19,26 @@ const BarcodeInventoryModal = ({ isOpen, closeModal, refetch }: any) => {
   });
   const [
     sendData,
-    { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
+    {
+      isSuccess: isSendDataSuccess,
+      isLoading: isDataSendingLoading,
+      isError,
+      error,
+    },
   ] = useRecordLocalProductMutation();
   const onSubmit: SubmitHandler<any> = async (data) => {
     await sendData(data);
     reset();
   };
+  useEffect(() => {
+    if (isError && error) {
+      if ("status" in error && "data" in error) {
+        toast.error("Product Already Added");
+      } else {
+        toast.error("something went wrong");
+      }
+    }
+  }, [isError, error]);
 
   useEffect(() => {
     if (isSendDataSuccess) {

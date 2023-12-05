@@ -97,8 +97,10 @@ function Reports() {
     },
 
     {
-      name: "Profit",
-      selector: (row: any) => <p>Rs {row.profit}</p>,
+      name: "Date",
+      selector: (row: any) => (
+        <p>{new Date(row.createdAt).toLocaleDateString()}</p>
+      ),
     },
   ];
   const handleDownloadReport = async () => {

@@ -42,8 +42,11 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
   const cartItems: any = useSelector(
     (state: RootState) => state.counter.cartItem
   );
-  const { data: productIdData, isSuccess: isProductIdSuccess } =
-    useGetLocalProductByIdQuery(productID);
+  const {
+    data: productIdData,
+    isSuccess: isProductIdSuccess,
+    isError: isProductDataError,
+  } = useGetLocalProductByIdQuery(productID);
   const {
     data: MemberData,
     isSuccess: MemberSearchSuccess,
@@ -91,8 +94,9 @@ const Modal = ({ isOpen, closeModal, refetch }: any) => {
       toast.error("Please Enter Item Code");
     } else if (productIdData && isProductIdSuccess) {
       dispatch(addItems(productIdData.products));
-    } else {
+    } else if (isProductDataError) {
       toast.error("Item Not Found");
+    } else {
     }
   };
   const openPaymentModal = () => {
