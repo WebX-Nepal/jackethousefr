@@ -3,14 +3,14 @@ import React from "react";
 import { setSearchQuery } from "../../../redux/slices/searchSlice";
 import Image from "next/image";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { RiBarcodeFill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/navigation";
 import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import useScreenWidth from "../../screenHook";
 import { useDispatch, useSelector } from "react-redux";
-function Header() {
+import DropdownBarcode from "./Dropdownbarcode/DropdownBarcode";
+function Header({ isBarcodeOpen, setIsBarcodeOpen }) {
   const userDetails = useSelector((state) => state.auth?.userDetail);
   const dispatch = useDispatch();
   const screenWidth = useScreenWidth();
@@ -61,10 +61,10 @@ function Header() {
         <div className="md:flex hidden items-center  gap-8 2xsm:gap-7 ml-4 -mr-4">
           <div className="flex items-center justify-center m-2">
             <p>Barcode:</p>
-            <div className="text-4xl ml-4 bg-backgroundGray border-4 border-backgroundGray rounded-xl flex">
-              <RiBarcodeFill />
-              <RiBarcodeFill />
-            </div>
+            <DropdownBarcode
+              isBarcodeOpen={isBarcodeOpen}
+              setIsBarcodeOpen={setIsBarcodeOpen}
+            />
           </div>
           <DropdownNotification />
           <DropdownUser />

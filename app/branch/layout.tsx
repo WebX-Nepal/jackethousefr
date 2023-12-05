@@ -1,18 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/layout/Header/Header";
 import Sidebar from "../../components/layout/Sidebar/BranchSidebar";
 import useScreenWidth from "../../components/screenHook";
 
 function Dashboard({ children }: { children: React.ReactNode }) {
-  //if branch admin then stay if admin then forward page to admin page
-
+  const [isBarcodeOpen, setIsBarcodeOpen] = useState(false);
   const screenWidth = useScreenWidth();
-
   return (
     <div className="min-h-screen flex flex-col">
       <div className="sticky top-0 z-50">
-        <Header />
+        <Header
+          isBarcodeOpen={isBarcodeOpen}
+          setIsBarcodeOpen={setIsBarcodeOpen}
+        />
       </div>
       <div className="relative flex flex-grow">
         <div className="bg-black w-32 fixed h-full">
@@ -25,8 +26,9 @@ function Dashboard({ children }: { children: React.ReactNode }) {
         >
           <div
             style={{
-              minWidth: screenWidth >= 1700 ? "1500px" : "100%",
+              minWidth: screenWidth >= 1700 ? "1500px " : "100%",
             }}
+            className={`${isBarcodeOpen ? "blur-md" : ""}`}
           >
             {children}
           </div>
