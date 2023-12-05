@@ -25,6 +25,7 @@ function Inventory() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState();
+  const [selectedRowsForQR, setSelectedRowsForQR] = useState<any>([]);
   const [sortBy, selectSortBy] = useState("Date");
   const [deleteProductId, setDeleteProductID] = useState();
   const options = [{ name: "Date" }, { name: "category" }];
@@ -74,7 +75,6 @@ function Inventory() {
     refetch;
   };
   const openQrModal = (row: any) => {
-    setSelectedRowData(row);
     setIsQrModalOpen(true);
   };
   const closeQrModal = () => {
@@ -201,10 +201,19 @@ function Inventory() {
   const handleSelectChange = () => {
     if (sortBy == "Date") {
       selectSortBy("category");
-      // setFilterOptions("category");
     } else {
       selectSortBy("Date");
-      // setFilterOptions("createdAt");
+    }
+  };
+  const selectedRows = (row: any) => {
+    setSelectedRowsForQR(row);
+  };
+  const handleQRopen = () => {
+    console.log("selected rows are", selectedRowsForQR);
+    if (selectedRowsForQR?.selectedRows.length > 0) {
+      openQrModal(true);
+    } else {
+      toast.error("Please Select at least a product");
     }
   };
   return (
@@ -235,6 +244,12 @@ function Inventory() {
             >
               Add Products
             </button>
+            <button
+              className="bg-black text-white pt-1 pb-1 pl-3 pr-3 rounded-xl ml-1"
+              onClick={handleQRopen}
+            >
+              Print Barcode
+            </button>
           </div>
         </div>
         <div
@@ -257,6 +272,8 @@ function Inventory() {
             onRowClicked={handleRowClicked}
             responsive
             theme="solarized"
+            selectableRows
+            onSelectedRowsChange={selectedRows}
           />
         </div>
         <InventoryModal
@@ -269,7 +286,7 @@ function Inventory() {
         <QrModal
           isOpen={isQrModalOpen}
           closeModal={closeQrModal}
-          selectedRowData={selectedRowData}
+          selectedRowData={selectedRowsForQR}
           refetch={refetch}
         />
         <AddCategoryModal

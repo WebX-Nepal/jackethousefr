@@ -8,16 +8,19 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { MdDone } from "react-icons/md";
-
 import LoadingScreen from "@/components/LoadingScreen";
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { toast } from "react-toastify";
+import QrModal from "../modals/qrModal";
 function InventoryDetailsPage({ params: { slug } }: any) {
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [data, setData] = useState<any>();
   const [files, setFiles] = useState<any>([]);
   const [categoryData, setCategoryData] = useState<any>([]);
+  const [selectedRowsForQR, setSelectedRowsForQR] = useState<any>([]);
+
   const [loading, setLoading] = useState(false);
   const [
     sendData,
@@ -56,6 +59,12 @@ function InventoryDetailsPage({ params: { slug } }: any) {
     },
     // resolver: yupResolver(validationSchema),
   });
+  const openQrModal = (row: any) => {
+    setIsQrModalOpen(true);
+  };
+  const closeQrModal = () => {
+    setIsQrModalOpen(false);
+  };
   useEffect(() => {
     if (category && categoryDataSuccess) {
       setCategoryData(category.category);
@@ -98,12 +107,30 @@ function InventoryDetailsPage({ params: { slug } }: any) {
     }
     await sendData([formData, slug]);
   };
-
+  const handleDownloadBarcode = () => {
+    const selectedRows = [data];
+    const b = {
+      selectedRows: [selectedRows[0]],
+    };
+    setSelectedRowsForQR(b);
+  };
+  useEffect(() => {
+    // This effect will be triggered whenever selectedRowsForQR changes
+    if (selectedRowsForQR !== null) {
+      console.log("qr is", selectedRowsForQR);
+      openQrModal(true);
+    }
+  }, [selectedRowsForQR]);
   return (
     <div className="p-4">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <p className="font-semibold text-xl">Product Details</p>
-        <button>Download Barcode</button>
+        <button
+          className="bg-black text-white px-2 py-2 rounded-xl"
+          onClick={handleDownloadBarcode}
+        >
+          Download Barcode
+        </button>
       </div>
       {loading ? (
         <>
@@ -267,6 +294,12 @@ function InventoryDetailsPage({ params: { slug } }: any) {
           </div>
         </>
       )}
+      <QrModal
+        isOpen={isQrModalOpen}
+        closeModal={closeQrModal}
+        selectedRowData={selectedRowsForQR}
+        refetch={refetch}
+      />
     </div>
   );
 }

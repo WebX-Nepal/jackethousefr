@@ -1,12 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import LoadingScreen from "../../../../components/LoadingScreen";
-import { toast } from "react-toastify";
+import React, { useEffect } from "react";
 import CustomScrollbar from "@/components/ScrollBar";
-import Image from "next/image";
 import Barcode from "react-jsbarcode";
 
 const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
+  let selectedRows = selectedRowData?.selectedRows;
+  console.log("slected rows are", selectedRows);
+  if (!selectedRows) {
+    // Handle the case where selectedRows is undefined
+    console.error("selectedRows is undefined");
+    // You can return or render an appropriate fallback content here
+    return null;
+  }
+
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -19,10 +25,6 @@ const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  let { totalItems, _id } = selectedRowData;
-  const lastSixCharacters = _id.slice(-6);
-  // Create an array with the same length as totalItems
-  const itemsArray = new Array(totalItems).fill(null);
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 modal-container ${
@@ -36,13 +38,15 @@ const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
           </h1>
 
           <CustomScrollbar scrollHeight={250}>
-            <div className="grid  grid-cols-3 w-full ">
-              {itemsArray.map((item, index) => (
-                <div key={index} className="mb-4">
-                  <Barcode value={lastSixCharacters} />
-                </div>
-              ))}
-            </div>
+            {selectedRows && (
+              <div className="grid  grid-cols-3 w-full ">
+                {selectedRows.map((item: any, index: number) => (
+                  <div key={index} className="mb-4">
+                    <Barcode value={item?._id.slice(-6)} />
+                  </div>
+                ))}
+              </div>
+            )}
           </CustomScrollbar>
           <div className="flex justify-end mt-6">
             <button
