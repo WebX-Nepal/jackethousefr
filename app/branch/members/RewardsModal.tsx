@@ -1,7 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
+import { useResetMemberPointsMutation } from "../../../redux/api/secureApi";
+import { toast } from "react-toastify";
+const RewardsModal = ({ isOpen, closeModal, ID }: any) => {
+  const [sendData, { isSuccess }] = useResetMemberPointsMutation();
 
-const RewardsModal = ({ isOpen, closeModal }: any) => {
   useEffect(() => {
     const handleClickOutside = (e: any) => {
       if (isOpen && e.target.classList.contains("modal-container")) {
@@ -14,6 +17,15 @@ const RewardsModal = ({ isOpen, closeModal }: any) => {
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
+  const handleGiveRewards = () => {
+    sendData(ID);
+    closeModal();
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Successfully Updated");
+    }
+  }, [isSuccess]);
   return (
     <div
       className={`fixed inset-0 top-12 flex items-center justify-center z-50 modal-container ${
@@ -36,7 +48,7 @@ const RewardsModal = ({ isOpen, closeModal }: any) => {
                   Cancel
                 </button>
                 <button
-                  onClick={closeModal}
+                  onClick={handleGiveRewards}
                   className="bg-black text-white rounded-xl px-8 py-2 ml-4"
                 >
                   Confirm

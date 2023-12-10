@@ -7,6 +7,7 @@ import RewardsModal from "./RewardsModal";
 import Image from "next/image";
 import { tableCustomStyles } from "../../../components/Constant";
 function Members() {
+  const [ID, setID] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRewardsModalOpen, setIsRewardsModalOpen] = useState(false);
   const [productData, setProducts] = useState([]);
@@ -19,7 +20,8 @@ function Members() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const openRewardsModal = () => {
+  const openRewardsModal = (row: any) => {
+    setID(row._id);
     setIsModalOpen(false);
     setIsRewardsModalOpen(true);
   };
@@ -92,7 +94,7 @@ function Members() {
             {row.points === 10 && (
               <ActionButton
                 text="Give Rewards"
-                onClick={() => openRewardsModal()}
+                onClick={() => openRewardsModal(row)}
                 color="yellow"
               />
             )}
@@ -139,6 +141,7 @@ function Members() {
       <RewardsModal
         isOpen={isRewardsModalOpen}
         closeModal={closeRewardsModal}
+        ID={ID}
       />
     </div>
   );

@@ -1,6 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useGetMemberSalesHistoryQuery } from "../../../redux/api/secureApi";
+import {
+  useGetMemberSalesHistoryQuery,
+  useResetMemberPointsMutation,
+} from "../../../redux/api/secureApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import CustomScrollbar from "@/components/ScrollBar";
 

@@ -145,6 +145,12 @@ export const secureApi = createApi({
         url: `/member/searchMemberByNumber/?phone=${ID}`,
       }),
     }),
+    resetMemberPoints: builder.mutation<any, any>({
+      query: (ID) => ({
+        url: `/member/resetSalesPoints/${ID}`,
+        method: "PATCH",
+      }),
+    }),
 
     getMemberSalesHistory: builder.query<any, any>({
       query: (ID) => ({
@@ -252,6 +258,7 @@ export const {
   useGetCategoryQuery,
   useCreateBranchMutation,
   useGetLatestProductQuery,
+  useResetMemberPointsMutation,
   useGetMemberSalesHistoryQuery,
   useGetBranchSalesReportsQuery,
   useGetMemberByIDQuery,
