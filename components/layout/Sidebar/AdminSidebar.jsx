@@ -5,6 +5,7 @@ import { GoPeople } from "react-icons/go";
 import { GrHistory } from "react-icons/gr";
 import { PiCoatHangerLight } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 function Sidebar() {
   const route = usePathname();
@@ -24,6 +25,19 @@ function Sidebar() {
         <PiCoatHangerLight
           className={` text-secondary rounded-full text-3xl border-4 ${
             path == "inventory"
+              ? "bg-red-600 border-red-600"
+              : "bg-white border-white"
+          }`}
+        />
+      ),
+    },
+    {
+      title: "Category",
+      pathName: "category",
+      icon: (
+        <BiSolidCategoryAlt
+          className={` text-secondary rounded-full text-3xl border-4 ${
+            path == "category"
               ? "bg-red-600 border-red-600"
               : "bg-white border-white"
           }`}
