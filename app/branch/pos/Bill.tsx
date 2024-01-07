@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   useGetUserProfileQuery,
   useGetBranchDetailsQuery,
+  useSubmitQRCodeForPrintMutation,
 } from "@/redux/api/secureApi";
 import CustomScrollbar from "@/components/ScrollBar";
 const BillModal = ({
@@ -22,6 +23,10 @@ const BillModal = ({
     isSuccess: isUserProfileSuccess,
     refetch,
   } = useGetUserProfileQuery({});
+  const [
+    sendData,
+    { isSuccess: isSendDataSuccess, isLoading: isDataSendingLoading },
+  ] = useSubmitQRCodeForPrintMutation();
   useEffect(() => {
     if (data && isSuccess) {
       setBranchDetails(data?.data);
@@ -44,8 +49,16 @@ const BillModal = ({
     };
   }, [isOpen, closeModal]);
   if (!isOpen) return null;
-  const handleCompleteSales = () => {
-    resetSalesProcess();
+
+  const handleCompleteSales = async () => {
+    await sendData({
+      cartItems,
+      grandTotal,
+      discountAmount,
+      branchDetails,
+      newName,
+    });
+    resetSalesProcess(); //bill print logic
     closeModal();
   };
 

@@ -118,7 +118,7 @@ const AddCategoryModal = ({
               </div>
             </div>
 
-            {categoryData.length > 0 && (
+            {categoryData?.length > 0 && (
               <CustomScrollbar scrollHeight={350}>
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="">

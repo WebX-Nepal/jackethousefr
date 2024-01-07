@@ -48,6 +48,7 @@ function Inventory() {
     setIsEditModalOpen(false);
   };
   const openModal = () => {
+    console.log("category Data: ", categoryData);
     if (categoryData.length > 0) {
       closeEditModal();
       setIsModalOpen(true);
@@ -87,6 +88,7 @@ function Inventory() {
     setSearch(searchQuery);
   }, [searchQuery]);
   useEffect(() => {
+    console.log("inventory data :", inventoryData);
     if (inventoryData && isSuccess) {
       setProducts(inventoryData.products);
     } else {
@@ -100,7 +102,8 @@ function Inventory() {
   }, [isDeleteSuccess]);
   useEffect(() => {
     if (category && categoryDataSuccess) {
-      setCategoryData(category.category);
+      console.log("category: ", category.categories);
+      setCategoryData(category.categories);
     } else {
     }
   }, [category]);

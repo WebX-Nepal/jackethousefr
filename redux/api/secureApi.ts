@@ -230,6 +230,16 @@ export const secureApi = createApi({
         url: `report/createBranchReportForAdmin/${ID}`,
       }),
     }),
+
+    //Qr Handling
+
+    submitQRCodeForPrint: builder.mutation<any, any>({
+      query: (ID) => ({
+        url: `/product/printQR`,
+        method: "POST",
+        body: ID,
+      }),
+    }),
   }),
 });
 export const {
@@ -271,4 +281,5 @@ export const {
   useGenerateLatestSalesDataForAdminQuery,
   useGetTotalSalesDataOfAllBranchesQuery,
   useDownloadBranchReportsForSuperAdminQuery,
+  useSubmitQRCodeForPrintMutation,
 } = secureApi;

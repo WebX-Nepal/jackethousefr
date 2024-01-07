@@ -18,6 +18,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview
   );
+  // console.log("categoryData", categoryData);
   const [isDataSending, setIsdataSending] = useState<boolean>(false);
   const [files, setFiles] = useState<any>([]);
   const {
@@ -113,7 +114,7 @@ const InventoryModal = ({ isOpen, closeModal, refetch, categoryData }: any) => {
                     <div className="">
                       <select
                         className="w-full p-3 text-gray-500 bg-white  shadow-sm outline-none border rounded-xl border-gray-600 "
-                        defaultValue={categoryData[0]._id}
+                        defaultValue={categoryData[0].name}
                         {...register("category")}
                       >
                         {categoryData.map((item: any) => {

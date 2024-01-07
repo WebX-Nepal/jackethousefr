@@ -129,7 +129,7 @@ function InventoryDetailsPage({ params: { slug } }: any) {
           className="bg-black text-white px-2 py-2 rounded-xl"
           onClick={handleDownloadBarcode}
         >
-          Download Barcode
+          Show Barcode
         </button>
       </div>
       {loading ? (

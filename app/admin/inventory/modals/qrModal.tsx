@@ -42,7 +42,7 @@ const QrModal = ({ isOpen, closeModal, selectedRowData }: any) => {
               <div className="grid  grid-cols-3 w-full ">
                 {selectedRows.map((item: any, index: number) => (
                   <div key={index} className="mb-4">
-                    <Barcode value={item?._id.slice(-6)} />
+                    <Barcode value={item?._id} />
                   </div>
                 ))}
               </div>
